@@ -1,0 +1,163 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    border-color: #1e293b;
+  }
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0f172a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+/* Leaflet dark theme map enhancements */
+.leaflet-container {
+  font-family: inherit !important;
+}
+
+.leaflet-popup-content-wrapper {
+  background: #ffffff !important;
+  border-radius: 14px !important;
+  padding: 4px !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5) !important;
+}
+
+.leaflet-popup-tip {
+  background: #ffffff !important;
+}
+
+/* =========================================================================
+   DARK THEME SPECIFICATION (Government Command Center Night Mode)
+   ========================================================================= */
+html.dark {
+  color-scheme: dark;
+}
+
+html.dark body {
+  background-color: #070d18 !important;
+  color: #f1f5f9 !important;
+}
+
+/* Page workspace */
+html.dark .bg-\[\#F4F6F9\] {
+  background-color: #070d18 !important;
+}
+
+/* White cards -> Dark Navy Containers */
+html.dark .bg-white {
+  background-color: #0d1627 !important;
+  color: #f8fafc !important;
+}
+
+/* Header, sub-headers, and text */
+html.dark .text-\[\#0F223D\] {
+  color: #f8fafc !important;
+}
+
+html.dark .text-slate-900,
+html.dark .text-slate-800,
+html.dark .text-slate-700 {
+  color: #e2e8f0 !important;
+}
+
+html.dark .text-slate-600,
+html.dark .text-slate-500 {
+  color: #94a3b8 !important;
+}
+
+/* Subtle backgrounds */
+html.dark .bg-slate-50,
+html.dark .bg-slate-50\/50,
+html.dark .bg-slate-50\/60,
+html.dark .bg-slate-50\/70,
+html.dark .bg-slate-50\/80,
+html.dark .bg-slate-100 {
+  background-color: #121e33 !important;
+}
+
+html.dark .hover\:bg-slate-50:hover,
+html.dark .hover\:bg-slate-50\/50:hover,
+html.dark .hover\:bg-slate-50\/60:hover,
+html.dark .hover\:bg-slate-50\/70:hover,
+html.dark .hover\:bg-slate-100:hover {
+  background-color: #162540 !important;
+}
+
+/* Borders */
+html.dark .border-slate-200,
+html.dark .border-slate-200\/60,
+html.dark .border-slate-200\/70,
+html.dark .border-slate-200\/80,
+html.dark .border-slate-200\/90,
+html.dark .border-slate-100 {
+  border-color: #1a2942 !important;
+}
+
+html.dark .divide-slate-100 > :not([hidden]) ~ :not([hidden]) {
+  border-color: #1a2942 !important;
+}
+
+/* Inputs, selects, textareas */
+html.dark input,
+html.dark select,
+html.dark textarea {
+  background-color: #101c30 !important;
+  color: #f8fafc !important;
+  border-color: #223554 !important;
+}
+
+html.dark input::placeholder,
+html.dark textarea::placeholder {
+  color: #64748b !important;
+}
+
+/* =========================================================================
+   STATIC SIDEBAR & FLUID WORKSPACE ARCHITECTURE
+   Sidebar remains completely fixed and static on the screen, while the
+   main content pane on the right scrolls smoothly.
+   ========================================================================= */
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+#root {
+  height: 100%;
+  overflow: hidden;
+}
+
+main {
+  scroll-behavior: smooth;
+  overscroll-behavior-y: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Hide scrollbar for clean static sidebar navigation on desktop */
+.sidebar-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+.sidebar-scroll::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 9999px;
+}
+.sidebar-scroll:hover::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.4);
+}
+

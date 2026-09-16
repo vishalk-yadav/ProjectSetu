@@ -1,0 +1,295 @@
+// ProjectSetu - Prisma Schema
+// Connecting Departments. Connecting Projects. Enabling Smarter Governance.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String      @id @default(cuid())
+  name         String
+  email                       String?             @unique
+  mobileNumber                String?             @unique
+  mobileVerified              Boolean             @default(false)
+  mobileVerificationOtpHash   String?
+  mobileVerificationOtpExpiry DateTime?
+  mobileVerificationAttempts  Int                 @default(0)
+  lastOtpSentAt               DateTime?
+  accountStatus               String              @default("ACTIVE") // ACTIVE, PENDING_VERIFICATION, SUSPENDED
+  verifiedAt                  DateTime?
+  password                    String
+  role                        String              // SUPER_ADMIN, DEPARTMENT_ADMIN, PROJECT_MANAGER, CITIZEN
+  isActive                    Boolean             @default(true)
+  departmentId                String?
+  department                  Department?         @relation(fields: [departmentId], references: [id], onDelete: SetNull)
+  createdAt                   DateTime            @default(now())
+  updatedAt                   DateTime            @updatedAt
+
+  managedProjects    Project[]           @relation("ProjectManager")
+  uploadedDocuments  Document[]
+  notifications      Notification[]
+  approvalRequests   ApprovalRequest[]   @relation("RequestedBy")
+  reviewedApprovals  ApprovalRequest[]   @relation("ReviewedBy")
+  auditLogs          AuditLog[]
+  projectDiscussions ProjectDiscussion[]
+
+  @@index([email])
+  @@index([mobileNumber])
+  @@index([role])
+}
+
+model Department {
+  id                 String    @id @default(cuid())
+  name               String
+  code               String    @unique
+  departmentHead     String
+  contactInformation String
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+
+  users    User[]
+  projects Project[]
+
+  @@index([code])
+}
+
+model Project {
+  id                     String     @id @default(cuid())
+  name                   String
+  projectCode            String?
+  implementingAgency     String?
+  state                  String?
+  city                   String?
+  description            String
+  departmentId           String
+  department             Department @relation(fields: [departmentId], references: [id], onDelete: Cascade)
+  projectManagerId       String?
+  projectManager         User?      @relation("ProjectManager", fields: [projectManagerId], references: [id], onDelete: SetNull)
+  location               String
+  latitude               Float?
+  longitude              Float?
+  startDate              DateTime
+  expectedCompletionDate DateTime
+  actualCompletionDate   DateTime?
+  status                 String     @default("IN_PROGRESS")
+  progressPercentage     Float      @default(0)
+  allocatedBudget        Float
+  utilizedBudget         Float      @default(0)
+  revisedBudget          Float?
+  riskScore              Float      @default(0)
+  priority               String     @default("MEDIUM")
+  officialSourceUrl      String?
+  dataClassification     String?    @default("OFFICIAL_SANCTIONED") // OFFICIAL_SANCTIONED, ILLUSTRATIVE_DEMO_DATA
+  createdAt              DateTime   @default(now())
+  updatedAt              DateTime   @updatedAt
+
+  milestones         Milestone[]
+  budgetTransactions BudgetTransaction[]
+  risks              Risk[]
+  anomalies          Anomaly[]
+  documents          Document[]
+  complaints         Complaint[]
+  approvalRequests   ApprovalRequest[]
+  discussions        ProjectDiscussion[]
+
+  @@index([departmentId])
+  @@index([status])
+  @@index([riskScore])
+}
+
+model Milestone {
+  id                     String    @id @default(cuid())
+  projectId              String
+  project                Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  name                   String
+  description            String
+  expectedCompletionDate DateTime
+  actualCompletionDate   DateTime?
+  status                 String    @default("NOT_STARTED")
+  progressPercentage     Float     @default(0)
+  responsiblePerson      String
+  priority               String    @default("MEDIUM")
+  createdAt              DateTime  @default(now())
+  updatedAt              DateTime  @updatedAt
+
+  @@index([projectId])
+  @@index([status])
+}
+
+model BudgetTransaction {
+  id              String   @id @default(cuid())
+  projectId       String
+  project         Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  amount          Float
+  transactionDate DateTime @default(now())
+  category        String
+  description     String
+  createdAt       DateTime @default(now())
+
+  @@index([projectId])
+}
+
+model Risk {
+  id          String   @id @default(cuid())
+  projectId   String
+  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  riskType    String
+  severity    String   @default("MEDIUM")
+  description String
+  status      String   @default("ACTIVE")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([projectId])
+  @@index([severity])
+}
+
+model Anomaly {
+  id          String   @id @default(cuid())
+  projectId   String
+  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  type        String
+  severity    String
+  description String
+  detectedAt  DateTime @default(now())
+
+  @@index([projectId])
+}
+
+model Document {
+  id             String   @id @default(cuid())
+  projectId      String
+  project        Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  name           String
+  fileUrl        String
+  fileType       String
+  category       String
+  isPublic       Boolean  @default(true)
+  approvalStatus String   @default("APPROVED") // PENDING, APPROVED, REJECTED
+  uploadedById   String?
+  uploadedBy     User?    @relation(fields: [uploadedById], references: [id], onDelete: SetNull)
+  uploadedAt     DateTime @default(now())
+
+  @@index([projectId])
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  message   String
+  type      String   @default("INFO")
+  severity  String   @default("LOW")
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([isRead])
+}
+
+model Complaint {
+  id               String    @id @default(cuid())
+  trackingId       String    @unique @default(cuid())
+  projectId        String?
+  project          Project?  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  userId           String?
+  complainantName  String
+  complainantEmail String
+  complainantPhone String?
+  complainantRole  String    @default("CITIZEN") // SUPER_ADMIN, DEPARTMENT_ADMIN, PROJECT_MANAGER, CITIZEN
+  isPublic         Boolean   @default(true)
+  category         String    // ROAD_DAMAGE, CONSTRUCTION_DELAY, DRAINAGE, SAFETY, CORRUPTION_MISUSE, ENVIRONMENTAL, OTHER
+  severity         String    @default("MEDIUM") // LOW, MEDIUM, HIGH, CRITICAL
+  subject          String
+  description      String
+  photoUrl         String?
+  latitude         Float?
+  longitude        Float?
+  locationAccuracy Float?
+  locationAddress  String?
+  status           String    @default("PENDING") // PENDING, IN_REVIEW, RESOLVED, REJECTED
+  assignedTo       String?
+  resolutionNotes  String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@index([trackingId])
+  @@index([projectId])
+  @@index([status])
+  @@index([severity])
+}
+
+model ApprovalRequest {
+  id            String    @id @default(cuid())
+  projectId     String
+  project       Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  requestedById String
+  requestedBy   User      @relation("RequestedBy", fields: [requestedById], references: [id], onDelete: Cascade)
+  type          String    // PROGRESS_UPDATE, MILESTONE_STATUS, BUDGET_REVISION, DOCUMENT_UPLOAD
+  title         String
+  description   String
+  payload       String    // JSON data string representing requested update
+  status        String    @default("PENDING") // PENDING, APPROVED, REJECTED
+  reviewedById  String?
+  reviewedBy    User?     @relation("ReviewedBy", fields: [reviewedById], references: [id], onDelete: SetNull)
+  reviewNotes   String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([projectId])
+  @@index([status])
+  @@index([requestedById])
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  userId     String?
+  user       User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  userEmail  String?
+  userName   String?
+  role       String?
+  action     String   // USER_CREATE, USER_UPDATE, USER_DEACTIVATE, USER_ROLE_CHANGE, PROJECT_CREATE, PROJECT_UPDATE, APPROVAL_REVIEW, DOCUMENT_UPLOAD, GRIEVANCE_STATUS_UPDATE, SYSTEM_SETTING_CHANGE
+  entityType String   // USER, PROJECT, APPROVAL, DOCUMENT, COMPLAINT, SYSTEM_SETTING
+  entityId   String?
+  details    String   // Description or JSON summary
+  ipAddress  String?  @default("127.0.0.1")
+  createdAt  DateTime @default(now())
+
+  @@index([action])
+  @@index([entityType])
+  @@index([userId])
+  @@index([createdAt])
+}
+
+model ProjectDiscussion {
+  id         String   @id @default(cuid())
+  projectId  String
+  project    Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  userId     String?
+  user       User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  senderName String
+  senderRole String
+  message    String
+  createdAt  DateTime @default(now())
+
+  @@index([projectId])
+  @@index([createdAt])
+}
+
+model SystemSetting {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  value       String
+  category    String   @default("GENERAL") // GENERAL, AI, NOTIFICATIONS, SECURITY
+  description String?
+  updatedAt   DateTime @updatedAt
+
+  @@index([key])
+  @@index([category])
+}
