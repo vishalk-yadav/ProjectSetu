@@ -23,6 +23,7 @@ import {
   Sliders,
   Camera,
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { cn } from '../../utils/cn';
 import { useNotifications } from '../../context/NotificationContext';
 import { useAuth } from '../../context/AuthContext';
@@ -40,6 +41,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   mobileOpen,
   setMobileOpen,
 }) => {
+  const { t } = useTranslation();
   const { unreadCount } = useNotifications();
   const { user, isSuperAdmin, isDeptAdmin, isProjectManager, isCitizen } = useAuth();
 
@@ -47,66 +49,66 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const getNavigationItems = () => {
     if (isCitizen) {
       return [
-        { label: 'Citizen Portal', path: '/citizen', icon: Globe, badge: 'PUBLIC' },
-        { label: 'Report Project Issue', path: '/report-issue', icon: Camera, badge: 'GPS' },
-        { label: 'Public Projects', path: '/projects', icon: FileText },
-        { label: 'Project Map GIS', path: '/map', icon: MapPin },
-        { label: 'Public Documents', path: '/documents', icon: Files },
-        { label: 'Track Grievances', path: '/complaints', icon: AlertOctagon },
-        { label: 'Notifications', path: '/notifications', icon: Bell, count: unreadCount },
+        { label: t('nav.citizenPortal', 'Citizen Portal'), path: '/citizen', icon: Globe, badge: t('nav.badgePublic', 'PUBLIC') },
+        { label: t('nav.reportIssue', 'Report Project Issue'), path: '/report-issue', icon: Camera, badge: t('nav.badgeGps', 'GPS') },
+        { label: t('nav.publicProjects', 'Public Projects'), path: '/projects', icon: FileText },
+        { label: t('nav.projectMapGis', 'Project Map GIS'), path: '/map', icon: MapPin },
+        { label: t('nav.publicDocuments', 'Public Documents'), path: '/documents', icon: Files },
+        { label: t('nav.trackGrievances', 'Track Grievances'), path: '/complaints', icon: AlertOctagon },
+        { label: t('nav.notifications', 'Notifications'), path: '/notifications', icon: Bell, count: unreadCount },
       ];
     }
 
     if (isProjectManager) {
       return [
-        { label: 'PM Workspace', path: '/', icon: LayoutGrid },
-        { label: 'My Projects', path: '/projects', icon: FileText },
-        { label: 'Milestones & Gantt', path: '/milestones', icon: Flag },
-        { label: 'Budget & Expenses', path: '/budget', icon: IndianRupee },
-        { label: 'Approvals Submitted', path: '/approvals', icon: CheckSquare },
-        { label: 'Risk & Delay Alerts', path: '/risks', icon: ShieldCheck },
-        { label: 'Documents Hub', path: '/documents', icon: Files },
-        { label: 'Citizen Grievances', path: '/complaints', icon: AlertOctagon },
-        { label: 'Project Map GIS', path: '/map', icon: MapPin },
-        { label: 'Notifications', path: '/notifications', icon: Bell, count: unreadCount },
+        { label: t('nav.pmWorkspace', 'PM Workspace'), path: '/', icon: LayoutGrid },
+        { label: t('nav.myProjects', 'My Projects'), path: '/projects', icon: FileText },
+        { label: t('nav.milestonesGantt', 'Milestones & Gantt'), path: '/milestones', icon: Flag },
+        { label: t('nav.budgetExpenses', 'Budget & Expenses'), path: '/budget', icon: IndianRupee },
+        { label: t('nav.approvalsSubmitted', 'Approvals Submitted'), path: '/approvals', icon: CheckSquare },
+        { label: t('nav.riskDelayAlerts', 'Risk & Delay Alerts'), path: '/risks', icon: ShieldCheck },
+        { label: t('nav.documentsHub', 'Documents Hub'), path: '/documents', icon: Files },
+        { label: t('nav.citizenGrievances', 'Citizen Grievances'), path: '/complaints', icon: AlertOctagon },
+        { label: t('nav.projectMapGis', 'Project Map GIS'), path: '/map', icon: MapPin },
+        { label: t('nav.notifications', 'Notifications'), path: '/notifications', icon: Bell, count: unreadCount },
       ];
     }
 
     if (isDeptAdmin) {
       return [
-        { label: 'Dept Dashboard', path: '/', icon: LayoutGrid },
-        { label: 'Dept Projects', path: '/projects', icon: FileText },
-        { label: 'Approval Center', path: '/approvals', icon: CheckSquare, badge: 'ACTION' },
-        { label: 'Dept Users & PMs', path: '/users', icon: Users },
-        { label: 'Milestone Tracking', path: '/milestones', icon: Flag },
-        { label: 'Budget Surveillance', path: '/budget', icon: IndianRupee },
-        { label: 'Risk & Alerts', path: '/risks', icon: ShieldCheck },
-        { label: 'Dept Analytics & Reports', path: '/reports', icon: BarChart3 },
-        { label: 'Dept Documents', path: '/documents', icon: Files },
-        { label: 'Complaints / Vigilance', path: '/complaints', icon: AlertOctagon },
-        { label: 'Project Map GIS', path: '/map', icon: MapPin },
-        { label: 'Notifications', path: '/notifications', icon: Bell, count: unreadCount },
+        { label: t('nav.deptDashboard', 'Dept Dashboard'), path: '/', icon: LayoutGrid },
+        { label: t('nav.deptProjects', 'Dept Projects'), path: '/projects', icon: FileText },
+        { label: t('nav.approvalCenter', 'Approval Center'), path: '/approvals', icon: CheckSquare, badge: t('nav.badgeAction', 'ACTION') },
+        { label: t('nav.deptUsersPms', 'Dept Users & PMs'), path: '/users', icon: Users },
+        { label: t('nav.milestoneTracking', 'Milestone Tracking'), path: '/milestones', icon: Flag },
+        { label: t('nav.budgetSurveillance', 'Budget Surveillance'), path: '/budget', icon: IndianRupee },
+        { label: t('nav.riskAlerts', 'Risk & Alerts'), path: '/risks', icon: ShieldCheck },
+        { label: t('nav.deptAnalytics', 'Dept Analytics & Reports'), path: '/reports', icon: BarChart3 },
+        { label: t('nav.deptDocuments', 'Dept Documents'), path: '/documents', icon: Files },
+        { label: t('nav.complaintsVigilance', 'Complaints / Vigilance'), path: '/complaints', icon: AlertOctagon },
+        { label: t('nav.projectMapGis', 'Project Map GIS'), path: '/map', icon: MapPin },
+        { label: t('nav.notifications', 'Notifications'), path: '/notifications', icon: Bell, count: unreadCount },
       ];
     }
 
     // Default: Super Admin (Full Control)
     return [
-      { label: 'Executive Command', path: '/', icon: LayoutGrid },
-      { label: 'All Projects', path: '/projects', icon: FileText },
-      { label: 'Departments & Roles', path: '/departments', icon: Building2 },
-      { label: 'User Management', path: '/users', icon: Users, badge: 'ADMIN' },
-      { label: 'Approval Center', path: '/approvals', icon: CheckSquare },
-      { label: 'System Audit Logs', path: '/audit-logs', icon: History },
-      { label: 'Milestones', path: '/milestones', icon: Flag },
-      { label: 'Budget Surveillance', path: '/budget', icon: IndianRupee },
-      { label: 'Risk Intelligence', path: '/risks', icon: ShieldCheck },
-      { label: 'AI Insights', path: '/ai-insights', icon: Sparkles, badge: 'NEW' },
-      { label: 'Project Map GIS', path: '/map', icon: MapPin },
-      { label: 'Reports & Briefs', path: '/reports', icon: BarChart3 },
-      { label: 'Platform Grievances', path: '/complaints', icon: AlertOctagon },
-      { label: 'Documents Repository', path: '/documents', icon: Files },
-      { label: 'System Settings', path: '/settings', icon: Sliders },
-      { label: 'Notifications', path: '/notifications', icon: Bell, count: unreadCount },
+      { label: t('nav.executiveCommand', 'Executive Command'), path: '/', icon: LayoutGrid },
+      { label: t('nav.allProjects', 'All Projects'), path: '/projects', icon: FileText },
+      { label: t('nav.departmentsRoles', 'Departments & Roles'), path: '/departments', icon: Building2 },
+      { label: t('nav.userManagement', 'User Management'), path: '/users', icon: Users, badge: t('nav.badgeAdmin', 'ADMIN') },
+      { label: t('nav.approvalCenter', 'Approval Center'), path: '/approvals', icon: CheckSquare },
+      { label: t('nav.systemAuditLogs', 'System Audit Logs'), path: '/audit-logs', icon: History },
+      { label: t('nav.milestones', 'Milestones'), path: '/milestones', icon: Flag },
+      { label: t('nav.budgetSurveillance', 'Budget Surveillance'), path: '/budget', icon: IndianRupee },
+      { label: t('nav.riskIntelligence', 'Risk Intelligence'), path: '/risks', icon: ShieldCheck },
+      { label: t('nav.aiInsights', 'AI Insights'), path: '/ai-insights', icon: Sparkles, badge: t('nav.badgeNew', 'NEW') },
+      { label: t('nav.projectMapGis', 'Project Map GIS'), path: '/map', icon: MapPin },
+      { label: t('nav.reportsBriefs', 'Reports & Briefs'), path: '/reports', icon: BarChart3 },
+      { label: t('nav.platformGrievances', 'Platform Grievances'), path: '/complaints', icon: AlertOctagon },
+      { label: t('nav.documentsRepository', 'Documents Repository'), path: '/documents', icon: Files },
+      { label: t('nav.systemSettings', 'System Settings'), path: '/settings', icon: Sliders },
+      { label: t('nav.notifications', 'Notifications'), path: '/notifications', icon: Bell, count: unreadCount },
     ];
   };
 
@@ -119,23 +121,20 @@ export const Sidebar: React.FC<SidebarProps> = ({
         {!collapsed ? (
           <div>
             <div className="flex items-start justify-between gap-2">
-              {/* Ashoka Lion Emblem + Title + Tagline */}
+              {/* ProjectSetu Official Mark + Title + Tagline */}
               <div className="flex items-start gap-2.5">
                 <img
-                  src="/assets/ashoka-emblem.png"
-                  alt="State Emblem of India"
-                  className="h-10 w-auto object-contain shrink-0 mt-0.5"
+                  src="/assets/projectsetu-mark.png"
+                  alt="ProjectSetu Emblem"
+                  className="h-10 w-auto object-contain shrink-0"
                 />
                 <div className="flex flex-col">
                   <div className="flex items-center text-base font-black tracking-tight leading-none">
                     <span className="text-[#0F223D] dark:text-white">Project</span>
-                    <span className="text-[#1A73E8]">Setu</span>
+                    <span className="text-[#FF6B00]">Setu</span>
                   </div>
                   <span className="text-[10px] font-medium text-slate-600 dark:text-slate-400 leading-tight mt-0.5">
-                    Connecting Departments.
-                  </span>
-                  <span className="text-[10px] font-medium text-slate-600 dark:text-slate-400 leading-tight">
-                    Connecting Projects.
+                    {t('common.tagline', 'Connecting Departments. Connecting Projects.')}
                   </span>
                 </div>
               </div>
@@ -144,7 +143,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               <button
                 onClick={() => setCollapsed(true)}
                 className="p-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white transition-colors cursor-pointer shadow-2xs shrink-0 ml-auto"
-                title="Collapse sidebar"
+                title={t('nav.collapseSidebar', 'Collapse sidebar')}
               >
                 <ChevronsLeft className="w-4 h-4" />
               </button>
@@ -159,20 +158,20 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
             {/* Government Project Monitoring Platform Subtitle */}
             <p className="text-[8.5px] font-extrabold tracking-[0.16em] text-slate-400 dark:text-slate-500 uppercase leading-tight">
-              Government Project Monitoring Platform
+              {t('auth.monitoringPlatform', 'Government Project Monitoring Platform')}
             </p>
           </div>
         ) : (
           <div className="flex flex-col items-center gap-2.5">
             <img
-              src="/assets/ashoka-emblem.png"
-              alt="Emblem"
+              src="/assets/projectsetu-mark.png"
+              alt="ProjectSetu"
               className="h-8 w-auto object-contain"
             />
             <button
               onClick={() => setCollapsed(false)}
               className="p-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-500 hover:text-slate-800 transition-colors cursor-pointer shadow-2xs"
-              title="Expand sidebar"
+              title={t('nav.expandSidebar', 'Expand sidebar')}
             >
               <ChevronRight className="w-4 h-4" />
             </button>

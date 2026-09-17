@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { FileText, Download, Trash2, UploadCloud, Search, AlertCircle, Plus } from 'lucide-react';
 import { documentApi } from '../api/documentApi';
 import { DocumentItem } from '../types';
@@ -8,6 +9,7 @@ import { formatDate, getDocumentUrl } from '../utils/formatters';
 import { UploadDocumentModal } from '../components/documents/UploadDocumentModal';
 
 export const DocumentsPage: React.FC = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [documents, setDocuments] = useState<DocumentItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -61,10 +63,10 @@ export const DocumentsPage: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black text-[#0F223D] dark:text-white font-heading tracking-tight">
-            Centralized Document Repository
+            {t('documents.title')}
           </h1>
           <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-            Official project DPRs, sanction memos, quality inspection certifications & financial audit logs.
+            {t('documents.subtitle')}
           </p>
         </div>
 
@@ -75,7 +77,7 @@ export const DocumentsPage: React.FC = () => {
             className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#1A73E8] hover:bg-blue-600 text-white text-xs font-bold shadow-xs transition-all cursor-pointer shrink-0"
           >
             <UploadCloud className="w-4 h-4" />
-            <span>Upload Document</span>
+            <span>{t('documents.uploadBtn')}</span>
           </button>
         </div>
       </div>
@@ -87,7 +89,7 @@ export const DocumentsPage: React.FC = () => {
           <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
           <input
             type="text"
-            placeholder="Search documents by memo title, project name, or officer..."
+            placeholder={t('common.searchPlaceholder')}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full pl-10 pr-3.5 py-2 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:bg-white dark:focus:bg-slate-800 focus:border-blue-500 transition-all"
@@ -101,7 +103,7 @@ export const DocumentsPage: React.FC = () => {
             onChange={(e) => setCategoryFilter(e.target.value)}
             className="w-full sm:w-auto px-3.5 py-2 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl text-xs text-slate-800 dark:text-slate-200 font-semibold focus:outline-none focus:border-blue-500 shadow-2xs"
           >
-            <option value="">All Categories ({documents.length})</option>
+            <option value="">{t('documents.allCategories')} ({documents.length})</option>
             <option value="Project Proposal">Project Proposal</option>
             <option value="Progress Report">Progress Report</option>
             <option value="Financial Report">Financial Report</option>
@@ -121,7 +123,7 @@ export const DocumentsPage: React.FC = () => {
                 <FileText className="w-6 h-6" />
               </div>
               <h4 className="text-sm font-bold text-[#0F223D] dark:text-white mb-1">
-                No official documents found
+                {t('documents.noDocsFound')}
               </h4>
               <p className="text-xs text-slate-500 dark:text-slate-400 max-w-sm mb-4">
                 {categoryFilter || search
@@ -133,7 +135,7 @@ export const DocumentsPage: React.FC = () => {
                 className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#1A73E8] hover:bg-blue-600 text-white text-xs font-bold shadow-xs transition-all cursor-pointer"
               >
                 <Plus className="w-3.5 h-3.5" />
-                <span>Upload First Document</span>
+                <span>{t('documents.uploadBtn')}</span>
               </button>
             </div>
           ) : (
@@ -182,13 +184,13 @@ export const DocumentsPage: React.FC = () => {
                     rel="noreferrer"
                     className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-blue-950 text-slate-700 dark:text-slate-200 hover:text-[#1A73E8] dark:hover:text-blue-400 border border-slate-200/60 dark:border-slate-700 text-xs font-bold transition-colors"
                   >
-                    <span>Download</span>
+                    <span>{t('common.download')}</span>
                     <Download className="w-3.5 h-3.5" />
                   </a>
                   <button
                     onClick={() => handleDelete(doc.id, doc.name)}
                     className="p-2 rounded-xl text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-colors cursor-pointer"
-                    title="Delete Document"
+                    title={t('common.delete')}
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>

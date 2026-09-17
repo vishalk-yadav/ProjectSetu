@@ -1,0 +1,113 @@
+{
+  "dashboard": {
+    "loading": "బహుళ విభాగాల టెలిమెట్రీలు & బడ్జెట్‌లను సమగ్రపరుస్తోంది...",
+    "language": "భాష",
+    "selectLanguage": "డాష్‌బోర్డ్ భాషను ఎంచుకోండి",
+    "roles": {
+      "superAdminTitle": "సూపర్ అడ్మిన్ కమాండ్ సెంటర్: పూర్తి వ్యవస్థ పాలన",
+      "deptAdminTitle": "శాఖ కమాండ్ సెంటర్: {{dept}}",
+      "pmTitle": "ప్రాజెక్ట్ మేనేజర్ వర్క్‌స్పేస్: కేటాయించిన మౌలిక సదుపాయాల పర్యవేక్షణ",
+      "citizenTitle": "పౌర పోర్టల్: సమాచారం తెలుసుకోండి, మౌలిక సదుపాయాలను తనిఖీ చేయండి & ఫిర్యాదు చేయండి",
+      "welcomeBack": "తిరిగి స్వాగతం",
+      "authPermissions": "ధృవీకరించబడిన పాత్ర అనుమతులతో ప్రమాణీకరించబడింది."
+    },
+    "navLinks": {
+      "userGovernance": "వినియోగదారు పాలన",
+      "approvals": "ఆమోదాలు",
+      "auditLogs": "ఆడిట్ లాగ్‌లు",
+      "reviewApprovals": "ఆమోదాల సమీక్ష",
+      "assignPms": "పీఎంలను కేటాయించండి",
+      "delayAlerts": "ఆలస్య హెచ్చరికలు",
+      "milestonesGantt": "మైలురాళ్ళు & గాంట్ చార్ట్",
+      "budgetSpend": "బడ్జెట్ & ఖర్చు",
+      "raiseAlert": "హెచ్చరిక జారీ చేయండి",
+      "openCitizenPortal": "పౌర పోర్టల్ తెరవండి"
+    },
+    "quickActions": {
+      "title": "శీఘ్ర చర్యలు",
+      "sanctionProject": "ప్రాజెక్ట్ మంజూరు చేయండి",
+      "trackProjects": "ప్రాజెక్ట్‌లను ట్రాక్ చేయండి",
+      "generateReport": "నివేదిక రూపొందించండి",
+      "viewMap": "మ్యాప్ చూడండి",
+      "aiAssistant": "ఏఐ సహాయకుడు",
+      "fileGrievance": "ప్రాజెక్ట్ ఫిర్యాదును నమోదు చేయండి"
+    },
+    "kpi": {
+      "totalProjects": "మొత్తం ప్రాజెక్ట్‌లు",
+      "acrossMinistries": "5 మంత్రిత్వ శాఖలలో",
+      "activeProjects": "క్రియాశీల ప్రాజెక్ట్‌లు",
+      "underExecution": "అమలులో ఉంది",
+      "completed": "పూర్తయింది",
+      "commissioned": "ప్రారంభించబడింది",
+      "delayed": "ఆలస్యమైంది",
+      "criticalPath": "కీలకమైన మార్గం",
+      "highRisk": "అధిక ప్రమాదం",
+      "scoreThreshold": "స్కోరు ≥ 61",
+      "sanctionedOutlay": "మంజూరైన వ్యయం",
+      "totalOutlay": "మొత్తం వ్యయం",
+      "utilized": "వినియోగించబడింది",
+      "burnRate": "66.2% ఖర్చు రేటు",
+      "healthIndex": "ఆరోగ్య సూచిక",
+      "compositeRating": "సమగ్ర రేటింగ్"
+    },
+    "charts": {
+      "statusDistribution": "ప్రాజెక్ట్ స్థితి పంపిణీ",
+      "totalLabel": "మొత్తం: 21",
+      "projectsUnit": "ప్రాజెక్ట్‌లు",
+      "budgetOutlayTitle": "మంజూరైన vs వినియోగించిన వ్యయం",
+      "amountsInCrore": "మొత్తం ₹ కోట్లలో చూపబడింది",
+      "spentBadge": "66.2% ఖర్చు చేయబడింది",
+      "healthOverview": "ప్రాజెక్ట్ ఆరోగ్య సమీక్ష",
+      "riskTiers": "ప్రమాద తీవ్రత స్థాయిలు"
+    },
+    "status": {
+      "inProgress": "పురోగతిలో ఉంది",
+      "completed": "పూర్తయింది",
+      "delayed": "ఆలస్యమైంది",
+      "notStarted": "ప్రారంభం కాలేదు",
+      "onTrack": "సమయానికి",
+      "atRisk": "ప్రమాదంలో ఉంది",
+      "critical": "తీవ్రమైనది"
+    },
+    "budget": {
+      "sanctioned": "మంజూరైనది",
+      "utilized": "వినియోగించబడింది",
+      "remaining": "మిగిలినది"
+    },
+    "riskLevels": {
+      "healthy": "ఆరోగ్యకరమైనది (0-30)",
+      "moderate": "మితమైనది (31-60)",
+      "highRisk": "అధిక ప్రమాదం (61-80)",
+      "critical": "తీవ్రమైనది (81-100)",
+      "low": "తక్కువ",
+      "mod": "మితమైన",
+      "high": "అధిక",
+      "crit": "తీవ్రమైన"
+    },
+    "panels": {
+      "deptPerformance": "శాఖ పనితీరు సూచిక",
+      "deptSubtitle": "సగటు భౌతిక పురోగతి vs పూర్తి రేటు (%)",
+      "viewRankings": "ర్యాంకింగ్స్ చూడండి",
+      "priorityProjects": "ప్రాధాన్య ప్రాజెక్ట్‌ల పురోగతి vs ప్రమాదం",
+      "prioritySubtitle": "నిజ-సమయ స్థితి కలిగిన అగ్ర ప్రాజెక్ట్‌లు",
+      "viewAll": "అన్నీ చూడండి",
+      "projectName": "ప్రాజెక్ట్ పేరు",
+      "progress": "పురోగతి",
+      "risk": "ప్రమాదం",
+      "status": "స్థితి",
+      "activityFeed": "ప్రత్యక్ష కార్యాచరణ ఫీడ్"
+    },
+    "activity": {
+      "newSanctioned": "కొత్త ప్రాజెక్ట్ మంజూరు చేయబడింది",
+      "progressUpdate": "పురోగతి అప్‌డేట్ సమర్పించబడింది",
+      "riskAlert": "ప్రమాద హెచ్చరిక ప్రారంభమైంది",
+      "deptMeeting": "శాఖ సమావేశం షెడ్యూల్ చేయబడింది",
+      "milestoneAchieved": "ప్రాజెక్ట్ మైలురాయి సాధించబడింది",
+      "time10m": "10 నిమిషాల క్రితం",
+      "time32m": "32 నిమిషాల క్రితం",
+      "time1h": "1 గంట క్రితం",
+      "time2h": "2 గంటల క్రితం",
+      "time3h": "3 గంటల క్రితం"
+    }
+  }
+}

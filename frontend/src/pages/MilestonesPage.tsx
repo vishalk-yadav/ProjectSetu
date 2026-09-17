@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { CheckCircle2, Clock, AlertTriangle, ExternalLink, Filter } from 'lucide-react';
 import { projectApi } from '../api/projectApi';
 import { Project, Milestone } from '../types';
@@ -7,6 +8,7 @@ import { LoadingSpinner } from '../components/common/LoadingSpinner';
 import { formatDate } from '../utils/formatters';
 
 export const MilestonesPage: React.FC = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
@@ -56,15 +58,25 @@ export const MilestonesPage: React.FC = () => {
     return true;
   });
 
+  const getFilterLabel = (filterKey: string) => {
+    switch (filterKey) {
+      case 'ALL': return t('common.all', 'ALL');
+      case 'OVERDUE': return t('milestones.overdue', 'OVERDUE');
+      case 'IN_PROGRESS': return t('dashboard.status.inProgress', 'IN PROGRESS');
+      case 'COMPLETED': return t('milestones.completed', 'COMPLETED');
+      default: return filterKey;
+    }
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black text-[#0F223D] font-heading tracking-tight">
-            Cross-Project Milestones Surveillance
+            {t('milestones.title', 'Cross-Project Milestones Surveillance')}
           </h1>
           <p className="text-xs text-slate-500 mt-1">
-            Stage-gate deliverables, overdue bottlenecks, and completion verification across India.
+            {t('milestones.subtitle', 'Stage-gate deliverables, overdue bottlenecks, and completion verification across India.')}
           </p>
         </div>
 
@@ -77,7 +89,7 @@ export const MilestonesPage: React.FC = () => {
                 statusFilter === s ? 'bg-[#1A73E8] text-white shadow-xs' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
               }`}
             >
-              {s}
+              {getFilterLabel(s)}
             </button>
           ))}
         </div>
@@ -87,7 +99,7 @@ export const MilestonesPage: React.FC = () => {
         <div className="divide-y divide-slate-100">
           {filtered.length === 0 ? (
             <div className="p-12 text-center text-xs text-slate-500">
-              No milestones found for the selected filter.
+              {t('common.noData', 'No milestones found for the selected filter.')}
             </div>
           ) : (
             filtered.map((m) => (
@@ -108,12 +120,12 @@ export const MilestonesPage: React.FC = () => {
                         ? 'bg-rose-50 text-rose-700 border-rose-200/60'
                         : 'bg-blue-50 text-blue-700 border-blue-200/60'
                     }`}>
-                      {m.status === 'COMPLETED' ? 'COMPLETED' : m.isOverdue ? 'OVERDUE' : m.status}
+                      {m.status === 'COMPLETED' ? t('milestones.completed', 'COMPLETED') : m.isOverdue ? t('milestones.overdue', 'OVERDUE') : m.status}
                     </span>
                   </div>
 
                   <p className="text-[11px] text-slate-500 mt-1.5">
-                    Project:{' '}
+                    {t('dashboard.panels.projectName', 'Project')}:{' '}
                     <span
                       onClick={() => navigate(`/projects/${m.projectId}`)}
                       className="text-[#1A73E8] font-semibold hover:underline cursor-pointer"
@@ -123,8 +135,8 @@ export const MilestonesPage: React.FC = () => {
                   </p>
 
                   <div className="flex items-center gap-4 text-[10px] text-slate-500 mt-2">
-                    <span>Deadline: <strong className="text-slate-700 font-semibold">{formatDate(m.expectedCompletionDate)}</strong></span>
-                    <span>Officer: <strong className="text-slate-700 font-medium">{m.responsiblePerson}</strong></span>
+                    <span>{t('milestones.dueDate', 'Deadline')}: <strong className="text-slate-700 font-semibold">{formatDate(m.expectedCompletionDate)}</strong></span>
+                    <span>{t('auditLogs.user', 'Officer')}: <strong className="text-slate-700 font-medium">{m.responsiblePerson}</strong></span>
                   </div>
                 </div>
 
@@ -138,7 +150,7 @@ export const MilestonesPage: React.FC = () => {
                   <button
                     onClick={() => navigate(`/projects/${m.projectId}`)}
                     className="p-2.5 rounded-xl bg-slate-100 hover:bg-blue-50 text-slate-600 hover:text-[#1A73E8] border border-slate-200/60 transition-colors"
-                    title="View Project"
+                    title={t('projects.details', 'View Project')}
                   >
                     <ExternalLink className="w-4 h-4" />
                   </button>

@@ -6,6 +6,7 @@ import path from 'path';
 import { config } from './config';
 import apiRouter from './routes';
 import { errorHandler } from './middleware/errorHandler';
+import { localizationMiddleware } from './middleware/localization';
 
 export function createApp(): Express {
   const app = express();
@@ -23,9 +24,13 @@ export function createApp(): Express {
       origin: '*', // Allow frontend dev server and preview origins
       credentials: true,
       methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-      allowedHeaders: ['Content-Type', 'Authorization'],
+      allowedHeaders: ['Content-Type', 'Authorization', 'Accept-Language'],
+      exposedHeaders: ['Content-Language'],
     })
   );
+
+  // Localization middleware
+  app.use(localizationMiddleware);
 
   // Request logger
   if (config.nodeEnv !== 'test') {

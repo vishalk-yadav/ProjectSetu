@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   CheckSquare,
   Clock,
@@ -20,6 +21,7 @@ import { LoadingSpinner } from '../components/common/LoadingSpinner';
 import { Modal } from '../components/common/Modal';
 
 export const ApprovalCenter: React.FC = () => {
+  const { t } = useTranslation();
   const { user: currentUser, isSuperAdmin, isDeptAdmin, isProjectManager, canApproveRequests } = useAuth();
 
   const [approvals, setApprovals] = useState<ApprovalRequestItem[]>([]);
@@ -141,21 +143,19 @@ export const ApprovalCenter: React.FC = () => {
           </div>
           <div>
             <h1 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">
-              {canApproveRequests ? 'Department Approval Command' : 'My Project Change Requests'}
+              {t('approvals.title', canApproveRequests ? 'Department Approval Command' : 'My Project Change Requests')}
             </h1>
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-              {canApproveRequests
-                ? 'Review, sanitize, approve, or reject milestone completions, progress telemetry, and documents.'
-                : 'Track the status and authority feedback on your submitted milestone and progress updates.'}
+              {t('approvals.subtitle', 'Multi-tiered sanctioning pipeline for milestones, budget escalations, and project DPRs.')}
             </p>
           </div>
         </div>
 
         <button
           onClick={loadData}
-          className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors shrink-0"
+          className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors shrink-0 cursor-pointer"
         >
-          <RefreshCw className="w-3.5 h-3.5" /> Refresh Queue
+          <RefreshCw className="w-3.5 h-3.5" /> {t('common.refresh', 'Refresh Queue')}
         </button>
       </div>
 
@@ -171,7 +171,7 @@ export const ApprovalCenter: React.FC = () => {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3.5">
           <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-xs">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-slate-500">Total Requests</span>
+              <span className="text-xs font-bold text-slate-500">{t('dashboard.kpi.totalProjects', 'Total Requests')}</span>
               <CheckSquare className="w-4 h-4 text-blue-500" />
             </div>
             <p className="text-2xl font-black text-slate-900 dark:text-white mt-1.5">{stats.total}</p>
@@ -179,7 +179,7 @@ export const ApprovalCenter: React.FC = () => {
 
           <div className="p-4 rounded-2xl bg-amber-50/60 dark:bg-amber-950/20 border border-amber-200/80 dark:border-amber-800/60 shadow-xs">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-amber-700 dark:text-amber-400">Pending Review</span>
+              <span className="text-xs font-bold text-amber-700 dark:text-amber-400">{t('approvals.pendingTab', 'Pending Review')}</span>
               <Clock className="w-4 h-4 text-amber-600 animate-spin" />
             </div>
             <p className="text-2xl font-black text-amber-900 dark:text-amber-300 mt-1.5">{stats.pending}</p>
@@ -187,7 +187,7 @@ export const ApprovalCenter: React.FC = () => {
 
           <div className="p-4 rounded-2xl bg-emerald-50/60 dark:bg-emerald-950/20 border border-emerald-200/80 dark:border-emerald-800/60 shadow-xs">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-emerald-700 dark:text-emerald-400">Approved</span>
+              <span className="text-xs font-bold text-emerald-700 dark:text-emerald-400">{t('approvals.approvedTab', 'Approved')}</span>
               <CheckCircle2 className="w-4 h-4 text-emerald-600" />
             </div>
             <p className="text-2xl font-black text-emerald-900 dark:text-emerald-300 mt-1.5">{stats.approved}</p>
@@ -195,7 +195,7 @@ export const ApprovalCenter: React.FC = () => {
 
           <div className="p-4 rounded-2xl bg-rose-50/60 dark:bg-rose-950/20 border border-rose-200/80 dark:border-rose-800/60 shadow-xs">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-rose-700 dark:text-rose-400">Rejected</span>
+              <span className="text-xs font-bold text-rose-700 dark:text-rose-400">{t('approvals.rejectedTab', 'Rejected')}</span>
               <XCircle className="w-4 h-4 text-rose-600" />
             </div>
             <p className="text-2xl font-black text-rose-900 dark:text-rose-300 mt-1.5">{stats.rejected}</p>
@@ -216,7 +216,7 @@ export const ApprovalCenter: React.FC = () => {
                   : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
               }`}
             >
-              {st === 'ALL' ? 'All Requests' : st}
+              {st === 'ALL' ? t('common.all', 'All Requests') : st === 'PENDING' ? t('approvals.pendingTab', 'Pending') : st === 'APPROVED' ? t('approvals.approvedTab', 'Approved') : t('approvals.rejectedTab', 'Rejected')}
             </button>
           ))}
         </div>
@@ -227,7 +227,7 @@ export const ApprovalCenter: React.FC = () => {
             onChange={(e) => setTypeFilter(e.target.value)}
             className="px-2.5 py-1.5 rounded-lg text-xs font-semibold border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-200 focus:outline-none"
           >
-            <option value="ALL">All Request Types</option>
+            <option value="ALL">{t('approvals.approvalType', 'All Request Types')}</option>
             <option value="PROGRESS_UPDATE">Progress Update</option>
             <option value="MILESTONE_STATUS">Milestone Status</option>
             <option value="BUDGET_REVISION">Budget Revision</option>
@@ -238,12 +238,12 @@ export const ApprovalCenter: React.FC = () => {
 
       {/* Requests List */}
       {loading ? (
-        <LoadingSpinner message="Loading workflow requests and audit statuses..." />
+        <LoadingSpinner message={t('common.loading', 'Loading workflow requests and audit statuses...')} />
       ) : approvals.length === 0 ? (
         <div className="p-12 text-center bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800">
           <CheckSquare className="w-12 h-12 text-slate-300 dark:text-slate-600 mx-auto mb-3" />
-          <h3 className="text-sm font-bold text-slate-700 dark:text-slate-300">No approval requests</h3>
-          <p className="text-xs text-slate-500 mt-1">There are no requests matching the selected filter criteria.</p>
+          <h3 className="text-sm font-bold text-slate-700 dark:text-slate-300">{t('approvals.noPending', 'No approval requests')}</h3>
+          <p className="text-xs text-slate-500 mt-1">{t('projects.noProjects', 'There are no requests matching the selected filter criteria.')}</p>
         </div>
       ) : (
         <div className="space-y-3">
@@ -277,14 +277,14 @@ export const ApprovalCenter: React.FC = () => {
                     </span>
                     <span className="flex items-center gap-1">
                       <User className="w-3.5 h-3.5" />
-                      Requested by: <strong className="text-slate-800 dark:text-slate-200">{req.requestedBy?.name}</strong>
+                      {t('approvals.submittedBy', 'Requested by')}: <strong className="text-slate-800 dark:text-slate-200">{req.requestedBy?.name}</strong>
                     </span>
                   </div>
 
                   {/* Review remarks if already processed */}
                   {req.reviewNotes && (
                     <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700 text-xs">
-                      <span className="font-bold text-slate-700 dark:text-slate-300">Reviewer Remarks ({req.reviewedBy?.name || 'Administrator'}):</span>{' '}
+                      <span className="font-bold text-slate-700 dark:text-slate-300">{t('approvals.decisionNotes', 'Reviewer Remarks')} ({req.reviewedBy?.name || 'Administrator'}):</span>{' '}
                       <span className="text-slate-600 dark:text-slate-400">{req.reviewNotes}</span>
                     </div>
                   )}
@@ -296,14 +296,14 @@ export const ApprovalCenter: React.FC = () => {
                       onClick={() => handleOpenReview(req)}
                       className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-xs transition-colors cursor-pointer flex items-center gap-1.5"
                     >
-                      <CheckCircle2 className="w-3.5 h-3.5" /> Review & Action
+                      <CheckCircle2 className="w-3.5 h-3.5" /> {t('approvals.reviewBtn', 'Review & Action')}
                     </button>
                   ) : (
                     <button
                       onClick={() => handleOpenReview(req)}
                       className="px-3.5 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold transition-colors cursor-pointer flex items-center gap-1"
                     >
-                      <Eye className="w-3.5 h-3.5" /> View Details
+                      <Eye className="w-3.5 h-3.5" /> {t('common.viewDetails', 'View Details')}
                     </button>
                   )}
                 </div>
@@ -317,7 +317,7 @@ export const ApprovalCenter: React.FC = () => {
       <Modal
         isOpen={reviewModalOpen}
         onClose={() => setReviewModalOpen(false)}
-        title={selectedRequest?.status === 'PENDING' && canApproveRequests ? 'Review Approval Request' : 'Approval Request Details'}
+        title={selectedRequest?.status === 'PENDING' && canApproveRequests ? t('approvals.reviewModalTitle', 'Review Approval Request') : t('approvals.reviewModalTitle', 'Approval Request Details')}
       >
         {selectedRequest && (
           <div className="space-y-4">
@@ -335,16 +335,16 @@ export const ApprovalCenter: React.FC = () => {
               <h4 className="text-sm font-bold text-slate-900 dark:text-white">{selectedRequest.title}</h4>
               <p className="text-xs text-slate-600 dark:text-slate-300">{selectedRequest.description}</p>
               <div className="pt-2 border-t border-slate-200 dark:border-slate-700 text-[11px] text-slate-500">
-                <p>Project: <strong>{selectedRequest.project?.name}</strong></p>
-                <p>Submitted by: <strong>{selectedRequest.requestedBy?.name} ({selectedRequest.requestedBy?.email})</strong></p>
-                <p>Submitted Date: {new Date(selectedRequest.createdAt).toLocaleString()}</p>
+                <p>{t('dashboard.panels.projectName', 'Project')}: <strong>{selectedRequest.project?.name}</strong></p>
+                <p>{t('approvals.submittedBy', 'Submitted by')}: <strong>{selectedRequest.requestedBy?.name} ({selectedRequest.requestedBy?.email})</strong></p>
+                <p>{t('auditLogs.timestamp', 'Submitted Date')}: {new Date(selectedRequest.createdAt).toLocaleString()}</p>
               </div>
             </div>
 
             {/* Change Payload Inspector */}
             <div>
               <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                Requested Data Modification
+                {t('auditLogs.details', 'Requested Data Modification')}
               </label>
               <pre className="p-3 bg-slate-900 text-emerald-400 font-mono text-[11px] rounded-xl overflow-x-auto">
                 {JSON.stringify(parsePayload(selectedRequest.payload), null, 2)}
@@ -355,11 +355,11 @@ export const ApprovalCenter: React.FC = () => {
             {selectedRequest.status === 'PENDING' && canApproveRequests ? (
               <div>
                 <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                  Official Remarks / Review Feedback
+                  {t('approvals.decisionNotes', 'Official Remarks / Review Feedback')}
                 </label>
                 <textarea
                   rows={3}
-                  placeholder="Enter approval conditions, verification notes, or reason for rejection..."
+                  placeholder={t('approvals.decisionNotesPlaceholder', 'Enter approval conditions, verification notes, or reason for rejection...')}
                   value={reviewNotes}
                   onChange={(e) => setReviewNotes(e.target.value)}
                   className="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 focus:outline-none"
@@ -367,7 +367,7 @@ export const ApprovalCenter: React.FC = () => {
               </div>
             ) : selectedRequest.reviewNotes ? (
               <div className="p-3 bg-slate-100 dark:bg-slate-800 rounded-xl text-xs">
-                <p className="font-bold text-slate-700 dark:text-slate-300">Authority Remarks:</p>
+                <p className="font-bold text-slate-700 dark:text-slate-300">{t('approvals.decisionNotes', 'Authority Remarks')}:</p>
                 <p className="text-slate-600 dark:text-slate-400 mt-0.5">{selectedRequest.reviewNotes}</p>
               </div>
             ) : null}
@@ -377,9 +377,9 @@ export const ApprovalCenter: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setReviewModalOpen(false)}
-                className="px-4 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+                className="px-4 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
               >
-                Close
+                {t('common.cancel', 'Close')}
               </button>
 
               {selectedRequest.status === 'PENDING' && canApproveRequests && (
@@ -390,7 +390,7 @@ export const ApprovalCenter: React.FC = () => {
                     onClick={() => handleReviewAction('REJECT')}
                     className="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold shadow-xs transition-colors disabled:opacity-50 cursor-pointer"
                   >
-                    Reject Request
+                    {t('approvals.rejectBtn', 'Reject Request')}
                   </button>
                   <button
                     type="button"
@@ -398,7 +398,7 @@ export const ApprovalCenter: React.FC = () => {
                     onClick={() => handleReviewAction('APPROVE')}
                     className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-xs transition-colors disabled:opacity-50 cursor-pointer"
                   >
-                    Approve & Apply Changes
+                    {t('approvals.approveBtn', 'Approve & Apply Changes')}
                   </button>
                 </>
               )}

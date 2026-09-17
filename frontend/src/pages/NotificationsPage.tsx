@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Bell, CheckCircle2, AlertTriangle, AlertOctagon, Info, Filter } from 'lucide-react';
 import { useNotifications } from '../context/NotificationContext';
 import { formatDate } from '../utils/formatters';
 
 export const NotificationsPage: React.FC = () => {
+  const { t } = useTranslation();
   const { notifications, markAsRead, markAllAsRead, unreadCount } = useNotifications();
   const [filter, setFilter] = useState<'ALL' | 'CRITICAL' | 'WARNING' | 'INFO'>('ALL');
 
@@ -17,10 +19,10 @@ export const NotificationsPage: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black text-[#0F223D] font-heading tracking-tight">
-            Notification Center & Smart Alerts
+            {t('notifications.title')}
           </h1>
           <p className="text-xs text-slate-500 mt-1">
-            Real-time threshold alerts, overdue milestones, budget warnings, and AI anomaly triggers.
+            {t('notifications.subtitle')}
           </p>
         </div>
 
@@ -30,7 +32,7 @@ export const NotificationsPage: React.FC = () => {
               onClick={() => markAllAsRead()}
               className="px-4 py-2 rounded-xl bg-white hover:bg-slate-50 text-[#1A73E8] text-xs font-bold border border-slate-200 shadow-2xs transition-colors"
             >
-              Mark All as Read
+              {t('notifications.markAllRead')}
             </button>
           )}
         </div>
@@ -38,26 +40,53 @@ export const NotificationsPage: React.FC = () => {
 
       {/* Filter Tabs */}
       <div className="flex border-b border-slate-200 gap-2">
-        {(['ALL', 'CRITICAL', 'WARNING', 'INFO'] as const).map((f) => (
-          <button
-            key={f}
-            onClick={() => setFilter(f)}
-            className={`px-4 py-2 text-xs font-semibold border-b-2 transition-all ${
-              filter === f
-                ? 'border-[#1A73E8] text-[#1A73E8] font-bold'
-                : 'border-transparent text-slate-500 hover:text-slate-800'
-            }`}
-          >
-            {f} ALERTS
-          </button>
-        ))}
+        <button
+          onClick={() => setFilter('ALL')}
+          className={`px-4 py-2 text-xs font-semibold border-b-2 transition-all ${
+            filter === 'ALL'
+              ? 'border-[#1A73E8] text-[#1A73E8] font-bold'
+              : 'border-transparent text-slate-500 hover:text-slate-800'
+          }`}
+        >
+          {t('notifications.allAlerts')}
+        </button>
+        <button
+          onClick={() => setFilter('CRITICAL')}
+          className={`px-4 py-2 text-xs font-semibold border-b-2 transition-all ${
+            filter === 'CRITICAL'
+              ? 'border-[#1A73E8] text-[#1A73E8] font-bold'
+              : 'border-transparent text-slate-500 hover:text-slate-800'
+          }`}
+        >
+          {t('notifications.criticalAlerts')}
+        </button>
+        <button
+          onClick={() => setFilter('WARNING')}
+          className={`px-4 py-2 text-xs font-semibold border-b-2 transition-all ${
+            filter === 'WARNING'
+              ? 'border-[#1A73E8] text-[#1A73E8] font-bold'
+              : 'border-transparent text-slate-500 hover:text-slate-800'
+          }`}
+        >
+          {t('common.high')}
+        </button>
+        <button
+          onClick={() => setFilter('INFO')}
+          className={`px-4 py-2 text-xs font-semibold border-b-2 transition-all ${
+            filter === 'INFO'
+              ? 'border-[#1A73E8] text-[#1A73E8] font-bold'
+              : 'border-transparent text-slate-500 hover:text-slate-800'
+          }`}
+        >
+          {t('common.low')}
+        </button>
       </div>
 
       <div className="bg-white border border-slate-200/80 rounded-2xl overflow-hidden shadow-2xs">
         <div className="divide-y divide-slate-100">
           {filtered.length === 0 ? (
             <div className="p-12 text-center text-xs text-slate-500">
-              No notifications matching the selected filter.
+              {t('notifications.noAlerts')}
             </div>
           ) : (
             filtered.map((n) => (

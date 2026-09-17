@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Building2,
   Trophy,
@@ -19,6 +20,7 @@ import { formatCurrencyINR, getRiskBadgeClasses } from '../utils/formatters';
 import { useAuth } from '../context/AuthContext';
 
 export const Departments: React.FC = () => {
+  const { t } = useTranslation();
   const { canManageDepartments } = useAuth();
   const [departments, setDepartments] = useState<Department[]>([]);
   const [rankings, setRankings] = useState<any[]>([]);
@@ -75,10 +77,10 @@ export const Departments: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black text-[#0F223D] font-heading tracking-tight">
-            Ministries & Departments
+            {t('departments.title', 'Ministries & Departments')}
           </h1>
           <p className="text-xs text-slate-500 mt-1">
-            Departmental performance benchmarking, completion velocity & risk index.
+            {t('departments.subtitle', 'Departmental performance benchmarking, completion velocity & risk index.')}
           </p>
         </div>
 
@@ -88,7 +90,7 @@ export const Departments: React.FC = () => {
             className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#1A73E8] hover:bg-blue-600 text-white text-xs font-bold shadow-xs transition-all cursor-pointer"
           >
             <Plus className="w-4 h-4" />
-            <span>Add Department</span>
+            <span>{t('departments.addDepartment', 'Add Department')}</span>
           </button>
         )}
       </div>
@@ -101,10 +103,10 @@ export const Departments: React.FC = () => {
           </div>
           <div>
             <h3 className="text-sm font-bold text-[#0F223D] font-heading">
-              Department Performance Ranking
+              {t('departments.performanceIndex', 'Department Performance Ranking')}
             </h3>
             <p className="text-[11px] text-slate-500">
-              Evaluated on Milestone Completion (35%), Progress Velocity (35%), Risk Mitigation (20%), and Delay Resilience (10%).
+              {t('departments.subtitle', 'Evaluated on Milestone Completion (35%), Progress Velocity (35%), Risk Mitigation (20%), and Delay Resilience (10%).')}
             </p>
           </div>
         </div>
@@ -113,15 +115,15 @@ export const Departments: React.FC = () => {
           <table className="w-full text-left text-xs">
             <thead className="bg-slate-50/80 border-b border-slate-200 text-[10px] uppercase font-bold text-slate-500">
               <tr>
-                <th className="py-3 px-3">Rank</th>
-                <th className="py-3 px-4">Ministry / Department</th>
-                <th className="py-3 px-3">Code</th>
-                <th className="py-3 px-3">Projects</th>
-                <th className="py-3 px-3">Avg Progress</th>
-                <th className="py-3 px-3">Completion Rate</th>
-                <th className="py-3 px-3">Delayed</th>
-                <th className="py-3 px-3">Avg Risk</th>
-                <th className="py-3 px-4 text-right">Performance Score</th>
+                <th className="py-3 px-3">{t('departments.rank', 'Rank')}</th>
+                <th className="py-3 px-4">{t('departments.deptName', 'Ministry / Department')}</th>
+                <th className="py-3 px-3">{t('departments.deptCode', 'Code')}</th>
+                <th className="py-3 px-3">{t('dashboard.charts.projectsUnit', 'Projects')}</th>
+                <th className="py-3 px-3">{t('departments.physicalProgress', 'Avg Progress')}</th>
+                <th className="py-3 px-3">{t('departments.performanceIndex', 'Completion Rate')}</th>
+                <th className="py-3 px-3">{t('dashboard.kpi.delayed', 'Delayed')}</th>
+                <th className="py-3 px-3">{t('departments.riskRating', 'Avg Risk')}</th>
+                <th className="py-3 px-4 text-right">{t('departments.performanceIndex', 'Performance Score')}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 text-slate-700 bg-white">
@@ -189,7 +191,7 @@ export const Departments: React.FC = () => {
                   {d.code}
                 </span>
                 <span className="text-xs text-slate-500 font-medium">
-                  {d.totalUsers || 0} Officers Registered
+                  {d.totalUsers || 0} {t('auditLogs.user', 'Officers Registered')}
                 </span>
               </div>
               <h3 className="text-sm font-bold text-[#0F223D] font-heading mt-1">{d.name}</h3>
@@ -199,19 +201,19 @@ export const Departments: React.FC = () => {
               {d.stats && (
                 <div className="mt-4 pt-4 border-t border-slate-100 grid grid-cols-2 gap-3 text-xs">
                   <div>
-                    <span className="text-[10px] text-slate-400 uppercase font-bold">Total Projects</span>
+                    <span className="text-[10px] text-slate-400 uppercase font-bold">{t('dashboard.kpi.totalProjects', 'Total Projects')}</span>
                     <p className="font-bold text-slate-800 text-sm mt-0.5">{d.stats.totalProjects}</p>
                   </div>
                   <div>
-                    <span className="text-[10px] text-slate-400 uppercase font-bold">Active Execution</span>
+                    <span className="text-[10px] text-slate-400 uppercase font-bold">{t('dashboard.kpi.underExecution', 'Active Execution')}</span>
                     <p className="font-bold text-blue-600 text-sm mt-0.5">{d.stats.activeProjects}</p>
                   </div>
                   <div>
-                    <span className="text-[10px] text-slate-400 uppercase font-bold">Total Outlay</span>
+                    <span className="text-[10px] text-slate-400 uppercase font-bold">{t('dashboard.kpi.totalOutlay', 'Total Outlay')}</span>
                     <p className="font-bold text-slate-900 text-xs mt-0.5">{formatCurrencyINR(d.stats.totalAllocatedBudget)}</p>
                   </div>
                   <div>
-                    <span className="text-[10px] text-slate-400 uppercase font-bold">Avg Progress</span>
+                    <span className="text-[10px] text-slate-400 uppercase font-bold">{t('departments.physicalProgress', 'Avg Progress')}</span>
                     <p className="font-bold text-emerald-600 text-xs mt-0.5">{d.stats.avgProgress}%</p>
                   </div>
                 </div>
@@ -226,12 +228,12 @@ export const Departments: React.FC = () => {
         <Modal
           isOpen={createModalOpen}
           onClose={() => setCreateModalOpen(false)}
-          title="Sanction New Department or Ministry"
-          subtitle="Establish nodal administrative organization within ProjectSetu"
+          title={t('departments.createModalTitle', 'Register Central Department')}
+          subtitle={t('departments.createModalSubtitle', 'Establish nodal administrative organization within ProjectSetu')}
         >
           <form onSubmit={handleCreate} className="space-y-4 text-xs">
             <div>
-              <label className="block font-semibold text-slate-700 mb-1">Department / Ministry Name *</label>
+              <label className="block font-semibold text-slate-700 mb-1">{t('departments.deptName', 'Department / Ministry Name')} *</label>
               <input
                 type="text"
                 required
@@ -242,7 +244,7 @@ export const Departments: React.FC = () => {
               />
             </div>
             <div>
-              <label className="block font-semibold text-slate-700 mb-1">Official Department Code *</label>
+              <label className="block font-semibold text-slate-700 mb-1">{t('departments.deptCode', 'Official Department Code')} *</label>
               <input
                 type="text"
                 required
@@ -253,7 +255,7 @@ export const Departments: React.FC = () => {
               />
             </div>
             <div>
-              <label className="block font-semibold text-slate-700 mb-1">Nodal Officer / Department Head</label>
+              <label className="block font-semibold text-slate-700 mb-1">{t('departments.deptHead', 'Nodal Officer / Department Head')}</label>
               <input
                 type="text"
                 placeholder="e.g. Shri Rajesh Kumar, Secretary"
@@ -263,7 +265,7 @@ export const Departments: React.FC = () => {
               />
             </div>
             <div>
-              <label className="block font-semibold text-slate-700 mb-1">Contact Details & Nodal Office</label>
+              <label className="block font-semibold text-slate-700 mb-1">{t('departments.contactInfo', 'Contact Details & Nodal Office')}</label>
               <input
                 type="text"
                 placeholder="e.g. rail-sec@nic.in | Rail Bhawan, New Delhi"
@@ -273,8 +275,8 @@ export const Departments: React.FC = () => {
               />
             </div>
             <div className="flex justify-end gap-2 pt-3 border-t border-slate-100">
-              <button type="button" onClick={() => setCreateModalOpen(false)} className="px-4 py-2 text-slate-600 hover:text-slate-900 font-semibold text-xs cursor-pointer">Cancel</button>
-              <button type="submit" className="px-5 py-2.5 bg-[#1A73E8] hover:bg-blue-600 rounded-xl text-white font-bold text-xs shadow-xs transition-all cursor-pointer">Register Department</button>
+              <button type="button" onClick={() => setCreateModalOpen(false)} className="px-4 py-2 text-slate-600 hover:text-slate-900 font-semibold text-xs cursor-pointer">{t('common.cancel', 'Cancel')}</button>
+              <button type="submit" className="px-5 py-2.5 bg-[#1A73E8] hover:bg-blue-600 rounded-xl text-white font-bold text-xs shadow-xs transition-all cursor-pointer">{t('departments.addDepartment', 'Register Department')}</button>
             </div>
           </form>
         </Modal>

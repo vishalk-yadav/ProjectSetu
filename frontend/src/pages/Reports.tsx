@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   FileSpreadsheet,
   Download,
@@ -14,6 +15,7 @@ import { LoadingSpinner } from '../components/common/LoadingSpinner';
 import { formatCurrencyINR } from '../utils/formatters';
 
 export const Reports: React.FC = () => {
+  const { t } = useTranslation();
   const [departments, setDepartments] = useState<Department[]>([]);
   const [reportType, setReportType] = useState<any>('ALL_PROJECTS');
   const [departmentId, setDepartmentId] = useState('');
@@ -57,10 +59,10 @@ export const Reports: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black text-[#0F223D] font-heading tracking-tight">
-            Integrated Governance Reports
+            {t('reports.title')}
           </h1>
           <p className="text-xs text-slate-500 mt-1">
-            Export official project auditing records, budget compliance, and delayed project registers in CSV format.
+            {t('reports.subtitle')}
           </p>
         </div>
 
@@ -77,7 +79,7 @@ export const Reports: React.FC = () => {
             className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#1A73E8] hover:bg-blue-600 text-white text-xs font-bold shadow-xs transition-all"
           >
             <Download className="w-4 h-4" />
-            <span>Export CSV</span>
+            <span>{t('reports.exportCsv')}</span>
           </button>
         </div>
       </div>
@@ -85,7 +87,7 @@ export const Reports: React.FC = () => {
       {/* Filter Controls */}
       <div className="bg-white border border-slate-200/80 rounded-2xl p-4 shadow-2xs flex flex-col sm:flex-row items-center gap-4">
         <div className="w-full sm:w-auto flex-1 flex items-center gap-3">
-          <label className="text-xs font-bold text-slate-700 whitespace-nowrap">Report Category:</label>
+          <label className="text-xs font-bold text-slate-700 whitespace-nowrap">{t('reports.reportType')}:</label>
           <select
             value={reportType}
             onChange={(e) => setReportType(e.target.value)}
@@ -99,13 +101,13 @@ export const Reports: React.FC = () => {
         </div>
 
         <div className="w-full sm:w-auto flex items-center gap-3">
-          <label className="text-xs font-bold text-slate-700 whitespace-nowrap">Filter Ministry:</label>
+          <label className="text-xs font-bold text-slate-700 whitespace-nowrap">{t('reports.selectMinistry')}:</label>
           <select
             value={departmentId}
             onChange={(e) => setDepartmentId(e.target.value)}
             className="w-full sm:w-64 px-3.5 py-2.5 bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 rounded-xl text-xs text-slate-800 font-medium focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-hidden transition-colors"
           >
-            <option value="">All Ministries</option>
+            <option value="">{t('departments.allMinistries')}</option>
             {departments.map((d) => (
               <option key={d.id} value={d.id}>{d.name} ({d.code})</option>
             ))}
@@ -128,14 +130,14 @@ export const Reports: React.FC = () => {
             <table className="w-full text-left text-xs">
               <thead className="bg-slate-50/80 border-b border-slate-200 text-[10px] uppercase font-bold text-slate-500">
                 <tr>
-                  <th className="py-3 px-4">Project Name</th>
-                  <th className="py-3 px-3">Ministry</th>
-                  <th className="py-3 px-3">Status</th>
-                  <th className="py-3 px-3">Progress</th>
-                  <th className="py-3 px-3">Sanctioned (Cr)</th>
+                  <th className="py-3 px-4">{t('projects.projectName', 'Project Name')}</th>
+                  <th className="py-3 px-3">{t('common.ministry')}</th>
+                  <th className="py-3 px-3">{t('common.status')}</th>
+                  <th className="py-3 px-3">{t('common.progress')}</th>
+                  <th className="py-3 px-3">{t('departments.sanctionedOutlay')}</th>
                   <th className="py-3 px-3">Utilized (Cr)</th>
                   <th className="py-3 px-3">Utilization</th>
-                  <th className="py-3 px-3">Risk</th>
+                  <th className="py-3 px-3">{t('departments.riskRating')}</th>
                   <th className="py-3 px-4">Schedule Health</th>
                 </tr>
               </thead>

@@ -12,10 +12,13 @@ import {
   Users,
   BarChart3,
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
 import { UserRole } from '../types';
+import { LanguageSelector } from '../components/common/LanguageSelector';
 
 export const Login: React.FC = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { login, quickLogin, isLoading } = useAuth();
 
@@ -91,10 +94,10 @@ export const Login: React.FC = () => {
             />
             <div className="flex flex-col">
               <span className="text-[13px] font-bold text-[#0F223D] tracking-tight leading-tight">
-                Government of India
+                {t('common.govtOfIndia', 'Government of India')}
               </span>
               <span className="text-[10px] text-slate-500 font-medium leading-tight mt-0.5">
-                सत्यमेव जयते
+                {t('common.satyamevaJayate', 'सत्यमेव जयते')}
               </span>
             </div>
           </div>
@@ -106,21 +109,26 @@ export const Login: React.FC = () => {
             <span className="mx-2 text-slate-300 font-normal">|</span> TOGETHER
           </div>
 
-          {/* Right: Tiranga Flag + Digital India */}
-          <div className="flex items-center gap-2.5">
-            <img
-              src="/assets/flag-of-india.svg"
-              alt="Indian National Flag"
-              className="w-7 h-auto rounded-[2px] shadow-2xs border border-slate-200/80"
-            />
-            <div className="flex flex-col">
-              <span className="text-[13px] font-bold text-[#0F223D] tracking-tight leading-tight">
-                Digital India
-              </span>
-              <span className="text-[9.5px] text-slate-500 font-medium leading-tight mt-0.5">
-                for a Stronger Tomorrow
-              </span>
+          {/* Right: Tiranga Flag + Digital India + Language Selector */}
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2.5">
+              <img
+                src="/assets/flag-of-india.svg"
+                alt="Indian National Flag"
+                className="w-7 h-auto rounded-[2px] shadow-2xs border border-slate-200/80"
+              />
+              <div className="flex flex-col">
+                <span className="text-[13px] font-bold text-[#0F223D] tracking-tight leading-tight">
+                  {t('common.digitalIndia', 'Digital India')}
+                </span>
+                <span className="text-[9.5px] text-slate-500 font-medium leading-tight mt-0.5">
+                  {t('common.strongerTomorrow', 'for a Stronger Tomorrow')}
+                </span>
+              </div>
             </div>
+
+            <div className="h-6 w-[1px] bg-slate-200 mx-1" />
+            <LanguageSelector variant="nav" />
           </div>
         </header>
 
@@ -271,10 +279,10 @@ export const Login: React.FC = () => {
                 ProjectSetu
               </h2>
               <p className="text-[9.5px] font-black tracking-[0.24em] text-slate-500 uppercase mt-0.5">
-                OFFICIAL ACCESS
+                {t('auth.officialAccess', 'OFFICIAL ACCESS')}
               </p>
               <p className="text-[11px] text-slate-500 mt-0.5 font-medium">
-                Government Project Monitoring Platform
+                {t('auth.monitoringPlatform', 'Government Project Monitoring Platform')}
               </p>
             </div>
 
@@ -297,7 +305,7 @@ export const Login: React.FC = () => {
               {/* Email or Mobile */}
               <div>
                 <label className="block text-[11px] font-bold text-slate-700 mb-1">
-                  Official Email or Mobile Number
+                  {t('auth.emailOrMobile', 'Official Email or Mobile Number')}
                 </label>
                 <div className="relative">
                   <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
@@ -315,7 +323,7 @@ export const Login: React.FC = () => {
               {/* Password */}
               <div>
                 <label className="block text-[11px] font-bold text-slate-700 mb-1">
-                  Password
+                  {t('auth.password', 'Password')}
                 </label>
                 <div className="relative">
                   <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
@@ -346,14 +354,14 @@ export const Login: React.FC = () => {
                     onChange={(e) => setRememberMe(e.target.checked)}
                     className="w-3.5 h-3.5 rounded border-slate-300 text-blue-600 focus:ring-0 cursor-pointer"
                   />
-                  <span className="font-medium text-slate-700">Remember session</span>
+                  <span className="font-medium text-slate-700">{t('auth.rememberSession', 'Remember session')}</span>
                 </label>
                 <button
                   type="button"
                   onClick={() => setShowSSOModal(true)}
                   className="font-semibold text-blue-600 hover:text-blue-700 hover:underline cursor-pointer"
                 >
-                  NIC Single Sign-On (SSO)
+                  {t('auth.ssoLogin', 'NIC Single Sign-On (SSO)')}
                 </button>
               </div>
 
@@ -363,18 +371,18 @@ export const Login: React.FC = () => {
                 disabled={submitting || isLoading}
                 className="w-full py-2.5 px-4 rounded-xl text-xs font-bold text-white bg-[#0F223D] hover:bg-[#18345C] focus:outline-none shadow-md shadow-[#0F223D]/20 flex items-center justify-center gap-2 transition-all cursor-pointer disabled:opacity-60"
               >
-                <span>{submitting ? 'Authenticating...' : 'Sign In'}</span>
+                <span>{submitting ? t('auth.authenticating', 'Authenticating...') : t('auth.signIn', 'Sign In')}</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
 
               {/* Citizen Registration Link */}
               <div className="text-center pt-0.5 text-[11px] text-slate-500">
-                Are you a citizen?{' '}
+                {t('auth.citizenPrompt', 'Are you a citizen?')}{' '}
                 <Link
                   to="/signup"
                   className="font-bold text-[#1A73E8] hover:underline inline-flex items-center gap-0.5"
                 >
-                  Create Citizen Account <ArrowRight className="w-3 h-3 inline" />
+                  {t('auth.createCitizenAccount', 'Create Citizen Account')} <ArrowRight className="w-3.5 h-3.5 inline" />
                 </Link>
               </div>
             </form>
@@ -400,7 +408,7 @@ export const Login: React.FC = () => {
                 alt="Emblem"
                 className="h-4.5 w-auto max-w-[18px] object-contain shrink-0"
               />
-              <span className="text-slate-800">Login with Government SSO</span>
+              <span className="text-slate-800">{t('auth.loginWithSso', 'Login with Government SSO')}</span>
               <ArrowRight className="w-3.5 h-3.5 text-slate-400 ml-auto" />
             </button>
 
@@ -411,10 +419,10 @@ export const Login: React.FC = () => {
               </div>
               <div className="flex flex-col">
                 <span className="text-[11px] font-bold text-[#1E40AF] leading-tight">
-                  Secure. Trusted. For a Stronger India.
+                  {t('common.secureIndia', 'Secure. Trusted. For a Stronger India.')}
                 </span>
                 <span className="text-[9.5px] text-slate-500 leading-tight mt-0.5">
-                  This system is for authorized government users only.
+                  {t('common.govPersonnelOnly', 'This system is for authorized government users only.')}
                 </span>
               </div>
             </div>
@@ -429,17 +437,18 @@ export const Login: React.FC = () => {
           <div className="flex items-center gap-2.5">
             <img src="/assets/emblem-of-india.svg" alt="Emblem" className="h-9 w-auto object-contain" />
             <div>
-              <span className="block text-xs font-bold text-[#0F223D]">Government of India</span>
-              <span className="block text-[10px] text-slate-500">सत्यमेव जयते</span>
+              <span className="block text-xs font-bold text-[#0F223D]">{t('common.govtOfIndia', 'Government of India')}</span>
+              <span className="block text-[10px] text-slate-500">{t('common.satyamevaJayate', 'सत्यमेव जयते')}</span>
             </div>
           </div>
           <div className="flex items-center gap-2">
+            <LanguageSelector variant="compact" />
             <div className="w-6 h-4 rounded-[2px] border border-slate-200 flex flex-col overflow-hidden">
               <div className="h-1/3 bg-[#FF9933]" />
               <div className="h-1/3 bg-white" />
               <div className="h-1/3 bg-[#138808]" />
             </div>
-            <span className="text-xs font-bold text-[#0F223D]">Digital India</span>
+            <span className="text-xs font-bold text-[#0F223D]">{t('common.digitalIndia', 'Digital India')}</span>
           </div>
         </div>
 
@@ -458,9 +467,9 @@ export const Login: React.FC = () => {
             </div>
             <h2 className="text-2xl font-black text-[#0F223D]">ProjectSetu</h2>
             <p className="text-[10px] font-bold tracking-[0.2em] text-slate-500 uppercase mt-0.5">
-              OFFICIAL ACCESS
+              {t('auth.officialAccess', 'OFFICIAL ACCESS')}
             </p>
-            <p className="text-xs text-slate-500 mt-0.5">Government Project Monitoring Platform</p>
+            <p className="text-xs text-slate-500 mt-0.5">{t('auth.monitoringPlatform', 'Government Project Monitoring Platform')}</p>
           </div>
 
           {error && (
@@ -472,7 +481,7 @@ export const Login: React.FC = () => {
           <form className="space-y-4" onSubmit={handleSubmit}>
             <div>
               <label className="block text-xs font-bold text-slate-700 mb-1">
-                Official Email or Mobile Number
+                {t('auth.emailOrMobile', 'Official Email or Mobile Number')}
               </label>
               <div className="relative">
                 <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
@@ -488,7 +497,7 @@ export const Login: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">Password</label>
+              <label className="block text-xs font-bold text-slate-700 mb-1">{t('auth.password', 'Password')}</label>
               <div className="relative">
                 <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                 <input
@@ -517,14 +526,14 @@ export const Login: React.FC = () => {
                   onChange={(e) => setRememberMe(e.target.checked)}
                   className="w-4 h-4 rounded text-blue-600"
                 />
-                <span>Remember session</span>
+                <span>{t('auth.rememberSession', 'Remember session')}</span>
               </label>
               <button
                 type="button"
                 onClick={() => setShowSSOModal(true)}
                 className="font-semibold text-blue-600 hover:underline"
               >
-                NIC SSO
+                {t('auth.ssoLogin', 'NIC SSO')}
               </button>
             </div>
 
@@ -533,18 +542,18 @@ export const Login: React.FC = () => {
               disabled={submitting || isLoading}
               className="w-full py-3 px-4 rounded-xl text-xs font-bold text-white bg-[#0F223D] hover:bg-[#18345C] shadow-md flex items-center justify-center gap-2"
             >
-              <span>{submitting ? 'Authenticating...' : 'Sign In'}</span>
+              <span>{submitting ? t('auth.authenticating', 'Authenticating...') : t('auth.signIn', 'Sign In')}</span>
               <ArrowRight className="w-4 h-4" />
             </button>
 
             {/* Mobile Citizen Registration Link */}
             <div className="text-center pt-1 text-xs text-slate-500">
-              Are you a citizen?{' '}
+              {t('auth.citizenPrompt', 'Are you a citizen?')}{' '}
               <Link
                 to="/signup"
                 className="font-bold text-[#1A73E8] hover:underline inline-flex items-center gap-0.5"
               >
-                Create Citizen Account <ArrowRight className="w-3.5 h-3.5 inline" />
+                {t('auth.createCitizenAccount', 'Create Citizen Account')} <ArrowRight className="w-3.5 h-3.5 inline" />
               </Link>
             </div>
           </form>
@@ -564,7 +573,7 @@ export const Login: React.FC = () => {
             className="w-full py-2.5 px-4 rounded-xl text-xs font-bold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 shadow-2xs flex items-center gap-2.5"
           >
             <img src="/assets/emblem-of-india.svg" alt="Emblem" className="h-4.5 w-auto max-w-[18px] object-contain shrink-0" />
-            <span>Login with Government SSO</span>
+            <span>{t('auth.loginWithSso', 'Login with Government SSO')}</span>
             <ArrowRight className="w-3.5 h-3.5 text-slate-400 ml-auto" />
           </button>
         </div>
@@ -584,10 +593,10 @@ export const Login: React.FC = () => {
                 />
                 <div>
                   <h3 className="text-sm font-bold text-[#0F223D]">
-                    Government Single Sign-On (SSO / Jan Parichay)
+                    {t('auth.ssoModalTitle', 'Government Single Sign-On (SSO / Jan Parichay)')}
                   </h3>
                   <p className="text-[10px] text-slate-500">
-                    Select an official verified persona to authenticate immediately
+                    {t('auth.ssoModalDesc', 'Select an official verified persona to authenticate immediately')}
                   </p>
                 </div>
               </div>

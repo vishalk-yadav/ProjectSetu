@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
   Camera,
   Upload,
@@ -45,6 +46,7 @@ function calculateDistanceKm(lat1: number, lon1: number, lat2: number, lon2: num
 }
 
 export const ReportIssuePage: React.FC = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const preselectedProjectId = searchParams.get('projectId');
@@ -320,13 +322,13 @@ export const ReportIssuePage: React.FC = () => {
         <div className="relative z-10 max-w-2xl space-y-2.5">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs font-bold text-amber-300 tracking-wide uppercase shadow-sm">
             <ShieldCheck className="w-3.5 h-3.5 text-amber-400" />
-            Citizen Oversight & Vigilance Portal
+            {t('citizen.reportHeroTitle')}
           </div>
           <h1 className="text-2xl sm:text-3xl font-black font-heading tracking-tight text-white drop-shadow-sm">
-            Report a Project Issue
+            {t('citizen.reportHeroHeading')}
           </h1>
           <p className="text-xs sm:text-sm text-slate-200 leading-relaxed max-w-xl">
-            Empowering citizens to report delays, structural damage, corruption, or safety hazards on government infrastructure projects with geolocated photo evidence.
+            {t('citizen.reportHeroDesc')}
           </p>
 
           {/* Saffron White Green Line */}
@@ -349,10 +351,10 @@ export const ReportIssuePage: React.FC = () => {
             </div>
             <div className="space-y-1">
               <h2 className="text-xl font-black text-emerald-950 dark:text-emerald-100">
-                Grievance Report Submitted Successfully!
+                {t('citizen.successTitle')}
               </h2>
               <p className="text-xs text-emerald-700 dark:text-emerald-300">
-                Your report has been securely registered in the ProjectSetu Vigilance System. Officers from the respective department have been notified.
+                {t('citizen.successDesc')}
               </p>
             </div>
           </div>
@@ -361,7 +363,7 @@ export const ReportIssuePage: React.FC = () => {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100 dark:border-slate-800">
               <div>
                 <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                  Vigilance Reference Tracking ID
+                  {t('citizen.trackingIdLabel')}
                 </span>
                 <div className="text-xl font-mono font-black text-[#0F223D] dark:text-white">
                   {successData.trackingId}
@@ -369,21 +371,21 @@ export const ReportIssuePage: React.FC = () => {
               </div>
               <button
                 onClick={copyTrackingId}
-                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-xs font-bold text-slate-700 dark:text-slate-300 transition-colors"
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-xs font-bold text-slate-700 dark:text-slate-300 transition-colors cursor-pointer"
               >
                 <Copy className="w-3.5 h-3.5" />
-                <span>{copied ? 'Copied to Clipboard!' : 'Copy Reference ID'}</span>
+                <span>{copied ? t('common.copied', 'Copied to Clipboard!') : t('common.copy', 'Copy Reference ID')}</span>
               </button>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
               <div>
-                <span className="text-slate-400 font-medium">Issue Subject:</span>
+                <span className="text-slate-400 font-medium">{t('citizen.subject')}:</span>
                 <p className="font-semibold text-slate-800 dark:text-slate-200">{successData.subject}</p>
               </div>
               {successData.project && (
                 <div>
-                  <span className="text-slate-400 font-medium">Associated Project:</span>
+                  <span className="text-slate-400 font-medium">{t('projects.title')}:</span>
                   <p className="font-semibold text-slate-800 dark:text-slate-200">{successData.project}</p>
                 </div>
               )}
@@ -393,9 +395,9 @@ export const ReportIssuePage: React.FC = () => {
           <div className="flex items-center gap-3 flex-wrap">
             <button
               onClick={() => navigate(`/citizen?track=${encodeURIComponent(successData.trackingId)}`)}
-              className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-md transition-colors inline-flex items-center gap-2"
+              className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-md transition-colors inline-flex items-center gap-2 cursor-pointer"
             >
-              <span>Track Grievance Status</span>
+              <span>{t('citizen.trackNow')}</span>
               <ArrowRight className="w-4 h-4" />
             </button>
             <button
@@ -405,9 +407,9 @@ export const ReportIssuePage: React.FC = () => {
                 setDescription('');
                 removePhoto();
               }}
-              className="px-4 py-2.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold hover:bg-slate-50 transition-colors"
+              className="px-4 py-2.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold hover:bg-slate-50 transition-colors cursor-pointer"
             >
-              Report Another Issue
+              {t('citizen.raiseConcern')}
             </button>
           </div>
         </div>
@@ -432,10 +434,10 @@ export const ReportIssuePage: React.FC = () => {
                 </div>
                 <div>
                   <h3 className="text-sm font-bold text-slate-900 dark:text-white">
-                    Capture or Upload Photo Evidence
+                    {t('citizen.captureEvidence')}
                   </h3>
                   <p className="text-[11px] text-slate-500">
-                    High-quality on-site photographs help verification officers investigate rapidly.
+                    {t('citizen.uploadFilesSub')}
                   </p>
                 </div>
               </div>
@@ -452,28 +454,28 @@ export const ReportIssuePage: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => cameraInputRef.current?.click()}
-                  className="flex flex-col items-center justify-center gap-3 p-6 rounded-2xl border-2 border-dashed border-blue-300 dark:border-blue-800 bg-blue-50/50 dark:bg-blue-950/20 hover:bg-blue-50 dark:hover:bg-blue-950/40 text-blue-700 dark:text-blue-300 transition-all group"
+                  className="flex flex-col items-center justify-center gap-3 p-6 rounded-2xl border-2 border-dashed border-blue-300 dark:border-blue-800 bg-blue-50/50 dark:bg-blue-950/20 hover:bg-blue-50 dark:hover:bg-blue-950/40 text-blue-700 dark:text-blue-300 transition-all group cursor-pointer"
                 >
                   <div className="w-12 h-12 rounded-2xl bg-blue-600 text-white flex items-center justify-center shadow-md shadow-blue-500/20 group-hover:scale-105 transition-transform">
                     <Camera className="w-6 h-6" />
                   </div>
                   <div className="text-center">
-                    <span className="text-xs font-bold block">Capture with Camera</span>
-                    <span className="text-[10px] text-slate-500">Take a live photo on your device</span>
+                    <span className="text-xs font-bold block">{t('citizen.captureCamera')}</span>
+                    <span className="text-[10px] text-slate-500">{t('citizen.captureCameraSub')}</span>
                   </div>
                 </button>
 
                 <button
                   type="button"
                   onClick={() => galleryInputRef.current?.click()}
-                  className="flex flex-col items-center justify-center gap-3 p-6 rounded-2xl border-2 border-dashed border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/40 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition-all group"
+                  className="flex flex-col items-center justify-center gap-3 p-6 rounded-2xl border-2 border-dashed border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/40 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition-all group cursor-pointer"
                 >
                   <div className="w-12 h-12 rounded-2xl bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 flex items-center justify-center group-hover:scale-105 transition-transform">
                     <Upload className="w-6 h-6" />
                   </div>
                   <div className="text-center">
-                    <span className="text-xs font-bold block">Upload from Gallery / Files</span>
-                    <span className="text-[10px] text-slate-500">Supports JPG, PNG, WebP up to 10MB</span>
+                    <span className="text-xs font-bold block">{t('citizen.uploadFiles')}</span>
+                    <span className="text-[10px] text-slate-500">{t('citizen.uploadFilesSub')}</span>
                   </div>
                 </button>
               </div>
@@ -488,15 +490,15 @@ export const ReportIssuePage: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => cameraInputRef.current?.click()}
-                    className="p-2 rounded-xl bg-black/60 hover:bg-black/80 backdrop-blur-md text-white text-xs font-bold shadow-md transition-colors flex items-center gap-1.5"
+                    className="p-2 rounded-xl bg-black/60 hover:bg-black/80 backdrop-blur-md text-white text-xs font-bold shadow-md transition-colors flex items-center gap-1.5 cursor-pointer"
                   >
                     <RotateCcw className="w-3.5 h-3.5" />
-                    <span>Retake</span>
+                    <span>{t('common.refresh', 'Retake')}</span>
                   </button>
                   <button
                     type="button"
                     onClick={removePhoto}
-                    className="p-2 rounded-xl bg-rose-600/90 hover:bg-rose-700 backdrop-blur-md text-white text-xs font-bold shadow-md transition-colors"
+                    className="p-2 rounded-xl bg-rose-600/90 hover:bg-rose-700 backdrop-blur-md text-white text-xs font-bold shadow-md transition-colors cursor-pointer"
                   >
                     <X className="w-4 h-4" />
                   </button>
@@ -518,10 +520,10 @@ export const ReportIssuePage: React.FC = () => {
                 </div>
                 <div>
                   <h3 className="text-sm font-bold text-slate-900 dark:text-white">
-                    Incident GPS Location
+                    {t('citizen.incidentLocation')}
                   </h3>
                   <p className="text-[11px] text-slate-500">
-                    Precise coordinates pinpoint the issue on the national surveillance map.
+                    {t('map.subtitle')}
                   </p>
                 </div>
               </div>
@@ -530,10 +532,10 @@ export const ReportIssuePage: React.FC = () => {
                 type="button"
                 onClick={requestGpsLocation}
                 disabled={locationStatus === 'FETCHING'}
-                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-blue-50 dark:bg-blue-950/80 hover:bg-blue-100 text-blue-700 dark:text-blue-300 text-xs font-bold transition-colors shrink-0 disabled:opacity-50"
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-blue-50 dark:bg-blue-950/80 hover:bg-blue-100 text-blue-700 dark:text-blue-300 text-xs font-bold transition-colors shrink-0 disabled:opacity-50 cursor-pointer"
               >
                 <Crosshair className={`w-3.5 h-3.5 ${locationStatus === 'FETCHING' ? 'animate-spin' : ''}`} />
-                <span>{locationStatus === 'FETCHING' ? 'Acquiring GPS...' : 'Use Current Location'}</span>
+                <span>{locationStatus === 'FETCHING' ? t('common.loading') : t('citizen.detectLocation')}</span>
               </button>
             </div>
 
@@ -542,15 +544,15 @@ export const ReportIssuePage: React.FC = () => {
                 <div className="flex items-center gap-2">
                   <MapPin className="w-4 h-4 text-emerald-600 shrink-0" />
                   <div>
-                    <span className="font-bold">Coordinates Detected: </span>
+                    <span className="font-bold">{t('citizen.coordsDetected')}: </span>
                     <span className="font-mono">{coords.lat.toFixed(5)}, {coords.lng.toFixed(5)}</span>
                     {coords.accuracy && (
-                      <span className="text-[10px] text-emerald-600 ml-2">(Accuracy: ±{Math.round(coords.accuracy)}m)</span>
+                      <span className="text-[10px] text-emerald-600 ml-2">(±{Math.round(coords.accuracy)}m)</span>
                     )}
                   </div>
                 </div>
                 <span className="text-[10px] bg-emerald-100 dark:bg-emerald-900/80 px-2 py-0.5 rounded font-bold uppercase">
-                  Verified GPS
+                  {t('citizen.verifiedGps')}
                 </span>
               </div>
             )}
@@ -598,10 +600,10 @@ export const ReportIssuePage: React.FC = () => {
               </div>
               <div>
                 <h3 className="text-sm font-bold text-slate-900 dark:text-white">
-                  Target Government Infrastructure Project
+                  {t('citizen.selectTargetProject')}
                 </h3>
                 <p className="text-[11px] text-slate-500">
-                  Select the associated project or choose general infrastructure if unlisted.
+                  {t('citizen.selectProjectDesc', 'Select the associated project or choose general infrastructure if unlisted.')}
                 </p>
               </div>
             </div>
@@ -614,7 +616,7 @@ export const ReportIssuePage: React.FC = () => {
                   </div>
                   <div>
                     <div className="text-[10px] font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">
-                      GPS Proximity Match ({nearestProject.distanceKm.toFixed(1)} km away)
+                      {t('citizen.nearestProjectDetected')} ({nearestProject.distanceKm.toFixed(1)} km)
                     </div>
                     <div className="text-xs font-bold text-slate-900 dark:text-white">
                       {nearestProject.project.name}
@@ -628,27 +630,27 @@ export const ReportIssuePage: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setProjectId(nearestProject.project.id)}
-                  className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-colors ${
+                  className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-colors cursor-pointer ${
                     projectId === nearestProject.project.id
                       ? 'bg-blue-600 text-white'
                       : 'bg-white dark:bg-slate-800 border border-slate-200 text-blue-600'
                   }`}
                 >
-                  {projectId === nearestProject.project.id ? 'Selected' : 'Select Nearest Project'}
+                  {projectId === nearestProject.project.id ? t('common.selected', 'Selected') : t('citizen.selectNearest', 'Select Nearest Project')}
                 </button>
               </div>
             )}
 
             <div>
               <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                Select Project
+                {t('projects.title')}
               </label>
               <select
                 value={projectId}
                 onChange={(e) => setProjectId(e.target.value)}
                 className="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-blue-500"
               >
-                <option value="">General Public Infrastructure / Unlisted Project</option>
+                <option value="">{t('citizen.unlistedProject', 'General Public Infrastructure / Unlisted Project')}</option>
                 {projects.map((p) => (
                   <option key={p.id} value={p.id}>
                     [{p.department.code}] {p.name} — {p.location}
@@ -666,10 +668,10 @@ export const ReportIssuePage: React.FC = () => {
               </div>
               <div>
                 <h3 className="text-sm font-bold text-slate-900 dark:text-white">
-                  Issue Classification & Description
+                  {t('citizen.issueClassification', 'Issue Classification & Description')}
                 </h3>
                 <p className="text-[11px] text-slate-500">
-                  Categorize the observed problem and provide concise notes.
+                  {t('citizen.issueClassificationSub', 'Categorize the observed problem and provide concise notes.')}
                 </p>
               </div>
             </div>
@@ -677,7 +679,7 @@ export const ReportIssuePage: React.FC = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                  Issue Category *
+                  {t('citizen.grievanceCategory')} *
                 </label>
                 <select
                   value={category}
@@ -697,31 +699,31 @@ export const ReportIssuePage: React.FC = () => {
 
               <div>
                 <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                  Severity Assessment
+                  {t('citizen.severityAssessment', 'Severity Assessment')}
                 </label>
                 <select
                   value={severity}
                   onChange={(e) => setSeverity(e.target.value)}
                   className="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-blue-500"
                 >
-                  <option value="LOW">Low (Minor inconvenience / Non-urgent)</option>
-                  <option value="MEDIUM">Medium (Moderate defect / Noticeable delay)</option>
-                  <option value="HIGH">High (Active danger / Major disruption)</option>
-                  <option value="CRITICAL">Critical (Life-threatening / Structural Collapse Risk)</option>
+                  <option value="LOW">{t('common.low')} (Minor inconvenience / Non-urgent)</option>
+                  <option value="MEDIUM">{t('common.medium')} (Moderate defect / Noticeable delay)</option>
+                  <option value="HIGH">{t('common.high')} (Active danger / Major disruption)</option>
+                  <option value="CRITICAL">{t('common.critical')} (Life-threatening / Structural Collapse Risk)</option>
                 </select>
               </div>
             </div>
 
             <div>
               <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                Report Subject / Summary Headline *
+                {t('citizen.subject')} *
               </label>
               <input
                 type="text"
                 required
                 value={subject}
                 onChange={(e) => setSubject(e.target.value)}
-                placeholder="e.g. Major subsidence on NH-48 flyover ramp near Dwarka"
+                placeholder={t('citizen.subjectPlaceholder')}
                 className="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-blue-500"
               />
             </div>
@@ -729,7 +731,7 @@ export const ReportIssuePage: React.FC = () => {
             <div>
               <div className="flex items-center justify-between mb-1">
                 <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">
-                  Detailed Issue Description *
+                  {t('citizen.detailedDescription')} *
                 </label>
                 <span className="text-[10px] text-slate-400">{description.length} / 1000 characters</span>
               </div>
@@ -754,10 +756,10 @@ export const ReportIssuePage: React.FC = () => {
                 </div>
                 <div>
                   <h3 className="text-sm font-bold text-slate-900 dark:text-white">
-                    Citizen Reporter Contact
+                    {t('citizen.citizenContact', 'Citizen Reporter Contact')}
                   </h3>
                   <p className="text-[11px] text-slate-500">
-                    Receive SMS and email status updates when vigilance officers act on this report.
+                    {t('citizen.citizenContactSub', 'Receive SMS and email status updates when vigilance officers act on this report.')}
                   </p>
                 </div>
               </div>
@@ -770,7 +772,7 @@ export const ReportIssuePage: React.FC = () => {
                   className="rounded text-blue-600 focus:ring-blue-500 w-4 h-4"
                 />
                 <span className="text-xs font-semibold text-slate-700 dark:text-slate-300">
-                  Report Anonymously
+                  {t('citizen.submitAnonymously')}
                 </span>
               </label>
             </div>
@@ -779,7 +781,7 @@ export const ReportIssuePage: React.FC = () => {
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
                 <div>
                   <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                    Your Full Name
+                    {t('citizen.yourName')}
                   </label>
                   <input
                     type="text"
@@ -792,7 +794,7 @@ export const ReportIssuePage: React.FC = () => {
 
                 <div>
                   <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                    Mobile Number
+                    {t('citizen.yourPhone')}
                   </label>
                   <input
                     type="tel"
@@ -805,7 +807,7 @@ export const ReportIssuePage: React.FC = () => {
 
                 <div>
                   <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                    Email Address
+                    {t('citizen.yourEmail')}
                   </label>
                   <input
                     type="email"
@@ -824,25 +826,25 @@ export const ReportIssuePage: React.FC = () => {
             <button
               type="button"
               onClick={() => navigate(-1)}
-              className="px-5 py-3 rounded-2xl border border-slate-200 dark:border-slate-800 text-xs font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+              className="px-5 py-3 rounded-2xl border border-slate-200 dark:border-slate-800 text-xs font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
             >
-              Cancel
+              {t('common.cancel')}
             </button>
 
             <button
               type="submit"
               disabled={submitting}
-              className="px-8 py-3.5 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-black text-xs sm:text-sm shadow-lg shadow-blue-500/25 transition-all flex items-center gap-2 disabled:opacity-50"
+              className="px-8 py-3.5 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-black text-xs sm:text-sm shadow-lg shadow-blue-500/25 transition-all flex items-center gap-2 disabled:opacity-50 cursor-pointer"
             >
               {submitting ? (
                 <>
                   <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                  <span>Submitting Grievance Report...</span>
+                  <span>{t('citizen.submitting')}</span>
                 </>
               ) : (
                 <>
                   <ShieldCheck className="w-4 h-4" />
-                  <span>Submit Grievance Report</span>
+                  <span>{t('citizen.submitGrievanceBtn')}</span>
                   <ArrowRight className="w-4 h-4" />
                 </>
               )}

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Landmark,
   ShieldCheck,
@@ -20,6 +21,7 @@ import { SystemSettingItem } from '../types';
 import { LoadingSpinner } from '../components/common/LoadingSpinner';
 
 export const SettingsPage: React.FC = () => {
+  const { t } = useTranslation();
   const { user, isSuperAdmin } = useAuth();
   const [settings, setSettings] = useState<SystemSettingItem[]>([]);
   const [settingsMap, setSettingsMap] = useState<Record<string, string>>({});
@@ -58,7 +60,7 @@ export const SettingsPage: React.FC = () => {
         value,
       }));
       await systemSettingApi.updateSettings(payload);
-      setSuccessMessage('System configurations and AI parameters updated successfully.');
+      setSuccessMessage(t('settings.savedSuccess'));
       setTimeout(() => setSuccessMessage(''), 4000);
       loadSettings();
     } catch (e) {
@@ -73,10 +75,10 @@ export const SettingsPage: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <h1 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">
-            System Administration & Platform Settings
+            {t('settings.title')}
           </h1>
           <p className="text-xs text-slate-500 mt-0.5">
-            Configure system parameters, AI risk sensitivity, automated notification channels, and operational metadata.
+            {t('settings.subtitle')}
           </p>
         </div>
 
@@ -85,7 +87,7 @@ export const SettingsPage: React.FC = () => {
             onClick={loadSettings}
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold hover:bg-slate-50 transition-colors shrink-0"
           >
-            <RefreshCw className="w-3.5 h-3.5" /> Reload Configs
+            <RefreshCw className="w-3.5 h-3.5" /> {t('common.refresh')}
           </button>
         )}
       </div>
@@ -223,7 +225,7 @@ export const SettingsPage: React.FC = () => {
               className="px-6 py-2.5 rounded-xl bg-[#1A73E8] hover:bg-blue-700 text-white text-xs font-bold shadow-md transition-all flex items-center gap-2 cursor-pointer disabled:opacity-50"
             >
               <Save className="w-4 h-4" />
-              {saving ? 'Saving System Parameters...' : 'Save Configuration Changes'}
+              {saving ? 'Saving...' : t('settings.saveSettings')}
             </button>
           </div>
         </form>
@@ -243,20 +245,20 @@ export const SettingsPage: React.FC = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs pt-2">
           <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
-            <span className="text-[10px] text-slate-500 uppercase font-bold">Officer Name</span>
+            <span className="text-[10px] text-slate-500 uppercase font-bold">{t('users.userName')}</span>
             <p className="text-slate-900 dark:text-white font-bold mt-0.5">{user?.name}</p>
           </div>
           <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
-            <span className="text-[10px] text-slate-500 uppercase font-bold">Official Email</span>
+            <span className="text-[10px] text-slate-500 uppercase font-bold">{t('users.userEmail')}</span>
             <p className="text-slate-900 dark:text-white font-bold mt-0.5">{user?.email}</p>
           </div>
           <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
-            <span className="text-[10px] text-slate-500 uppercase font-bold">RBAC Role</span>
+            <span className="text-[10px] text-slate-500 uppercase font-bold">{t('users.userRole')}</span>
             <p className="text-[#1A73E8] font-bold mt-0.5">{user?.role}</p>
           </div>
           <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
-            <span className="text-[10px] text-slate-500 uppercase font-bold">Security Token</span>
-            <p className="text-emerald-600 font-bold mt-0.5">JWT Encrypted (Valid 7 Days)</p>
+            <span className="text-[10px] text-slate-500 uppercase font-bold">{t('users.accountStatus')}</span>
+            <p className="text-emerald-600 font-bold mt-0.5">{t('users.active')}</p>
           </div>
         </div>
       </div>

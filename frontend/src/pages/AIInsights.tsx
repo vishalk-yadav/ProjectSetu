@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
   Sparkles,
   Send,
@@ -19,6 +20,7 @@ import { LoadingSpinner } from '../components/common/LoadingSpinner';
 import { formatCurrencyINR, getRiskBadgeClasses } from '../utils/formatters';
 
 export const AIInsights: React.FC = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
@@ -66,14 +68,14 @@ export const AIInsights: React.FC = () => {
       <div>
         <div className="flex items-center gap-2">
           <h1 className="text-2xl font-black text-[#0F223D] font-heading tracking-tight">
-            AI Insights & Decision Support Center
+            {t('ai.title', 'ProjectSetu Generative Governance AI')}
           </h1>
           <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-blue-100 text-blue-800 border border-blue-200">
             RULE-BASED + ML READY
           </span>
         </div>
         <p className="text-xs text-slate-500 mt-1">
-          Predictive delay models, Earned Value cost overrun forecasts & natural language conversational queries.
+          {t('ai.subtitle', 'Predictive delay models, Earned Value cost overrun forecasts & natural language conversational queries.')}
         </p>
       </div>
 
@@ -86,8 +88,8 @@ export const AIInsights: React.FC = () => {
             </div>
           </div>
           <div>
-            <h3 className="text-sm font-bold text-[#0F223D] font-heading">ProjectSetu Conversational Assistant</h3>
-            <p className="text-[11px] text-slate-500">Query project telemetry, delayed milestones, or risk profiles in natural language.</p>
+            <h3 className="text-sm font-bold text-[#0F223D] font-heading">{t('ai.title', 'ProjectSetu Conversational Assistant')}</h3>
+            <p className="text-[11px] text-slate-500">{t('ai.subtitle', 'Query project telemetry, delayed milestones, or risk profiles in natural language.')}</p>
           </div>
         </div>
 
@@ -95,7 +97,7 @@ export const AIInsights: React.FC = () => {
         <div className="flex items-center gap-2">
           <input
             type="text"
-            placeholder="e.g. Which department has the highest number of high-risk projects?"
+            placeholder={t('ai.askAi', 'e.g. Which department has the highest number of high-risk projects?')}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleRunQuery()}
@@ -104,17 +106,17 @@ export const AIInsights: React.FC = () => {
           <button
             onClick={() => handleRunQuery()}
             disabled={!query.trim() || queryLoading}
-            className="px-6 py-3 rounded-2xl bg-[#1A73E8] hover:bg-blue-600 text-white text-xs font-bold shadow-xs transition-all flex items-center gap-2 disabled:opacity-50"
+            className="px-6 py-3 rounded-2xl bg-[#1A73E8] hover:bg-blue-600 text-white text-xs font-bold shadow-xs transition-all flex items-center gap-2 disabled:opacity-50 cursor-pointer"
           >
             {queryLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
-            <span>Analyze</span>
+            <span>{t('ai.submitQuery', 'Analyze')}</span>
           </button>
         </div>
 
         {/* Sample Inquiry Chips */}
         <div className="flex items-center gap-2 flex-wrap text-xs">
           <span className="text-[10px] text-slate-500 font-bold uppercase flex items-center gap-1">
-            <Lightbulb className="w-3 h-3 text-amber-500" /> Suggested:
+            <Lightbulb className="w-3 h-3 text-amber-500" /> {t('ai.suggestedQueries', 'Suggested:')}
           </span>
           {samplePrompts.map((p, i) => (
             <button
@@ -123,7 +125,7 @@ export const AIInsights: React.FC = () => {
                 setQuery(p);
                 handleRunQuery(p);
               }}
-              className="px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-blue-50 text-slate-700 hover:text-[#1A73E8] border border-slate-200/80 text-[11px] font-medium transition-colors"
+              className="px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-blue-50 text-slate-700 hover:text-[#1A73E8] border border-slate-200/80 text-[11px] font-medium transition-colors cursor-pointer"
             >
               {p}
             </button>
@@ -157,7 +159,7 @@ export const AIInsights: React.FC = () => {
 
             {chatResult.projects && chatResult.projects.length > 0 && (
               <div className="space-y-2">
-                <p className="text-[10px] font-bold uppercase text-slate-500">Identified Projects:</p>
+                <p className="text-[10px] font-bold uppercase text-slate-500">{t('dashboard.kpi.totalProjects', 'Identified Projects')}:</p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                   {chatResult.projects.map((p) => (
                     <div
@@ -171,8 +173,8 @@ export const AIInsights: React.FC = () => {
                       </div>
                       <p className="text-[10px] text-slate-500 mt-0.5">{p.departmentName} • {p.location}</p>
                       <div className="mt-2 flex justify-between text-[10px] text-slate-600">
-                        <span>Progress: <strong className="text-slate-800">{p.progressPercentage}%</strong></span>
-                        <span className="font-bold text-rose-600">Risk: {p.riskScore}/100</span>
+                        <span>{t('dashboard.panels.progress', 'Progress')}: <strong className="text-slate-800">{p.progressPercentage}%</strong></span>
+                        <span className="font-bold text-rose-600">{t('dashboard.panels.risk', 'Risk')}: {p.riskScore}/100</span>
                       </div>
                     </div>
                   ))}
@@ -192,8 +194,8 @@ export const AIInsights: React.FC = () => {
               <Clock className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-sm font-bold text-[#0F223D] font-heading">AI Delay Prediction Radar</h3>
-              <p className="text-[11px] text-slate-500">Projects with elevated probability of schedule slippage.</p>
+              <h3 className="text-sm font-bold text-[#0F223D] font-heading">{t('risks.predictedDelays', 'AI Delay Prediction Radar')}</h3>
+              <p className="text-[11px] text-slate-500">{t('risks.subtitle', 'Projects with elevated probability of schedule slippage.')}</p>
             </div>
           </div>
 
@@ -213,7 +215,7 @@ export const AIInsights: React.FC = () => {
                     </div>
                     <div className="text-right shrink-0">
                       <span className="text-sm font-black text-rose-600 font-heading">{estProb}%</span>
-                      <p className="text-[9px] text-slate-400 uppercase font-semibold">Delay Probability</p>
+                      <p className="text-[9px] text-slate-400 uppercase font-semibold">{t('risks.predictedDelays', 'Delay Probability')}</p>
                     </div>
                   </div>
                 </div>
@@ -229,8 +231,8 @@ export const AIInsights: React.FC = () => {
               <Coins className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-sm font-bold text-[#0F223D] font-heading">Earned Value Cost Overrun Forecaster</h3>
-              <p className="text-[11px] text-slate-500">Estimates final project cost (EAC) based on current burn rate.</p>
+              <h3 className="text-sm font-bold text-[#0F223D] font-heading">{t('risks.costOverrunRisk', 'Earned Value Cost Overrun Forecaster')}</h3>
+              <p className="text-[11px] text-slate-500">{t('budget.subtitle', 'Estimates final project cost (EAC) based on current burn rate.')}</p>
             </div>
           </div>
 
@@ -248,12 +250,12 @@ export const AIInsights: React.FC = () => {
                     <div>
                       <span className="text-xs font-bold text-[#0F223D] hover:text-[#1A73E8]">{p.name}</span>
                       <p className="text-[10px] text-slate-500 mt-0.5">
-                        Sanctioned: {formatCurrencyINR(p.allocatedBudget)} • Utilized: {util.toFixed(1)}%
+                        {t('dashboard.budget.sanctioned', 'Sanctioned')}: {formatCurrencyINR(p.allocatedBudget)} • {t('dashboard.budget.utilized', 'Utilized')}: {util.toFixed(1)}%
                       </p>
                     </div>
                     <div className="text-right shrink-0">
                       <span className="text-sm font-black text-amber-600 font-heading">{overrunProb}%</span>
-                      <p className="text-[9px] text-slate-400 uppercase font-semibold">Overrun Probability</p>
+                      <p className="text-[9px] text-slate-400 uppercase font-semibold">{t('risks.costOverrunRisk', 'Overrun Probability')}</p>
                     </div>
                   </div>
                 </div>

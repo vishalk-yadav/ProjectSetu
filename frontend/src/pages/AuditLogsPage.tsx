@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   History,
   Search,
@@ -21,6 +22,7 @@ import { LoadingSpinner } from '../components/common/LoadingSpinner';
 import { Modal } from '../components/common/Modal';
 
 export const AuditLogsPage: React.FC = () => {
+  const { t } = useTranslation();
   const [logs, setLogs] = useState<AuditLogItem[]>([]);
   const [stats, setStats] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -108,19 +110,19 @@ export const AuditLogsPage: React.FC = () => {
           </div>
           <div>
             <h1 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">
-              System Audit Trails & Governance Logs
+              {t('auditLogs.title', 'System Audit Trails & Governance Logs')}
             </h1>
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-              Immutable telemetry record of administrative changes, approvals, user actions, and project modifications.
+              {t('auditLogs.subtitle', 'Immutable telemetry record of administrative changes, approvals, user actions, and project modifications.')}
             </p>
           </div>
         </div>
 
         <button
           onClick={loadData}
-          className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors shrink-0"
+          className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors shrink-0 cursor-pointer"
         >
-          <RefreshCw className="w-3.5 h-3.5" /> Refresh Audit Trail
+          <RefreshCw className="w-3.5 h-3.5" /> {t('common.refresh', 'Refresh Audit Trail')}
         </button>
       </div>
 
@@ -128,27 +130,27 @@ export const AuditLogsPage: React.FC = () => {
       {stats && (
         <div className="grid grid-cols-2 sm:grid-cols-5 gap-3.5">
           <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-xs">
-            <span className="text-xs font-bold text-slate-500">Total Audit Events</span>
+            <span className="text-xs font-bold text-slate-500">{t('auditLogs.title', 'Total Audit Events')}</span>
             <p className="text-2xl font-black text-slate-900 dark:text-white mt-1">{stats.total}</p>
           </div>
 
           <div className="p-4 rounded-2xl bg-indigo-50/60 dark:bg-indigo-950/20 border border-indigo-200/80 dark:border-indigo-800/60 shadow-xs">
-            <span className="text-xs font-bold text-indigo-700 dark:text-indigo-400">User Operations</span>
+            <span className="text-xs font-bold text-indigo-700 dark:text-indigo-400">{t('nav.userManagement', 'User Operations')}</span>
             <p className="text-2xl font-black text-indigo-900 dark:text-indigo-300 mt-1">{stats.userChanges}</p>
           </div>
 
           <div className="p-4 rounded-2xl bg-blue-50/60 dark:bg-blue-950/20 border border-blue-200/80 dark:border-blue-800/60 shadow-xs">
-            <span className="text-xs font-bold text-blue-700 dark:text-blue-400">Project Telemetry</span>
+            <span className="text-xs font-bold text-blue-700 dark:text-blue-400">{t('nav.myProjects', 'Project Telemetry')}</span>
             <p className="text-2xl font-black text-blue-900 dark:text-blue-300 mt-1">{stats.projectChanges}</p>
           </div>
 
           <div className="p-4 rounded-2xl bg-emerald-50/60 dark:bg-emerald-950/20 border border-emerald-200/80 dark:border-emerald-800/60 shadow-xs">
-            <span className="text-xs font-bold text-emerald-700 dark:text-emerald-400">Approval Actions</span>
+            <span className="text-xs font-bold text-emerald-700 dark:text-emerald-400">{t('approvals.title', 'Approval Actions')}</span>
             <p className="text-2xl font-black text-emerald-900 dark:text-emerald-300 mt-1">{stats.approvals}</p>
           </div>
 
           <div className="p-4 rounded-2xl bg-rose-50/60 dark:bg-rose-950/20 border border-rose-200/80 dark:border-rose-800/60 shadow-xs">
-            <span className="text-xs font-bold text-rose-700 dark:text-rose-400">Grievance Actions</span>
+            <span className="text-xs font-bold text-rose-700 dark:text-rose-400">{t('nav.trackGrievances', 'Grievance Actions')}</span>
             <p className="text-2xl font-black text-rose-900 dark:text-rose-300 mt-1">{stats.grievances}</p>
           </div>
         </div>
@@ -160,7 +162,7 @@ export const AuditLogsPage: React.FC = () => {
           <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
           <input
             type="text"
-            placeholder="Search details, user email, action..."
+            placeholder={t('users.searchPlaceholder', 'Search details, user email, action...')}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-purple-500"
@@ -177,7 +179,7 @@ export const AuditLogsPage: React.FC = () => {
             }}
             className="px-2.5 py-1.5 rounded-lg text-xs font-semibold border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-200 focus:outline-none"
           >
-            <option value="ALL">All Entity Types</option>
+            <option value="ALL">{t('auditLogs.allEntities', 'All Entity Types')}</option>
             <option value="USER">User Governance</option>
             <option value="PROJECT">Project Operations</option>
             <option value="APPROVAL">Workflow Approvals</option>
@@ -190,12 +192,12 @@ export const AuditLogsPage: React.FC = () => {
 
       {/* Logs Table */}
       {loading ? (
-        <LoadingSpinner message="Querying tamper-proof audit trail..." />
+        <LoadingSpinner message={t('common.loading', 'Querying tamper-proof audit trail...')} />
       ) : logs.length === 0 ? (
         <div className="p-12 text-center bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800">
           <History className="w-12 h-12 text-slate-300 dark:text-slate-600 mx-auto mb-3" />
-          <h3 className="text-sm font-bold text-slate-700 dark:text-slate-300">No audit records found</h3>
-          <p className="text-xs text-slate-500 mt-1">Adjust your search or filter parameters to explore history.</p>
+          <h3 className="text-sm font-bold text-slate-700 dark:text-slate-300">{t('common.noData', 'No audit records found')}</h3>
+          <p className="text-xs text-slate-500 mt-1">{t('projects.noProjects', 'Adjust your search or filter parameters to explore history.')}</p>
         </div>
       ) : (
         <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xs overflow-hidden">
@@ -203,13 +205,13 @@ export const AuditLogsPage: React.FC = () => {
             <table className="w-full text-left text-xs">
               <thead className="bg-slate-50 dark:bg-slate-800/80 text-slate-600 dark:text-slate-400 uppercase font-extrabold text-[10px] tracking-wider border-b border-slate-200 dark:border-slate-800">
                 <tr>
-                  <th className="px-4 py-3.5">Timestamp</th>
-                  <th className="px-4 py-3.5">Actor / Officer</th>
-                  <th className="px-4 py-3.5">Action Type</th>
-                  <th className="px-4 py-3.5">Entity</th>
-                  <th className="px-4 py-3.5">Details</th>
-                  <th className="px-4 py-3.5">IP Address</th>
-                  <th className="px-4 py-3.5 text-right">Inspect</th>
+                  <th className="px-4 py-3.5">{t('auditLogs.timestamp', 'Timestamp')}</th>
+                  <th className="px-4 py-3.5">{t('auditLogs.user', 'Actor / Officer')}</th>
+                  <th className="px-4 py-3.5">{t('auditLogs.action', 'Action Type')}</th>
+                  <th className="px-4 py-3.5">{t('auditLogs.entity', 'Entity')}</th>
+                  <th className="px-4 py-3.5">{t('auditLogs.details', 'Details')}</th>
+                  <th className="px-4 py-3.5">{t('auditLogs.ipAddress', 'IP Address')}</th>
+                  <th className="px-4 py-3.5 text-right">{t('common.action', 'Inspect')}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 dark:divide-slate-800 font-medium text-slate-700 dark:text-slate-300">
@@ -254,7 +256,7 @@ export const AuditLogsPage: React.FC = () => {
                       <button
                         onClick={() => setSelectedLog(log)}
                         className="p-1.5 rounded-lg text-purple-600 hover:bg-purple-50 dark:hover:bg-purple-950/50 transition-colors cursor-pointer"
-                        title="View Full Audit Payload"
+                        title={t('common.viewDetails', 'View Full Audit Payload')}
                       >
                         <Eye className="w-3.5 h-3.5" />
                       </button>
@@ -273,16 +275,16 @@ export const AuditLogsPage: React.FC = () => {
                 <button
                   disabled={page <= 1}
                   onClick={() => setPage((p) => Math.max(1, p - 1))}
-                  className="px-2.5 py-1 rounded-lg border border-slate-200 dark:border-slate-700 disabled:opacity-40"
+                  className="px-2.5 py-1 rounded-lg border border-slate-200 dark:border-slate-700 disabled:opacity-40 cursor-pointer"
                 >
-                  Previous
+                  {t('common.previous', 'Previous')}
                 </button>
                 <button
                   disabled={page >= pagination.totalPages}
                   onClick={() => setPage((p) => p + 1)}
-                  className="px-2.5 py-1 rounded-lg border border-slate-200 dark:border-slate-700 disabled:opacity-40"
+                  className="px-2.5 py-1 rounded-lg border border-slate-200 dark:border-slate-700 disabled:opacity-40 cursor-pointer"
                 >
-                  Next
+                  {t('common.next', 'Next')}
                 </button>
               </div>
             </div>
@@ -294,7 +296,7 @@ export const AuditLogsPage: React.FC = () => {
       <Modal
         isOpen={!!selectedLog}
         onClose={() => setSelectedLog(null)}
-        title="Audit Event Details"
+        title={t('auditLogs.details', 'Audit Event Details')}
       >
         {selectedLog && (
           <div className="space-y-3.5 text-xs">
@@ -303,14 +305,14 @@ export const AuditLogsPage: React.FC = () => {
                 {getActionBadge(selectedLog.action)}
                 <span className="font-mono text-slate-400 text-[11px]">{new Date(selectedLog.createdAt).toLocaleString()}</span>
               </div>
-              <p className="font-bold text-slate-800 dark:text-slate-200">Actor: {selectedLog.userName} ({selectedLog.userEmail})</p>
-              <p className="text-slate-500">Role: <strong>{selectedLog.role}</strong> | Entity: <strong>{selectedLog.entityType}</strong> {selectedLog.entityId ? `[${selectedLog.entityId}]` : ''}</p>
-              <p className="text-slate-500">Origin IP: <strong className="font-mono">{selectedLog.ipAddress}</strong></p>
+              <p className="font-bold text-slate-800 dark:text-slate-200">{t('auditLogs.user', 'Actor')}: {selectedLog.userName} ({selectedLog.userEmail})</p>
+              <p className="text-slate-500">{t('users.userRole', 'Role')}: <strong>{selectedLog.role}</strong> | {t('auditLogs.entity', 'Entity')}: <strong>{selectedLog.entityType}</strong> {selectedLog.entityId ? `[${selectedLog.entityId}]` : ''}</p>
+              <p className="text-slate-500">{t('auditLogs.ipAddress', 'Origin IP')}: <strong className="font-mono">{selectedLog.ipAddress}</strong></p>
             </div>
 
             <div>
               <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
-                Detailed Activity Description
+                {t('auditLogs.details', 'Detailed Activity Description')}
               </label>
               <div className="p-3 bg-slate-900 text-slate-100 rounded-xl font-mono text-xs whitespace-pre-wrap">
                 {selectedLog.details}
@@ -321,9 +323,9 @@ export const AuditLogsPage: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setSelectedLog(null)}
-                className="px-4 py-2 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-bold"
+                className="px-4 py-2 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-bold cursor-pointer"
               >
-                Close
+                {t('common.cancel', 'Close')}
               </button>
             </div>
           </div>

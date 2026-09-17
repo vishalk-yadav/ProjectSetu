@@ -16,12 +16,14 @@ import {
   Sun,
   Moon,
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { useAuth, DEMO_USERS } from '../../context/AuthContext';
 import { useNotifications } from '../../context/NotificationContext';
 import { useTheme } from '../../context/ThemeContext';
 import { searchApi } from '../../api/reportApi';
 import { UserRole } from '../../types';
 import { cn } from '../../utils/cn';
+import { LanguageSelector } from '../common/LanguageSelector';
 
 interface TopNavProps {
   setMobileOpen: (open: boolean) => void;
@@ -29,6 +31,7 @@ interface TopNavProps {
 }
 
 export const TopNav: React.FC<TopNavProps> = ({ setMobileOpen, onOpenAIChat }) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { user, logout, quickLogin } = useAuth();
   const { notifications, unreadCount, markAsRead, markAllAsRead } = useNotifications();
@@ -113,12 +116,12 @@ export const TopNav: React.FC<TopNavProps> = ({ setMobileOpen, onOpenAIChat }) =
           {/* Mobile-only Logo */}
           <div className="flex md:hidden items-center gap-2">
             <img
-              src="/assets/ashoka-emblem.png"
-              alt="State Emblem of India"
+              src="/assets/projectsetu-mark.png"
+              alt="ProjectSetu Logo"
               className="h-8 w-auto object-contain"
             />
             <span className="text-sm font-extrabold tracking-tight text-[#0F223D] dark:text-white">
-              Project<span className="text-[#1A73E8]">Setu</span>
+              Project<span className="text-[#FF6B00]">Setu</span>
             </span>
           </div>
 
@@ -127,10 +130,10 @@ export const TopNav: React.FC<TopNavProps> = ({ setMobileOpen, onOpenAIChat }) =
             <div className="px-3 py-1 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/80 flex items-center gap-2 shadow-2xs">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
               <span className="text-[11px] font-bold text-[#0F223D] dark:text-slate-200 tracking-tight">
-                National Governance Surveillance Network
+                {t('common.surveillanceNetwork', 'National Governance Surveillance Network')}
               </span>
               <span className="text-[9px] px-1.5 py-0.5 rounded font-black bg-blue-50 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 border border-blue-100 dark:border-blue-800/60 uppercase">
-                GOVT OF INDIA
+                {t('common.govtOfIndia', 'GOVT OF INDIA')}
               </span>
             </div>
           </div>
@@ -142,7 +145,7 @@ export const TopNav: React.FC<TopNavProps> = ({ setMobileOpen, onOpenAIChat }) =
             <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
             <input
               type="text"
-              placeholder="Search projects, departments, officers, locations..."
+              placeholder={t('common.searchPlaceholder', 'Search projects, departments, officers, locations...')}
               value={searchQuery}
               onFocus={() => setShowSearchModal(true)}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -156,14 +159,14 @@ export const TopNav: React.FC<TopNavProps> = ({ setMobileOpen, onOpenAIChat }) =
           </div>
         </div>
 
-        {/* Right: Notifications + Theme + Digital India + Profile */}
+        {/* Right: Notifications + Theme + Language + Digital India + Profile */}
         <div className="flex items-center gap-2 sm:gap-3">
           {/* Notification Center Trigger & Dropdown */}
           <div className="relative" ref={notifRef}>
             <button
               onClick={() => setShowNotifs(!showNotifs)}
               className="relative p-2 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors cursor-pointer"
-              title="Notifications"
+              title={t('header.notifications', 'Notifications')}
             >
               <Bell className="w-5 h-5" />
               {unreadCount > 0 && (
@@ -178,10 +181,10 @@ export const TopNav: React.FC<TopNavProps> = ({ setMobileOpen, onOpenAIChat }) =
               <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-white border border-slate-200 rounded-2xl shadow-2xl overflow-hidden z-50 animate-in fade-in zoom-in-95 duration-100">
                 <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/70">
                   <div className="flex items-center gap-2">
-                    <h4 className="text-sm font-bold text-[#0F223D]">Smart Alerts</h4>
+                    <h4 className="text-sm font-bold text-[#0F223D]">{t('header.notifications', 'Smart Alerts')}</h4>
                     {unreadCount > 0 && (
                       <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-100 text-rose-700">
-                        {unreadCount} New
+                        {t('header.newNotifications', '{{count}} New', { count: unreadCount })}
                       </span>
                     )}
                   </div>
@@ -190,7 +193,7 @@ export const TopNav: React.FC<TopNavProps> = ({ setMobileOpen, onOpenAIChat }) =
                       onClick={() => markAllAsRead()}
                       className="text-xs text-blue-600 hover:text-blue-700 font-medium cursor-pointer"
                     >
-                      Mark all read
+                      {t('header.markAllRead', 'Mark all read')}
                     </button>
                   )}
                 </div>
@@ -198,7 +201,7 @@ export const TopNav: React.FC<TopNavProps> = ({ setMobileOpen, onOpenAIChat }) =
                 <div className="max-h-80 overflow-y-auto divide-y divide-slate-100">
                   {notifications.length === 0 ? (
                     <div className="p-8 text-center text-xs text-slate-400">
-                      No notifications at this time.
+                      {t('header.noNotifications', 'No notifications at this time.')}
                     </div>
                   ) : (
                     notifications.map((n) => (
@@ -239,7 +242,7 @@ export const TopNav: React.FC<TopNavProps> = ({ setMobileOpen, onOpenAIChat }) =
                     }}
                     className="text-xs font-semibold text-blue-600 hover:text-blue-700 cursor-pointer"
                   >
-                    View All Notifications
+                    {t('common.viewAll', 'View All Notifications')}
                   </button>
                 </div>
               </div>
@@ -251,7 +254,7 @@ export const TopNav: React.FC<TopNavProps> = ({ setMobileOpen, onOpenAIChat }) =
             type="button"
             onClick={toggleTheme}
             className="p-2 rounded-xl text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-colors cursor-pointer"
-            title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+            title={theme === 'dark' ? t('header.themeLight', 'Switch to Light Mode') : t('header.themeDark', 'Switch to Dark Mode')}
             aria-label="Toggle theme"
           >
             {theme === 'dark' ? (
@@ -260,6 +263,9 @@ export const TopNav: React.FC<TopNavProps> = ({ setMobileOpen, onOpenAIChat }) =
               <Moon className="w-5 h-5 text-slate-600" />
             )}
           </button>
+
+          {/* Global Language Selector */}
+          <LanguageSelector variant="nav" />
 
           {/* Digital India Flag Banner */}
           <div className="hidden xl:flex items-center gap-2 pl-1 border-l border-slate-200">
@@ -272,10 +278,10 @@ export const TopNav: React.FC<TopNavProps> = ({ setMobileOpen, onOpenAIChat }) =
             </div>
             <div className="flex flex-col">
               <span className="text-[11px] font-extrabold text-[#0F223D] leading-tight">
-                Digital India
+                {t('common.digitalIndia', 'Digital India')}
               </span>
               <span className="text-[9px] text-slate-500 leading-none">
-                for a Stronger Tomorrow
+                {t('common.strongerTomorrow', 'for a Stronger Tomorrow')}
               </span>
             </div>
           </div>
@@ -320,7 +326,7 @@ export const TopNav: React.FC<TopNavProps> = ({ setMobileOpen, onOpenAIChat }) =
                 {/* 1-Click Role Switcher for Hackathon Testing */}
                 <div className="p-3 border-b border-slate-100">
                   <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2 px-1">
-                    ⚡ 1-Click Role Switcher (SIH Demo)
+                    {t('header.roleSwitcherTitle', '⚡ 1-Click Role Switcher (SIH Demo)')}
                   </p>
                   <div className="space-y-1">
                     {(Object.keys(DEMO_USERS) as UserRole[]).map((r) => (
@@ -355,7 +361,7 @@ export const TopNav: React.FC<TopNavProps> = ({ setMobileOpen, onOpenAIChat }) =
                     className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold text-rose-600 hover:bg-rose-50 transition-colors cursor-pointer"
                   >
                     <LogOut className="w-4 h-4" />
-                    Sign Out
+                    {t('header.logout', 'Sign Out')}
                   </button>
                 </div>
               </div>

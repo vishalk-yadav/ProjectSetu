@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { MapPin, Filter, Layers, AlertTriangle, ShieldCheck, Eye } from 'lucide-react';
 import { projectApi } from '../api/projectApi';
 import { departmentApi } from '../api/departmentApi';
@@ -8,6 +9,7 @@ import { LoadingSpinner } from '../components/common/LoadingSpinner';
 import { ProjectMapComponent } from '../components/map/ProjectMapComponent';
 
 export const ProjectMapPage: React.FC = () => {
+  const { t } = useTranslation();
   const [projects, setProjects] = useState<Project[]>([]);
   const [grievances, setGrievances] = useState<Complaint[]>([]);
   const [departments, setDepartments] = useState<Department[]>([]);
@@ -62,14 +64,14 @@ export const ProjectMapPage: React.FC = () => {
         <div>
           <div className="flex items-center gap-2">
             <h1 className="text-2xl font-black text-[#0F223D] dark:text-white font-heading tracking-tight">
-              Interactive Geospatial Project & Grievance Map
+              {t('map.title')}
             </h1>
             <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-50 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300 border border-emerald-200/80 dark:border-emerald-800">
               ALL-INDIA GIS
             </span>
           </div>
           <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-            Real-time geolocated pins showing infrastructure project progress, ministry jurisdictions, and on-ground citizen-reported issues.
+            {t('map.subtitle')}
           </p>
         </div>
 
@@ -85,7 +87,7 @@ export const ProjectMapPage: React.FC = () => {
                   : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
               }`}
             >
-              All Layers ({projects.length + grievances.length})
+              {t('common.all')} ({projects.length + grievances.length})
             </button>
             <button
               onClick={() => setActiveLayer('PROJECTS')}
@@ -95,7 +97,7 @@ export const ProjectMapPage: React.FC = () => {
                   : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
               }`}
             >
-              Projects ({projects.length})
+              {t('nav.projects')} ({projects.length})
             </button>
             <button
               onClick={() => setActiveLayer('GRIEVANCES')}
@@ -105,7 +107,7 @@ export const ProjectMapPage: React.FC = () => {
                   : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
               }`}
             >
-              Citizen Issues ({grievances.length})
+              {t('nav.complaints')} ({grievances.length})
             </button>
           </div>
 
@@ -116,7 +118,7 @@ export const ProjectMapPage: React.FC = () => {
                 onChange={(e) => setSelectedDept(e.target.value)}
                 className="px-3.5 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-xs text-slate-800 dark:text-slate-200 font-semibold focus:outline-none focus:border-blue-500 shadow-2xs"
               >
-                <option value="">All Ministries ({departments.length})</option>
+                <option value="">{t('departments.allMinistries')} ({departments.length})</option>
                 {departments.map((d) => (
                   <option key={d.id} value={d.id}>{d.code} - {d.name}</option>
                 ))}
@@ -127,10 +129,10 @@ export const ProjectMapPage: React.FC = () => {
                 onChange={(e) => setSelectedRisk(e.target.value)}
                 className="px-3.5 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-xs text-slate-800 dark:text-slate-200 font-semibold focus:outline-none focus:border-blue-500 shadow-2xs"
               >
-                <option value="">All Risk Tiers</option>
-                <option value="HIGH">High / Critical Risk (61+)</option>
-                <option value="MODERATE">Moderate Risk (31-60)</option>
-                <option value="LOW">Low Risk (0-30)</option>
+                <option value="">{t('common.all')} {t('departments.riskRating')}</option>
+                <option value="HIGH">{t('common.high')} / {t('common.critical')}</option>
+                <option value="MODERATE">{t('common.medium')}</option>
+                <option value="LOW">{t('common.low')}</option>
               </select>
             </>
           )}
@@ -163,37 +165,37 @@ export const ProjectMapPage: React.FC = () => {
       {/* Legend & Summary Info */}
       <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-2xs flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 text-xs">
         <div className="flex items-center gap-4 flex-wrap">
-          <span className="font-bold text-[#0F223D] dark:text-white">Marker Legend:</span>
+          <span className="font-bold text-[#0F223D] dark:text-white">{t('map.legendTitle')}:</span>
           
           <div className="flex items-center gap-3 border-r border-slate-200 dark:border-slate-800 pr-4">
-            <span className="text-slate-500 font-bold uppercase text-[10px]">Projects (Circles):</span>
+            <span className="text-slate-500 font-bold uppercase text-[10px]">{t('nav.projects')} (Circles):</span>
             <span className="flex items-center gap-1.5 text-slate-600 dark:text-slate-300 font-medium">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block shadow-2xs" /> Normal
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block shadow-2xs" /> {t('common.low')}
             </span>
             <span className="flex items-center gap-1.5 text-slate-600 dark:text-slate-300 font-medium">
-              <span className="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block shadow-2xs" /> Moderate
+              <span className="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block shadow-2xs" /> {t('common.medium')}
             </span>
             <span className="flex items-center gap-1.5 text-slate-600 dark:text-slate-300 font-medium">
-              <span className="w-2.5 h-2.5 rounded-full bg-rose-500 inline-block shadow-2xs" /> High Risk
+              <span className="w-2.5 h-2.5 rounded-full bg-rose-500 inline-block shadow-2xs" /> {t('common.critical')}
             </span>
           </div>
 
           <div className="flex items-center gap-3">
-            <span className="text-slate-500 font-bold uppercase text-[10px]">Citizen Reports (Diamonds):</span>
+            <span className="text-slate-500 font-bold uppercase text-[10px]">{t('nav.complaints')} (Diamonds):</span>
             <span className="flex items-center gap-1.5 text-slate-600 dark:text-slate-300 font-medium">
-              <span className="w-2.5 h-2.5 rounded-sm bg-rose-600 rotate-45 inline-block" /> Critical
+              <span className="w-2.5 h-2.5 rounded-sm bg-rose-600 rotate-45 inline-block" /> {t('common.critical')}
             </span>
             <span className="flex items-center gap-1.5 text-slate-600 dark:text-slate-300 font-medium">
-              <span className="w-2.5 h-2.5 rounded-sm bg-amber-500 rotate-45 inline-block" /> High / Medium
+              <span className="w-2.5 h-2.5 rounded-sm bg-amber-500 rotate-45 inline-block" /> {t('common.high')} / {t('common.medium')}
             </span>
             <span className="flex items-center gap-1.5 text-slate-600 dark:text-slate-300 font-medium">
-              <span className="w-2.5 h-2.5 rounded-sm bg-emerald-600 rotate-45 inline-block" /> Resolved
+              <span className="w-2.5 h-2.5 rounded-sm bg-emerald-600 rotate-45 inline-block" /> {t('common.completed')}
             </span>
           </div>
         </div>
 
         <span className="text-slate-500 dark:text-slate-400 font-medium">
-          Showing <strong className="text-slate-800 dark:text-slate-200">{filteredProjects.length}</strong> Projects & <strong className="text-slate-800 dark:text-slate-200">{filteredGrievances.length}</strong> Citizen Reports
+          Showing <strong className="text-slate-800 dark:text-slate-200">{filteredProjects.length}</strong> {t('nav.projects')} & <strong className="text-slate-800 dark:text-slate-200">{filteredGrievances.length}</strong> {t('nav.complaints')}
         </span>
       </div>
     </div>

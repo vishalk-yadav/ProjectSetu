@@ -37,6 +37,7 @@ import {
   ResponsiveContainer,
   LabelList,
 } from 'recharts';
+import { useTranslation } from 'react-i18next';
 import { projectApi } from '../api/projectApi';
 import { departmentApi } from '../api/departmentApi';
 import { LoadingSpinner } from '../components/common/LoadingSpinner';
@@ -44,6 +45,7 @@ import { CreateProjectModal } from '../components/projects/CreateProjectModal';
 import { useAuth } from '../context/AuthContext';
 
 export const Dashboard: React.FC = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { user, isSuperAdmin, isDeptAdmin, isProjectManager, isCitizen, canSanctionProjects } = useAuth();
   const [stats, setStats] = useState<any>(null);
@@ -67,30 +69,30 @@ export const Dashboard: React.FC = () => {
   }, []);
 
   if (loading || !stats) {
-    return <LoadingSpinner message="Aggregating multi-department telemetries & budgets..." />;
+    return <LoadingSpinner message={t('dashboard.loading', 'Aggregating multi-department telemetries & budgets...')} />;
   }
 
   // Sanctioned vs Utilized Outlay data matching the mockup
   const outlayData = [
-    { name: 'Sanctioned', value: 8327, displayValue: '8,327', color: '#1A73E8' },
-    { name: 'Utilized', value: 5512, displayValue: '5,512', color: '#10B981' },
-    { name: 'Remaining', value: 2815, displayValue: '2,815', color: '#F59E0B' },
+    { name: t('dashboard.budget.sanctioned', 'Sanctioned'), value: 8327, displayValue: '8,327', color: '#1A73E8' },
+    { name: t('dashboard.budget.utilized', 'Utilized'), value: 5512, displayValue: '5,512', color: '#10B981' },
+    { name: t('dashboard.budget.remaining', 'Remaining'), value: 2815, displayValue: '2,815', color: '#F59E0B' },
   ];
 
   // Project Status Distribution donut data
   const statusChartData = [
-    { name: 'In Progress', count: 14, pct: '66.7', color: '#1A73E8' },
-    { name: 'Completed', count: 2, pct: '9.5', color: '#10B981' },
-    { name: 'Delayed', count: 2, pct: '9.5', color: '#EF4444' },
-    { name: 'Not Started', count: 3, pct: '14.3', color: '#94A3B8' },
+    { name: t('dashboard.status.inProgress', 'In Progress'), count: 14, pct: '66.7', color: '#1A73E8' },
+    { name: t('dashboard.status.completed', 'Completed'), count: 2, pct: '9.5', color: '#10B981' },
+    { name: t('dashboard.status.delayed', 'Delayed'), count: 2, pct: '9.5', color: '#EF4444' },
+    { name: t('dashboard.status.notStarted', 'Not Started'), count: 3, pct: '14.3', color: '#94A3B8' },
   ];
 
   // Project Health Overview donut data
   const healthChartData = [
-    { name: 'Healthy (0-30)', count: 9, pct: '42.9', color: '#10B981' },
-    { name: 'Moderate (31-60)', count: 7, pct: '33.3', color: '#F59E0B' },
-    { name: 'High Risk (61-80)', count: 3, pct: '14.3', color: '#F97316' },
-    { name: 'Critical (81-100)', count: 2, pct: '9.5', color: '#EF4444' },
+    { name: t('dashboard.riskLevels.healthy', 'Healthy (0-30)'), count: 9, pct: '42.9', color: '#10B981' },
+    { name: t('dashboard.riskLevels.moderate', 'Moderate (31-60)'), count: 7, pct: '33.3', color: '#F59E0B' },
+    { name: t('dashboard.riskLevels.highRisk', 'High Risk (61-80)'), count: 3, pct: '14.3', color: '#F97316' },
+    { name: t('dashboard.riskLevels.critical', 'Critical (81-100)'), count: 2, pct: '9.5', color: '#EF4444' },
   ];
 
   // Department Performance Index
@@ -149,33 +151,33 @@ export const Dashboard: React.FC = () => {
   // Live Activity Feed
   const activityFeed = [
     {
-      title: 'New project sanctioned',
+      title: t('dashboard.activity.newSanctioned', 'New project sanctioned'),
       subtitle: 'Delhi-Meerut RRTS Extension',
-      time: '10 min ago',
+      time: t('dashboard.activity.time10m', '10 min ago'),
       color: 'bg-emerald-500',
     },
     {
-      title: 'Progress update submitted',
+      title: t('dashboard.activity.progressUpdate', 'Progress update submitted'),
       subtitle: 'Mumbai Coastal Road Package 2',
-      time: '32 min ago',
+      time: t('dashboard.activity.time32m', '32 min ago'),
       color: 'bg-amber-500',
     },
     {
-      title: 'Risk alert triggered',
+      title: t('dashboard.activity.riskAlert', 'Risk alert triggered'),
       subtitle: 'Eastern Dedicated Freight Corridor',
-      time: '1 hour ago',
+      time: t('dashboard.activity.time1h', '1 hour ago'),
       color: 'bg-rose-500',
     },
     {
-      title: 'Department meeting scheduled',
+      title: t('dashboard.activity.deptMeeting', 'Department meeting scheduled'),
       subtitle: 'Ministry of Power',
-      time: '2 hours ago',
+      time: t('dashboard.activity.time2h', '2 hours ago'),
       color: 'bg-purple-500',
     },
     {
-      title: 'Project milestone achieved',
+      title: t('dashboard.activity.milestoneAchieved', 'Project milestone achieved'),
       subtitle: 'Atal Tunnel – Phase II',
-      time: '3 hours ago',
+      time: t('dashboard.activity.time3h', '3 hours ago'),
       color: 'bg-blue-500',
     },
   ];
@@ -215,39 +217,39 @@ export const Dashboard: React.FC = () => {
                 {user?.role?.replace('_', ' ') || 'OFFICER'}
               </span>
               <h2 className="text-sm font-black text-slate-900 dark:text-white">
-                {isSuperAdmin && 'Super Admin Command Center: Full System Governance'}
-                {isDeptAdmin && `Department Command Center: ${user?.department?.name || 'Ministry Level'}`}
-                {isProjectManager && 'Project Manager Workspace: Track & Execute Assigned Infrastructure'}
-                {isCitizen && 'Citizen Portal: Stay Informed, Inspect Infrastructure & Raise Concerns'}
+                {isSuperAdmin && t('dashboard.roles.superAdminTitle', 'Super Admin Command Center: Full System Governance')}
+                {isDeptAdmin && t('dashboard.roles.deptAdminTitle', 'Department Command Center: {{dept}}', { dept: user?.department?.name || 'Ministry Level' })}
+                {isProjectManager && t('dashboard.roles.pmTitle', 'Project Manager Workspace: Track & Execute Assigned Infrastructure')}
+                {isCitizen && t('dashboard.roles.citizenTitle', 'Citizen Portal: Stay Informed, Inspect Infrastructure & Raise Concerns')}
               </h2>
             </div>
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-              Welcome back, <strong>{user?.name}</strong>. Authenticated with verified role permissions.
+              {t('dashboard.roles.welcomeBack', 'Welcome back')}, <strong>{user?.name}</strong>. {t('dashboard.roles.authPermissions', 'Authenticated with verified role permissions.')}
             </p>
           </div>
         </div>
 
-        {/* Role Quick Links Pill Strip */}
-        <div className="flex flex-wrap items-center gap-1.5 shrink-0">
+        {/* Role Quick Links Pill Strip + Dashboard Language Selector */}
+        <div className="flex flex-wrap items-center gap-2 shrink-0">
           {isSuperAdmin && (
             <>
               <button
                 onClick={() => navigate('/users')}
                 className="px-3 py-1.5 rounded-xl bg-purple-50 dark:bg-purple-950/60 hover:bg-purple-100 dark:hover:bg-purple-900/60 text-purple-700 dark:text-purple-300 text-xs font-bold border border-purple-200 dark:border-purple-800 transition-colors flex items-center gap-1.5 cursor-pointer"
               >
-                <Users className="w-3.5 h-3.5" /> User Governance
+                <Users className="w-3.5 h-3.5" /> {t('dashboard.navLinks.userGovernance', 'User Governance')}
               </button>
               <button
                 onClick={() => navigate('/approvals')}
                 className="px-3 py-1.5 rounded-xl bg-blue-50 dark:bg-blue-950/60 hover:bg-blue-100 dark:hover:bg-blue-900/60 text-blue-700 dark:text-blue-300 text-xs font-bold border border-blue-200 dark:border-blue-800 transition-colors flex items-center gap-1.5 cursor-pointer"
               >
-                <CheckSquare className="w-3.5 h-3.5" /> Approvals
+                <CheckSquare className="w-3.5 h-3.5" /> {t('dashboard.navLinks.approvals', 'Approvals')}
               </button>
               <button
                 onClick={() => navigate('/audit-logs')}
                 className="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold transition-colors flex items-center gap-1.5 cursor-pointer"
               >
-                <History className="w-3.5 h-3.5" /> Audit Logs
+                <History className="w-3.5 h-3.5" /> {t('dashboard.navLinks.auditLogs', 'Audit Logs')}
               </button>
             </>
           )}
@@ -258,19 +260,19 @@ export const Dashboard: React.FC = () => {
                 onClick={() => navigate('/approvals')}
                 className="px-3 py-1.5 rounded-xl bg-blue-600 text-white hover:bg-blue-700 text-xs font-bold shadow-xs transition-colors flex items-center gap-1.5 cursor-pointer"
               >
-                <CheckSquare className="w-3.5 h-3.5" /> Review Approvals
+                <CheckSquare className="w-3.5 h-3.5" /> {t('dashboard.navLinks.reviewApprovals', 'Review Approvals')}
               </button>
               <button
                 onClick={() => navigate('/users')}
                 className="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold transition-colors flex items-center gap-1.5 cursor-pointer"
               >
-                <Users className="w-3.5 h-3.5" /> Assign PMs
+                <Users className="w-3.5 h-3.5" /> {t('dashboard.navLinks.assignPms', 'Assign PMs')}
               </button>
               <button
                 onClick={() => navigate('/risks')}
                 className="px-3 py-1.5 rounded-xl bg-rose-50 dark:bg-rose-950/50 hover:bg-rose-100 text-rose-700 dark:text-rose-300 text-xs font-bold border border-rose-200 dark:border-rose-800 transition-colors flex items-center gap-1.5 cursor-pointer"
               >
-                <ShieldAlert className="w-3.5 h-3.5" /> Delay Alerts
+                <ShieldAlert className="w-3.5 h-3.5" /> {t('dashboard.navLinks.delayAlerts', 'Delay Alerts')}
               </button>
             </>
           )}
@@ -281,19 +283,19 @@ export const Dashboard: React.FC = () => {
                 onClick={() => navigate('/milestones')}
                 className="px-3 py-1.5 rounded-xl bg-emerald-600 text-white hover:bg-emerald-700 text-xs font-bold shadow-xs transition-colors flex items-center gap-1.5 cursor-pointer"
               >
-                <CheckCircle2 className="w-3.5 h-3.5" /> Milestones & Gantt
+                <CheckCircle2 className="w-3.5 h-3.5" /> {t('dashboard.navLinks.milestonesGantt', 'Milestones & Gantt')}
               </button>
               <button
                 onClick={() => navigate('/budget')}
                 className="px-3 py-1.5 rounded-xl bg-amber-50 dark:bg-amber-950/50 hover:bg-amber-100 text-amber-700 dark:text-amber-300 text-xs font-bold border border-amber-200 dark:border-amber-800 transition-colors flex items-center gap-1.5 cursor-pointer"
               >
-                <FolderKanban className="w-3.5 h-3.5" /> Budget & Spend
+                <FolderKanban className="w-3.5 h-3.5" /> {t('dashboard.navLinks.budgetSpend', 'Budget & Spend')}
               </button>
               <button
                 onClick={() => navigate('/risks')}
                 className="px-3 py-1.5 rounded-xl bg-rose-50 dark:bg-rose-950/50 hover:bg-rose-100 text-rose-700 dark:text-rose-300 text-xs font-bold border border-rose-200 dark:border-rose-800 transition-colors flex items-center gap-1.5 cursor-pointer"
               >
-                <ShieldAlert className="w-3.5 h-3.5" /> Raise Alert
+                <ShieldAlert className="w-3.5 h-3.5" /> {t('dashboard.navLinks.raiseAlert', 'Raise Alert')}
               </button>
             </>
           )}
@@ -303,7 +305,7 @@ export const Dashboard: React.FC = () => {
               onClick={() => navigate('/citizen')}
               className="px-4 py-2 rounded-xl bg-[#1A73E8] text-white hover:bg-blue-700 text-xs font-bold shadow-sm transition-colors flex items-center gap-1.5 cursor-pointer"
             >
-              <Globe className="w-3.5 h-3.5" /> Open Citizen Portal
+              <Globe className="w-3.5 h-3.5" /> {t('dashboard.navLinks.openCitizenPortal', 'Open Citizen Portal')}
             </button>
           )}
         </div>
@@ -322,7 +324,7 @@ export const Dashboard: React.FC = () => {
 
         {/* Quick Actions (3 cols) */}
         <div className="lg:col-span-3 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-2xs p-4 sm:p-5 flex flex-col justify-between">
-          <h3 className="text-sm font-bold text-[#0F223D] dark:text-slate-100 mb-3">Quick Actions</h3>
+          <h3 className="text-sm font-bold text-[#0F223D] dark:text-slate-100 mb-3">{t('dashboard.quickActions.title', 'Quick Actions')}</h3>
 
           <div className="grid grid-cols-2 gap-2.5">
             {/* 1. Sanction Project (Admins only) or Track Projects (PMs) */}
@@ -332,7 +334,7 @@ export const Dashboard: React.FC = () => {
                 className="bg-[#1A73E8] hover:bg-blue-600 text-white rounded-xl py-2.5 px-3 flex items-center justify-center gap-1.5 text-xs font-bold shadow-xs transition-all cursor-pointer"
               >
                 <Plus className="w-3.5 h-3.5" />
-                <span>Sanction Project</span>
+                <span>{t('dashboard.quickActions.sanctionProject', 'Sanction Project')}</span>
               </button>
             ) : (
               <button
@@ -340,7 +342,7 @@ export const Dashboard: React.FC = () => {
                 className="bg-[#1A73E8] hover:bg-blue-600 text-white rounded-xl py-2.5 px-3 flex items-center justify-center gap-1.5 text-xs font-bold shadow-xs transition-all cursor-pointer"
               >
                 <FolderKanban className="w-3.5 h-3.5" />
-                <span>Track Projects</span>
+                <span>{t('dashboard.quickActions.trackProjects', 'Track Projects')}</span>
               </button>
             )}
 
@@ -350,7 +352,7 @@ export const Dashboard: React.FC = () => {
               className="bg-[#EBF5FF] dark:bg-blue-950/40 hover:bg-blue-100 dark:hover:bg-blue-900/50 text-[#0284C7] dark:text-blue-300 rounded-xl py-2.5 px-3 flex items-center justify-center gap-1.5 text-xs font-bold border border-blue-100 dark:border-blue-900/60 transition-all cursor-pointer"
             >
               <FileSpreadsheet className="w-3.5 h-3.5" />
-              <span>Generate Report</span>
+              <span>{t('dashboard.quickActions.generateReport', 'Generate Report')}</span>
             </button>
 
             {/* 3. View Map */}
@@ -359,7 +361,7 @@ export const Dashboard: React.FC = () => {
               className="bg-[#E8F8F0] dark:bg-emerald-950/40 hover:bg-emerald-100 dark:hover:bg-emerald-900/50 text-[#0D9488] dark:text-emerald-300 rounded-xl py-2.5 px-3 flex items-center justify-center gap-1.5 text-xs font-bold border border-emerald-100 dark:border-emerald-900/60 transition-all cursor-pointer"
             >
               <MapPin className="w-3.5 h-3.5" />
-              <span>View Map</span>
+              <span>{t('dashboard.quickActions.viewMap', 'View Map')}</span>
             </button>
 
             {/* 4. AI Assistant */}
@@ -368,7 +370,7 @@ export const Dashboard: React.FC = () => {
               className="bg-[#FFF8EB] dark:bg-amber-950/40 hover:bg-amber-100 dark:hover:bg-amber-900/50 text-[#D97706] dark:text-amber-300 rounded-xl py-2.5 px-3 flex items-center justify-center gap-1.5 text-xs font-bold border border-amber-100 dark:border-amber-900/60 transition-all cursor-pointer"
             >
               <Sparkles className="w-3.5 h-3.5" />
-              <span>AI Assistant</span>
+              <span>{t('dashboard.quickActions.aiAssistant', 'AI Assistant')}</span>
             </button>
 
             {/* 5. Project Grievance / Complain - Directly accessible for Citizens & Stakeholders */}
@@ -377,7 +379,7 @@ export const Dashboard: React.FC = () => {
               className="col-span-2 bg-[#FFF1F2] dark:bg-rose-950/40 hover:bg-rose-100 dark:hover:bg-rose-900/50 text-[#E11D48] dark:text-rose-300 rounded-xl py-2 px-3 flex items-center justify-center gap-2 text-xs font-bold border border-rose-200/80 dark:border-rose-900/60 transition-all cursor-pointer shadow-2xs"
             >
               <ShieldAlert className="w-3.5 h-3.5" />
-              <span>File Project Grievance / Complain</span>
+              <span>{t('dashboard.quickActions.fileGrievance', 'File Project Grievance / Complain')}</span>
             </button>
           </div>
         </div>
@@ -391,7 +393,7 @@ export const Dashboard: React.FC = () => {
             <div className="w-8 h-8 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600">
               <FolderKanban className="w-4 h-4" />
             </div>
-            <span className="text-[10px] font-bold text-slate-500">Total Projects</span>
+            <span className="text-[10px] font-bold text-slate-500">{t('dashboard.kpi.totalProjects', 'Total Projects')}</span>
           </div>
           <div>
             <div className="flex items-baseline gap-1.5">
@@ -400,7 +402,7 @@ export const Dashboard: React.FC = () => {
                 ↑ 12%
               </span>
             </div>
-            <span className="text-[10px] text-slate-400 mt-1 block">Across 5 Ministries</span>
+            <span className="text-[10px] text-slate-400 mt-1 block">{t('dashboard.kpi.acrossMinistries', 'Across 5 Ministries')}</span>
           </div>
         </div>
 
@@ -410,7 +412,7 @@ export const Dashboard: React.FC = () => {
             <div className="w-8 h-8 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-600">
               <BarChart3 className="w-4 h-4" />
             </div>
-            <span className="text-[10px] font-bold text-slate-500">Active Projects</span>
+            <span className="text-[10px] font-bold text-slate-500">{t('dashboard.kpi.activeProjects', 'Active Projects')}</span>
           </div>
           <div>
             <div className="flex items-baseline gap-1.5">
@@ -419,7 +421,7 @@ export const Dashboard: React.FC = () => {
                 ↑ 6%
               </span>
             </div>
-            <span className="text-[10px] text-slate-400 mt-1 block">Under execution</span>
+            <span className="text-[10px] text-slate-400 mt-1 block">{t('dashboard.kpi.underExecution', 'Under execution')}</span>
           </div>
         </div>
 
@@ -429,7 +431,7 @@ export const Dashboard: React.FC = () => {
             <div className="w-8 h-8 rounded-xl bg-purple-50 border border-purple-100 flex items-center justify-center text-purple-600">
               <CheckCircle2 className="w-4 h-4" />
             </div>
-            <span className="text-[10px] font-bold text-slate-500">Completed</span>
+            <span className="text-[10px] font-bold text-slate-500">{t('dashboard.kpi.completed', 'Completed')}</span>
           </div>
           <div>
             <div className="flex items-baseline gap-1.5">
@@ -438,7 +440,7 @@ export const Dashboard: React.FC = () => {
                 ↑ 100%
               </span>
             </div>
-            <span className="text-[10px] text-slate-400 mt-1 block">Commissioned</span>
+            <span className="text-[10px] text-slate-400 mt-1 block">{t('dashboard.kpi.commissioned', 'Commissioned')}</span>
           </div>
         </div>
 
@@ -448,7 +450,7 @@ export const Dashboard: React.FC = () => {
             <div className="w-8 h-8 rounded-xl bg-rose-50 border border-rose-100 flex items-center justify-center text-rose-600">
               <Clock className="w-4 h-4" />
             </div>
-            <span className="text-[10px] font-bold text-slate-500">Delayed</span>
+            <span className="text-[10px] font-bold text-slate-500">{t('dashboard.kpi.delayed', 'Delayed')}</span>
           </div>
           <div>
             <div className="flex items-baseline gap-1.5">
@@ -457,7 +459,7 @@ export const Dashboard: React.FC = () => {
                 ↑ 0%
               </span>
             </div>
-            <span className="text-[10px] text-slate-400 mt-1 block">Critical path</span>
+            <span className="text-[10px] text-slate-400 mt-1 block">{t('dashboard.kpi.criticalPath', 'Critical path')}</span>
           </div>
         </div>
 
@@ -467,7 +469,7 @@ export const Dashboard: React.FC = () => {
             <div className="w-8 h-8 rounded-xl bg-amber-50 border border-amber-100 flex items-center justify-center text-amber-600">
               <ShieldAlert className="w-4 h-4" />
             </div>
-            <span className="text-[10px] font-bold text-slate-500">High Risk</span>
+            <span className="text-[10px] font-bold text-slate-500">{t('dashboard.kpi.highRisk', 'High Risk')}</span>
           </div>
           <div>
             <div className="flex items-baseline gap-1.5">
@@ -476,7 +478,7 @@ export const Dashboard: React.FC = () => {
                 ↑ 33%
               </span>
             </div>
-            <span className="text-[10px] text-slate-400 mt-1 block">Score ≥ 61</span>
+            <span className="text-[10px] text-slate-400 mt-1 block">{t('dashboard.kpi.scoreThreshold', 'Score ≥ 61')}</span>
           </div>
         </div>
 
@@ -486,13 +488,13 @@ export const Dashboard: React.FC = () => {
             <div className="w-8 h-8 rounded-xl bg-sky-50 border border-sky-100 flex items-center justify-center text-sky-600 font-bold text-xs">
               ₹
             </div>
-            <span className="text-[10px] font-bold text-slate-500">Sanctioned Outlay</span>
+            <span className="text-[10px] font-bold text-slate-500">{t('dashboard.kpi.sanctionedOutlay', 'Sanctioned Outlay')}</span>
           </div>
           <div>
             <div className="flex items-baseline">
               <span className="text-lg font-black text-slate-900 leading-none">₹8327.0 Cr</span>
             </div>
-            <span className="text-[10px] text-slate-400 mt-1 block">Total outlay</span>
+            <span className="text-[10px] text-slate-400 mt-1 block">{t('dashboard.kpi.totalOutlay', 'Total outlay')}</span>
           </div>
         </div>
 
@@ -502,13 +504,13 @@ export const Dashboard: React.FC = () => {
             <div className="w-8 h-8 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-600 font-bold text-xs">
               ₹
             </div>
-            <span className="text-[10px] font-bold text-slate-500">Utilized</span>
+            <span className="text-[10px] font-bold text-slate-500">{t('dashboard.kpi.utilized', 'Utilized')}</span>
           </div>
           <div>
             <div className="flex items-baseline">
               <span className="text-lg font-black text-slate-900 leading-none">₹5512.0 Cr</span>
             </div>
-            <span className="text-[10px] text-slate-400 mt-1 block">66.2% burn rate</span>
+            <span className="text-[10px] text-slate-400 mt-1 block">{t('dashboard.kpi.burnRate', '66.2% burn rate')}</span>
           </div>
         </div>
 
@@ -518,13 +520,13 @@ export const Dashboard: React.FC = () => {
             <div className="w-8 h-8 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600">
               <HeartPulse className="w-4 h-4" />
             </div>
-            <span className="text-[10px] font-bold text-slate-500">Health Index</span>
+            <span className="text-[10px] font-bold text-slate-500">{t('dashboard.kpi.healthIndex', 'Health Index')}</span>
           </div>
           <div>
             <div className="flex items-baseline">
               <span className="text-xl font-black text-slate-900 leading-none">61/100</span>
             </div>
-            <span className="text-[10px] text-slate-400 mt-1 block">Composite rating</span>
+            <span className="text-[10px] text-slate-400 mt-1 block">{t('dashboard.kpi.compositeRating', 'Composite rating')}</span>
           </div>
         </div>
       </div>
@@ -537,10 +539,10 @@ export const Dashboard: React.FC = () => {
             <div className="flex items-center gap-2">
               <BarChart3 className="w-4 h-4 text-[#1A73E8]" />
               <h3 className="text-xs sm:text-sm font-bold text-[#0F223D]">
-                Project Status Distribution
+                {t('dashboard.charts.statusDistribution', 'Project Status Distribution')}
               </h3>
             </div>
-            <span className="text-[11px] font-medium text-slate-400">Total: 21</span>
+            <span className="text-[11px] font-medium text-slate-400">{t('dashboard.charts.totalLabel', 'Total: 21')}</span>
           </div>
 
           <div className="flex items-center justify-between pt-2">
@@ -565,7 +567,7 @@ export const Dashboard: React.FC = () => {
               </ResponsiveContainer>
               <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
                 <span className="text-xl font-black text-slate-900 leading-none">21</span>
-                <span className="text-[10px] font-bold text-slate-400 mt-0.5">Projects</span>
+                <span className="text-[10px] font-bold text-slate-400 mt-0.5">{t('dashboard.charts.projectsUnit', 'Projects')}</span>
               </div>
             </div>
 
@@ -593,13 +595,13 @@ export const Dashboard: React.FC = () => {
               <span className="w-4 h-4 text-[#1A73E8] font-black text-sm flex items-center justify-center">₹</span>
               <div>
                 <h3 className="text-xs sm:text-sm font-bold text-[#0F223D]">
-                  Sanctioned vs Utilized Outlay
+                  {t('dashboard.charts.budgetOutlayTitle', 'Sanctioned vs Utilized Outlay')}
                 </h3>
-                <p className="text-[10px] text-slate-400">Amounts shown in ₹ Crore</p>
+                <p className="text-[10px] text-slate-400">{t('dashboard.charts.amountsInCrore', 'Amounts shown in ₹ Crore')}</p>
               </div>
             </div>
             <span className="text-xs font-bold text-[#D97706] bg-amber-50 px-2 py-0.5 rounded-md">
-              66.2% Spent
+              {t('dashboard.charts.spentBadge', '66.2% Spent')}
             </span>
           </div>
 
@@ -644,10 +646,10 @@ export const Dashboard: React.FC = () => {
             <div className="flex items-center gap-2">
               <HeartPulse className="w-4 h-4 text-[#1A73E8]" />
               <h3 className="text-xs sm:text-sm font-bold text-[#0F223D]">
-                Project Health Overview
+                {t('dashboard.charts.healthOverview', 'Project Health Overview')}
               </h3>
             </div>
-            <span className="text-[11px] font-medium text-slate-400">Risk Severity Tiers</span>
+            <span className="text-[11px] font-medium text-slate-400">{t('dashboard.charts.riskTiers', 'Risk Severity Tiers')}</span>
           </div>
 
           <div className="flex items-center justify-between pt-2">
@@ -672,7 +674,7 @@ export const Dashboard: React.FC = () => {
               </ResponsiveContainer>
               <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
                 <span className="text-xl font-black text-slate-900 leading-none">21</span>
-                <span className="text-[10px] font-bold text-slate-400 mt-0.5">Projects</span>
+                <span className="text-[10px] font-bold text-slate-400 mt-0.5">{t('dashboard.charts.projectsUnit', 'Projects')}</span>
               </div>
             </div>
 
@@ -703,19 +705,19 @@ export const Dashboard: React.FC = () => {
               <div className="flex items-center gap-2">
                 <BarChart3 className="w-4 h-4 text-[#1A73E8]" />
                 <h3 className="text-xs sm:text-sm font-bold text-[#0F223D]">
-                  Department Performance Index
+                  {t('dashboard.panels.deptPerformance', 'Department Performance Index')}
                 </h3>
               </div>
               <button
                 onClick={() => navigate('/departments')}
                 className="text-xs text-blue-600 hover:text-blue-700 font-bold flex items-center gap-0.5 cursor-pointer"
               >
-                <span>View Rankings</span>
+                <span>{t('dashboard.panels.viewRankings', 'View Rankings')}</span>
                 <ArrowRight className="w-3 h-3" />
               </button>
             </div>
             <p className="text-[10px] text-slate-400 mb-4">
-              Average physical progress vs completion rate (%)
+              {t('dashboard.panels.deptSubtitle', 'Average physical progress vs completion rate (%)')}
             </p>
 
             {/* Progress Bars */}
@@ -747,19 +749,19 @@ export const Dashboard: React.FC = () => {
               <div className="flex items-center gap-2">
                 <ListFilter className="w-4 h-4 text-[#1A73E8]" />
                 <h3 className="text-xs sm:text-sm font-bold text-[#0F223D]">
-                  Priority Projects Progress vs Risk
+                  {t('dashboard.panels.priorityProjects', 'Priority Projects Progress vs Risk')}
                 </h3>
               </div>
               <button
                 onClick={() => navigate('/projects')}
                 className="text-xs text-blue-600 hover:text-blue-700 font-bold flex items-center gap-0.5 cursor-pointer"
               >
-                <span>View All</span>
+                <span>{t('dashboard.panels.viewAll', 'View All')}</span>
                 <ArrowRight className="w-3 h-3" />
               </button>
             </div>
             <p className="text-[10px] text-slate-400 mb-3">
-              Top monitored projects with real-time status
+              {t('dashboard.panels.prioritySubtitle', 'Top monitored projects with real-time status')}
             </p>
 
             {/* Table */}
@@ -767,10 +769,10 @@ export const Dashboard: React.FC = () => {
               <table className="w-full text-left text-xs">
                 <thead>
                   <tr className="border-b border-slate-100 text-[10px] font-bold text-slate-400 uppercase">
-                    <th className="pb-2 font-bold">Project Name</th>
-                    <th className="pb-2 px-2 font-bold">Progress</th>
-                    <th className="pb-2 px-2 font-bold">Risk</th>
-                    <th className="pb-2 text-right font-bold">Status</th>
+                    <th className="pb-2 font-bold">{t('dashboard.panels.projectName', 'Project Name')}</th>
+                    <th className="pb-2 px-2 font-bold">{t('dashboard.panels.progress', 'Progress')}</th>
+                    <th className="pb-2 px-2 font-bold">{t('dashboard.panels.risk', 'Risk')}</th>
+                    <th className="pb-2 text-right font-bold">{t('dashboard.panels.status', 'Status')}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100/80 text-[11px]">
@@ -785,12 +787,14 @@ export const Dashboard: React.FC = () => {
                       <td className="py-2.5 px-2">
                         <div className="flex items-center gap-1.5">
                           <span className={`w-2 h-2 rounded-full ${p.riskColor}`} />
-                          <span className="text-slate-600 text-[10px]">{p.risk}</span>
+                          <span className="text-slate-600 text-[10px]">
+                            {p.risk === 'Low' ? t('dashboard.riskLevels.low', 'Low') : p.risk === 'Moderate' ? t('dashboard.riskLevels.mod', 'Moderate') : p.risk === 'High' ? t('dashboard.riskLevels.high', 'High') : t('dashboard.riskLevels.crit', 'Critical')}
+                          </span>
                         </div>
                       </td>
                       <td className="py-2.5 text-right">
                         <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold border ${p.statusClass}`}>
-                          {p.status}
+                          {p.status === 'On Track' ? t('dashboard.status.onTrack', 'On Track') : p.status === 'Delayed' ? t('dashboard.status.delayed', 'Delayed') : t('dashboard.status.atRisk', 'At Risk')}
                         </span>
                       </td>
                     </tr>
@@ -808,14 +812,14 @@ export const Dashboard: React.FC = () => {
               <div className="flex items-center gap-2">
                 <Activity className="w-4 h-4 text-[#1A73E8]" />
                 <h3 className="text-xs sm:text-sm font-bold text-[#0F223D]">
-                  Live Activity Feed
+                  {t('dashboard.panels.activityFeed', 'Live Activity Feed')}
                 </h3>
               </div>
               <button
                 onClick={() => navigate('/notifications')}
                 className="text-xs text-blue-600 hover:text-blue-700 font-bold flex items-center gap-0.5 cursor-pointer"
               >
-                <span>View All</span>
+                <span>{t('dashboard.panels.viewAll', 'View All')}</span>
                 <ArrowRight className="w-3 h-3" />
               </button>
             </div>

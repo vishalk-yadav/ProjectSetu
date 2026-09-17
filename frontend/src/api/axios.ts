@@ -7,11 +7,15 @@ const api = axios.create({
   },
 });
 
-// Request interceptor to automatically attach JWT token from localStorage
+// Request interceptor to automatically attach JWT token and language header
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('projectsetu_token');
   if (token && config.headers) {
     config.headers.Authorization = `Bearer ${token}`;
+  }
+  const lang = localStorage.getItem('projectsetu_dashboard_lang') || localStorage.getItem('projectsetu_lang') || 'en';
+  if (config.headers) {
+    config.headers['Accept-Language'] = lang;
   }
   return config;
 });

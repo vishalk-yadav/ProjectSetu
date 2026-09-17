@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { UploadCloud, FileText, CheckCircle2, AlertCircle, X, Paperclip, Loader2 } from 'lucide-react';
 import { Modal } from '../common/Modal';
 import { documentApi } from '../../api/documentApi';
@@ -27,6 +28,7 @@ export const UploadDocumentModal: React.FC<UploadDocumentModalProps> = ({
   onSuccess,
   defaultProjectId,
 }) => {
+  const { t } = useTranslation();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [projects, setProjects] = useState<Project[]>([]);
@@ -138,8 +140,8 @@ export const UploadDocumentModal: React.FC<UploadDocumentModalProps> = ({
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title="Upload Project Document"
-      subtitle="Archive official DPRs, sanction notes, technical audits, or progress certificates."
+      title={t('documents.uploadModalTitle')}
+      subtitle={t('documents.uploadModalSubtitle')}
       maxWidth="lg"
     >
       <form onSubmit={handleSubmit} className="p-6 space-y-4">
@@ -290,7 +292,7 @@ export const UploadDocumentModal: React.FC<UploadDocumentModalProps> = ({
             disabled={uploading}
             className="px-4 py-2 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-100 transition-colors cursor-pointer"
           >
-            Cancel
+            {t('common.cancel')}
           </button>
           <button
             type="submit"
@@ -300,12 +302,12 @@ export const UploadDocumentModal: React.FC<UploadDocumentModalProps> = ({
             {uploading ? (
               <>
                 <Loader2 className="w-4 h-4 animate-spin" />
-                <span>Uploading Document...</span>
+                <span>{t('documents.uploadBtn')}...</span>
               </>
             ) : (
               <>
                 <UploadCloud className="w-4 h-4" />
-                <span>Upload to Repository</span>
+                <span>{t('documents.uploadBtn')}</span>
               </>
             )}
           </button>

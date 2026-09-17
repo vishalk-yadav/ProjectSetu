@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
   ShieldAlert,
   AlertTriangle,
@@ -15,6 +16,7 @@ import { LoadingSpinner } from '../components/common/LoadingSpinner';
 import { formatCurrencyINR, formatDate, getRiskBadgeClasses } from '../utils/formatters';
 
 export const RiskIntelligence: React.FC = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -65,10 +67,10 @@ export const RiskIntelligence: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black text-[#0F223D] font-heading tracking-tight">
-            ProjectSetu Risk Intelligence Matrix
+            {t('risks.title', 'ProjectSetu Risk Intelligence Matrix')}
           </h1>
           <p className="text-xs text-slate-500 mt-1">
-            Predictive vulnerability scoring, critical milestone breaches, and automated anomaly detection.
+            {t('risks.subtitle', 'Predictive vulnerability scoring, critical milestone breaches, and automated anomaly detection.')}
           </p>
         </div>
 
@@ -78,34 +80,34 @@ export const RiskIntelligence: React.FC = () => {
           className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white hover:bg-slate-50 text-[#1A73E8] border border-slate-200 text-xs font-bold shadow-2xs hover:shadow-xs transition-all disabled:opacity-50"
         >
           <RefreshCw className={`w-4 h-4 ${scanning ? 'animate-spin' : ''}`} />
-          <span>{scanning ? 'Running Diagnostic Scan...' : 'Scan Entire Portfolio'}</span>
+          <span>{scanning ? t('ai.thinking', 'Running Diagnostic Scan...') : t('common.refresh', 'Scan Entire Portfolio')}</span>
         </button>
       </div>
 
       {/* 4 Severity Tiers */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <div className="p-5 rounded-2xl bg-rose-50/80 border border-rose-200/80 shadow-2xs">
-          <p className="text-[10px] font-bold uppercase text-rose-700">Critical Risk (81-100)</p>
+          <p className="text-[10px] font-bold uppercase text-rose-700">{t('dashboard.riskLevels.critical', 'Critical Risk (81-100)')}</p>
           <p className="text-3xl font-black text-rose-700 font-heading mt-1">{summary.criticalCount}</p>
-          <span className="text-[11px] text-rose-600 font-medium">Emergency oversight required</span>
+          <span className="text-[11px] text-rose-600 font-medium">{t('dashboard.status.critical', 'Emergency oversight required')}</span>
         </div>
 
         <div className="p-5 rounded-2xl bg-orange-50/80 border border-orange-200/80 shadow-2xs">
-          <p className="text-[10px] font-bold uppercase text-orange-700">High Risk (61-80)</p>
+          <p className="text-[10px] font-bold uppercase text-orange-700">{t('dashboard.riskLevels.highRisk', 'High Risk (61-80)')}</p>
           <p className="text-3xl font-black text-orange-700 font-heading mt-1">{summary.highRiskCount}</p>
-          <span className="text-[11px] text-orange-600 font-medium">Close weekly monitoring</span>
+          <span className="text-[11px] text-orange-600 font-medium">{t('dashboard.status.atRisk', 'Close weekly monitoring')}</span>
         </div>
 
         <div className="p-5 rounded-2xl bg-amber-50/80 border border-amber-200/80 shadow-2xs">
-          <p className="text-[10px] font-bold uppercase text-amber-700">Moderate Risk (31-60)</p>
+          <p className="text-[10px] font-bold uppercase text-amber-700">{t('dashboard.riskLevels.moderate', 'Moderate Risk (31-60)')}</p>
           <p className="text-3xl font-black text-amber-700 font-heading mt-1">{summary.moderateRiskCount}</p>
-          <span className="text-[11px] text-amber-600 font-medium">Standard tolerance threshold</span>
+          <span className="text-[11px] text-amber-600 font-medium">{t('dashboard.riskLevels.mod', 'Standard tolerance threshold')}</span>
         </div>
 
         <div className="p-5 rounded-2xl bg-emerald-50/80 border border-emerald-200/80 shadow-2xs">
-          <p className="text-[10px] font-bold uppercase text-emerald-700">Healthy (0-30)</p>
+          <p className="text-[10px] font-bold uppercase text-emerald-700">{t('dashboard.riskLevels.healthy', 'Healthy (0-30)')}</p>
           <p className="text-3xl font-black text-emerald-700 font-heading mt-1">{summary.lowRiskCount}</p>
-          <span className="text-[11px] text-emerald-600 font-medium">On schedule & within budget</span>
+          <span className="text-[11px] text-emerald-600 font-medium">{t('dashboard.status.onTrack', 'On schedule & within budget')}</span>
         </div>
       </div>
 
@@ -115,11 +117,11 @@ export const RiskIntelligence: React.FC = () => {
           <div className="flex items-center gap-2 text-rose-600">
             <AlertOctagon className="w-5 h-5" />
             <h3 className="text-sm font-bold font-heading uppercase tracking-wider text-[#0F223D]">
-              Autonomous AI Anomaly Detection Telemetry ({activeAnomalies.length})
+              {t('budget.flaggedAnomalies', 'Autonomous AI Anomaly Detection Telemetry')} ({activeAnomalies.length})
             </h3>
           </div>
           <p className="text-xs text-slate-500">
-            The platform automatically checks for spend surges, project staleness, repeated deadline slippages, and severe physical variance:
+            {t('risks.subtitle', 'The platform automatically checks for spend surges, project staleness, repeated deadline slippages, and severe physical variance:')}
           </p>
 
           <div className="space-y-2.5">
@@ -149,7 +151,7 @@ export const RiskIntelligence: React.FC = () => {
                   <button
                     onClick={() => navigate(`/projects/${an.projectId}`)}
                     className="p-1 rounded text-[#1A73E8] hover:text-blue-700"
-                    title="Inspect Project"
+                    title={t('projects.details', 'Inspect Project')}
                   >
                     <ExternalLink className="w-4 h-4" />
                   </button>
@@ -163,20 +165,20 @@ export const RiskIntelligence: React.FC = () => {
       {/* High-Risk Projects Ranking Watchlist */}
       <div className="bg-white border border-slate-200/80 rounded-2xl p-6 shadow-2xs space-y-4">
         <h3 className="text-sm font-bold text-[#0F223D] font-heading">
-          Prioritized High-Risk Projects Watchlist
+          {t('risks.highRiskProjects', 'Prioritized High-Risk Projects Watchlist')}
         </h3>
 
         <div className="overflow-x-auto rounded-xl border border-slate-200/60">
           <table className="w-full text-left text-xs">
             <thead className="bg-slate-50/80 border-b border-slate-200 text-[10px] uppercase font-bold text-slate-500">
               <tr>
-                <th className="py-3 px-4">Project Name</th>
-                <th className="py-3 px-3">Ministry</th>
-                <th className="py-3 px-3">Progress</th>
-                <th className="py-3 px-3">Budget Utilization</th>
-                <th className="py-3 px-3">Active Issues</th>
-                <th className="py-3 px-3">Risk Score</th>
-                <th className="py-3 px-4 text-right">Audit</th>
+                <th className="py-3 px-4">{t('dashboard.panels.projectName', 'Project Name')}</th>
+                <th className="py-3 px-3">{t('departments.deptName', 'Ministry')}</th>
+                <th className="py-3 px-3">{t('dashboard.panels.progress', 'Progress')}</th>
+                <th className="py-3 px-3">{t('budget.utilizationRate', 'Budget Utilization')}</th>
+                <th className="py-3 px-3">{t('risks.riskFactors', 'Active Issues')}</th>
+                <th className="py-3 px-3">{t('dashboard.panels.risk', 'Risk Score')}</th>
+                <th className="py-3 px-4 text-right">{t('common.action', 'Audit')}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 text-slate-700 bg-white">
@@ -227,7 +229,7 @@ export const RiskIntelligence: React.FC = () => {
                         onClick={() => navigate(`/projects/${p.id}`)}
                         className="px-3.5 py-1.5 rounded-xl bg-[#1A73E8] hover:bg-blue-600 text-white font-bold text-xs shadow-2xs transition-all"
                       >
-                        Inspect
+                        {t('common.viewDetails', 'Inspect')}
                       </button>
                     </td>
                   </tr>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
   FolderKanban,
   Search,
@@ -33,6 +34,7 @@ import {
 } from '../utils/formatters';
 
 export const Projects: React.FC = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { canSanctionProjects } = useAuth();
   const [projects, setProjects] = useState<Project[]>([]);
@@ -89,10 +91,10 @@ export const Projects: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black text-[#0F223D] font-heading tracking-tight">
-            Government Projects Portfolio
+            {t('projects.title')}
           </h1>
           <p className="text-xs text-slate-500 mt-1">
-            Centralized monitoring repository across line ministries with live risk scoring.
+            {t('projects.subtitle')}
           </p>
         </div>
 
@@ -100,7 +102,7 @@ export const Projects: React.FC = () => {
           <div className="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200">
             <button
               onClick={() => setViewMode('grid')}
-              className={`p-1.5 rounded-lg transition-colors ${
+              className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
                 viewMode === 'grid' ? 'bg-white text-[#1A73E8] shadow-xs' : 'text-slate-500 hover:text-slate-900'
               }`}
               title="Grid View"
@@ -109,7 +111,7 @@ export const Projects: React.FC = () => {
             </button>
             <button
               onClick={() => setViewMode('table')}
-              className={`p-1.5 rounded-lg transition-colors ${
+              className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
                 viewMode === 'table' ? 'bg-white text-[#1A73E8] shadow-xs' : 'text-slate-500 hover:text-slate-900'
               }`}
               title="Table View"
@@ -124,12 +126,12 @@ export const Projects: React.FC = () => {
               className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#1A73E8] hover:bg-blue-600 text-white text-xs font-bold shadow-xs transition-all cursor-pointer"
             >
               <Plus className="w-4 h-4" />
-              <span>Sanction Project</span>
+              <span>{t('projects.sanctionProject')}</span>
             </button>
           ) : (
             <div className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-100 dark:bg-slate-800/60 text-slate-600 dark:text-slate-300 border border-slate-200/80 dark:border-slate-700 text-xs font-bold shadow-2xs">
               <FolderKanban className="w-4 h-4 text-slate-500" />
-              <span>Project Execution Mode</span>
+              <span>{t('projects.executionMode', 'Project Execution Mode')}</span>
             </div>
           )}
         </div>
@@ -143,7 +145,7 @@ export const Projects: React.FC = () => {
             <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
             <input
               type="text"
-              placeholder="Search projects or locations..."
+              placeholder={t('projects.searchPlaceholder')}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="w-full pl-10 pr-3 py-2 bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
@@ -157,7 +159,7 @@ export const Projects: React.FC = () => {
               onChange={(e) => setDepartmentId(e.target.value)}
               className="w-full px-3 py-2 bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:border-blue-500 transition-colors"
             >
-              <option value="">All Ministries</option>
+              <option value="">{t('projects.allMinistries')}</option>
               {departments.map((d) => (
                 <option key={d.id} value={d.id}>
                   {d.code} - {d.name.substring(0, 25)}...
@@ -173,11 +175,11 @@ export const Projects: React.FC = () => {
               onChange={(e) => setStatus(e.target.value)}
               className="w-full px-3 py-2 bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:border-blue-500 transition-colors"
             >
-              <option value="">All Statuses</option>
-              <option value="IN_PROGRESS">In Progress</option>
-              <option value="COMPLETED">Completed</option>
-              <option value="DELAYED">Delayed</option>
-              <option value="NOT_STARTED">Not Started</option>
+              <option value="">{t('projects.allStatuses')}</option>
+              <option value="IN_PROGRESS">{t('common.inProgress')}</option>
+              <option value="COMPLETED">{t('common.completed')}</option>
+              <option value="DELAYED">{t('common.delayed')}</option>
+              <option value="NOT_STARTED">{t('common.notStarted')}</option>
             </select>
           </div>
 
@@ -188,11 +190,11 @@ export const Projects: React.FC = () => {
               onChange={(e) => setRiskLevel(e.target.value)}
               className="w-full px-3 py-2 bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:border-blue-500 transition-colors"
             >
-              <option value="">All Risk Levels</option>
-              <option value="LOW">Low Risk (0-30)</option>
-              <option value="MODERATE">Moderate Risk (31-60)</option>
-              <option value="HIGH">High Risk (61-80)</option>
-              <option value="CRITICAL">Critical Risk (81-100)</option>
+              <option value="">{t('projects.allRiskLevels')}</option>
+              <option value="LOW">{t('common.low')} (0-30)</option>
+              <option value="MODERATE">{t('common.medium')} (31-60)</option>
+              <option value="HIGH">{t('common.high')} (61-80)</option>
+              <option value="CRITICAL">{t('common.critical')} (81-100)</option>
             </select>
           </div>
 
@@ -203,11 +205,11 @@ export const Projects: React.FC = () => {
               onChange={(e) => setPriority(e.target.value)}
               className="w-full px-3 py-2 bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:border-blue-500 transition-colors"
             >
-              <option value="">All Priorities</option>
-              <option value="CRITICAL">Critical</option>
-              <option value="HIGH">High</option>
-              <option value="MEDIUM">Medium</option>
-              <option value="LOW">Low</option>
+              <option value="">{t('projects.allPriorities')}</option>
+              <option value="CRITICAL">{t('common.critical')}</option>
+              <option value="HIGH">{t('common.high')}</option>
+              <option value="MEDIUM">{t('common.medium')}</option>
+              <option value="LOW">{t('common.low')}</option>
             </select>
           </div>
         </div>
@@ -215,12 +217,12 @@ export const Projects: React.FC = () => {
 
       {/* Content Area */}
       {loading ? (
-        <LoadingSpinner message="Filtering project database..." />
+        <LoadingSpinner message={t('common.loading')} />
       ) : projects.length === 0 ? (
         <EmptyState
-          title="No Projects Match Your Filter Criteria"
-          description="Try broadening your search keywords or resetting your ministry/risk filters."
-          actionLabel="Clear Filters"
+          title={t('projects.noProjects')}
+          description={t('projects.noProjectsDesc')}
+          actionLabel={t('projects.clearFilters')}
           onAction={() => {
             setSearch('');
             setDepartmentId('');
@@ -307,12 +309,12 @@ export const Projects: React.FC = () => {
                   {/* Budget & Risk Indicators */}
                   <div className="mt-4 grid grid-cols-2 gap-2 p-2.5 rounded-xl bg-slate-50/80 border border-slate-100 text-xs">
                     <div>
-                      <p className="text-[10px] text-slate-400 uppercase font-semibold">Sanctioned Outlay</p>
+                      <p className="text-[10px] text-slate-400 uppercase font-semibold">{t('dashboard.kpi.sanctionedOutlay')}</p>
                       <p className="font-bold text-[#0F223D] mt-0.5">{formatCurrencyINR(p.allocatedBudget)}</p>
-                      <span className="text-[10px] text-slate-500">{budgetPct.toFixed(0)}% Utilized</span>
+                      <span className="text-[10px] text-slate-500">{budgetPct.toFixed(0)}% {t('dashboard.kpi.utilized')}</span>
                     </div>
                     <div className="text-right">
-                      <p className="text-[10px] text-slate-400 uppercase font-semibold">Risk Rating</p>
+                      <p className="text-[10px] text-slate-400 uppercase font-semibold">{t('projects.riskScore')}</p>
                       <div className="mt-0.5">
                         <span className={`inline-block px-2 py-0.5 rounded-full text-[10px] font-bold ${getRiskBadgeClasses(p.riskScore)}`}>
                           {p.riskScore}/100
@@ -326,15 +328,15 @@ export const Projects: React.FC = () => {
                 <div className="mt-5 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-2">
                   <button
                     onClick={() => setProgressModalProject(p)}
-                    className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold transition-colors"
+                    className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold transition-colors cursor-pointer"
                   >
-                    Update Progress
+                    {t('projects.update')}
                   </button>
                   <button
                     onClick={() => navigate(`/projects/${p.id}`)}
-                    className="flex items-center gap-1 px-3 py-1.5 rounded-xl bg-[#1A73E8] hover:bg-blue-600 text-white text-xs font-bold shadow-xs transition-colors"
+                    className="flex items-center gap-1 px-3 py-1.5 rounded-xl bg-[#1A73E8] hover:bg-blue-600 text-white text-xs font-bold shadow-xs transition-colors cursor-pointer"
                   >
-                    <span>Inspect</span>
+                    <span>{t('projects.inspect')}</span>
                     <ExternalLink className="w-3.5 h-3.5" />
                   </button>
                 </div>
@@ -349,15 +351,15 @@ export const Projects: React.FC = () => {
             <table className="w-full text-left text-xs">
               <thead className="bg-slate-50/80 border-b border-slate-200/80 text-[10px] uppercase font-bold text-slate-500 tracking-wider">
                 <tr>
-                  <th className="py-3.5 px-4">Project Name</th>
-                  <th className="py-3.5 px-3">Ministry</th>
-                  <th className="py-3.5 px-3">Status</th>
-                  <th className="py-3.5 px-3">Priority</th>
-                  <th className="py-3.5 px-3">Progress</th>
-                  <th className="py-3.5 px-3">Budget</th>
-                  <th className="py-3.5 px-3">Risk Score</th>
-                  <th className="py-3.5 px-3">Deadline</th>
-                  <th className="py-3.5 px-4 text-right">Actions</th>
+                  <th className="py-3.5 px-4">{t('projects.projectName')}</th>
+                  <th className="py-3.5 px-3">{t('projects.ministry')}</th>
+                  <th className="py-3.5 px-3">{t('common.status', 'Status')}</th>
+                  <th className="py-3.5 px-3">{t('projects.priority')}</th>
+                  <th className="py-3.5 px-3">{t('projects.progress')}</th>
+                  <th className="py-3.5 px-3">{t('projects.budget')}</th>
+                  <th className="py-3.5 px-3">{t('projects.riskScore')}</th>
+                  <th className="py-3.5 px-3">{t('projects.deadline')}</th>
+                  <th className="py-3.5 px-4 text-right">{t('projects.actions')}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 text-slate-700">
@@ -412,7 +414,7 @@ export const Projects: React.FC = () => {
                     <td className="py-3 px-3">
                       <p className="font-bold text-[#0F223D]">{formatCurrencyINR(p.allocatedBudget)}</p>
                       <span className="text-[10px] text-slate-400 block">
-                        {formatCurrencyINR(p.utilizedBudget)} spent
+                        {formatCurrencyINR(p.utilizedBudget)} {t('dashboard.charts.spentBadge').toLowerCase()}
                       </span>
                     </td>
                     <td className="py-3 px-3">
@@ -426,15 +428,15 @@ export const Projects: React.FC = () => {
                     <td className="py-3 px-4 text-right space-x-1.5">
                       <button
                         onClick={() => setProgressModalProject(p)}
-                        className="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold transition-colors"
+                        className="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold transition-colors cursor-pointer"
                       >
-                        Update
+                        {t('projects.update')}
                       </button>
                       <button
                         onClick={() => navigate(`/projects/${p.id}`)}
-                        className="px-2.5 py-1 rounded-lg bg-[#1A73E8] hover:bg-blue-600 text-white text-xs font-bold shadow-xs transition-colors"
+                        className="px-2.5 py-1 rounded-lg bg-[#1A73E8] hover:bg-blue-600 text-white text-xs font-bold shadow-xs transition-colors cursor-pointer"
                       >
-                        Inspect
+                        {t('projects.inspect')}
                       </button>
                     </td>
                   </tr>

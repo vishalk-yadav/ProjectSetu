@@ -1,0 +1,113 @@
+{
+  "dashboard": {
+    "loading": "बहु-विभागीय टेलीमेट्री और बजट का एकत्रीकरण किया जा रहा है...",
+    "language": "भाषा",
+    "selectLanguage": "डैशबोर्ड भाषा चुनें",
+    "roles": {
+      "superAdminTitle": "सुपर एडमिन कमांड सेंटर: संपूर्ण प्रणाली शासन",
+      "deptAdminTitle": "विभाग कमांड सेंटर: {{dept}}",
+      "pmTitle": "परियोजना प्रबंधक कार्यक्षेत्र: आवंटित अवसंरचना की प्रगति व निष्पादन",
+      "citizenTitle": "नागरिक पोर्टल: जानकारी प्राप्त करें, अवसंरचना निरीक्षण करें और शिकायत दर्ज करें",
+      "welcomeBack": "पुनः स्वागत है",
+      "authPermissions": "सत्यापित भूमिका अनुमतियों के साथ प्रमाणीकृत।"
+    },
+    "navLinks": {
+      "userGovernance": "उपयोगकर्ता शासन",
+      "approvals": "स्वीकृतियां",
+      "auditLogs": "ऑडिट लॉग",
+      "reviewApprovals": "स्वीकृतियों की समीक्षा",
+      "assignPms": "प्रबंधक नियुक्त करें",
+      "delayAlerts": "विलंब चेतावनी",
+      "milestonesGantt": "मील के पत्थर और गैंट चार्ट",
+      "budgetSpend": "बजट और व्यय",
+      "raiseAlert": "चेतावनी जारी करें",
+      "openCitizenPortal": "नागरिक पोर्टल खोलें"
+    },
+    "quickActions": {
+      "title": "त्वरित कार्य",
+      "sanctionProject": "परियोजना स्वीकृत करें",
+      "trackProjects": "परियोजनाएं ट्रैक करें",
+      "generateReport": "रिपोर्ट तैयार करें",
+      "viewMap": "मानचित्र देखें",
+      "aiAssistant": "एआई सहायक",
+      "fileGrievance": "परियोजना शिकायत दर्ज करें"
+    },
+    "kpi": {
+      "totalProjects": "कुल परियोजनाएं",
+      "acrossMinistries": "5 मंत्रालयों में",
+      "activeProjects": "सक्रिय परियोजनाएं",
+      "underExecution": "निष्पादनाधीन",
+      "completed": "पूर्ण",
+      "commissioned": "लोकार्पित",
+      "delayed": "विलंबित",
+      "criticalPath": "महत्वपूर्ण पथ",
+      "highRisk": "उच्च जोखिम",
+      "scoreThreshold": "स्कोर ≥ 61",
+      "sanctionedOutlay": "स्वीकृत परिव्यय",
+      "totalOutlay": "कुल परिव्यय",
+      "utilized": "उपयोग किया गया",
+      "burnRate": "66.2% व्यय दर",
+      "healthIndex": "स्वास्थ्य सूचकांक",
+      "compositeRating": "समग्र रेटिंग"
+    },
+    "charts": {
+      "statusDistribution": "परियोजना स्थिति वितरण",
+      "totalLabel": "कुल: 21",
+      "projectsUnit": "परियोजनाएं",
+      "budgetOutlayTitle": "स्वीकृत बनाम उपयोग किया गया परिव्यय",
+      "amountsInCrore": "राशि ₹ करोड़ में दर्शित",
+      "spentBadge": "66.2% व्यय",
+      "healthOverview": "परियोजना स्वास्थ्य अवलोकन",
+      "riskTiers": "जोखिम गंभीरता स्तर"
+    },
+    "status": {
+      "inProgress": "प्रगति पर",
+      "completed": "पूर्ण",
+      "delayed": "विलंबित",
+      "notStarted": "शुरू नहीं हुआ",
+      "onTrack": "समय पर",
+      "atRisk": "जोखिम में",
+      "critical": "गंभीर"
+    },
+    "budget": {
+      "sanctioned": "स्वीकृत",
+      "utilized": "उपयोग किया गया",
+      "remaining": "शेष"
+    },
+    "riskLevels": {
+      "healthy": "स्वस्थ (0-30)",
+      "moderate": "मध्यम (31-60)",
+      "highRisk": "उच्च जोखिम (61-80)",
+      "critical": "गंभीर (81-100)",
+      "low": "निम्न",
+      "mod": "मध्यम",
+      "high": "उच्च",
+      "crit": "गंभीर"
+    },
+    "panels": {
+      "deptPerformance": "विभाग प्रदर्शन सूचकांक",
+      "deptSubtitle": "औसत भौतिक प्रगति बनाम पूर्णता दर (%)",
+      "viewRankings": "रैंकिंग देखें",
+      "priorityProjects": "प्राथमिकता परियोजनाएं प्रगति बनाम जोखिम",
+      "prioritySubtitle": "वास्तविक समय स्थिति वाली शीर्ष निगरानी परियोजनाएं",
+      "viewAll": "सभी देखें",
+      "projectName": "परियोजना का नाम",
+      "progress": "प्रगति",
+      "risk": "जोखिम",
+      "status": "स्थिति",
+      "activityFeed": "लाइव गतिविधि फ़ीड"
+    },
+    "activity": {
+      "newSanctioned": "नई परियोजना स्वीकृत की गई",
+      "progressUpdate": "प्रगति अद्यतन प्रस्तुत किया गया",
+      "riskAlert": "जोखिम चेतावनी सक्रिय",
+      "deptMeeting": "विभागीय बैठक निर्धारित",
+      "milestoneAchieved": "परियोजना मील का पत्थर प्राप्त",
+      "time10m": "10 मिनट पहले",
+      "time32m": "32 मिनट पहले",
+      "time1h": "1 घंटा पहले",
+      "time2h": "2 घंटे पहले",
+      "time3h": "3 घंटे पहले"
+    }
+  }
+}

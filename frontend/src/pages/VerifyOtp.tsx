@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { LanguageSelector } from '../components/common/LanguageSelector';
 import {
   ShieldCheck,
   Smartphone,
@@ -15,6 +17,7 @@ import { authApi } from '../api/authApi';
 import { useAuth } from '../context/AuthContext';
 
 export const VerifyOtp: React.FC = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const { setAuthSession } = useAuth();
@@ -245,13 +248,16 @@ export const VerifyOtp: React.FC = () => {
           </div>
         </div>
 
-        <Link
-          to="/signup"
-          className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-slate-600 hover:text-[#1A73E8] transition-colors py-1.5 px-3 rounded-xl hover:bg-white/60"
-        >
-          <ArrowLeft className="w-3.5 h-3.5" />
-          <span>Back to Registration</span>
-        </Link>
+        <div className="flex items-center gap-3">
+          <LanguageSelector variant="nav" />
+          <Link
+            to="/signup"
+            className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-slate-600 hover:text-[#1A73E8] transition-colors py-1.5 px-3 rounded-xl hover:bg-white/60"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" />
+            <span>{t('auth.backToLogin')}</span>
+          </Link>
+        </div>
       </header>
 
       {/* ----------------- MAIN VERIFICATION CONTAINER ----------------- */}
@@ -271,10 +277,10 @@ export const VerifyOtp: React.FC = () => {
               <Smartphone className="w-7 h-7 stroke-[2.2]" />
             </div>
             <h1 className="text-2xl font-black text-[#0F223D] font-heading tracking-tight">
-              Mobile Verification
+              {t('auth.mobileVerification')}
             </h1>
             <p className="text-xs sm:text-sm text-slate-500 max-w-xs leading-relaxed">
-              We sent a 6-digit verification code to
+              {t('auth.otpSentTo')}
             </p>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-xs font-mono font-bold text-slate-800">
               <span>{maskedMobile}</span>
@@ -283,7 +289,7 @@ export const VerifyOtp: React.FC = () => {
                 onClick={() => navigate('/signup')}
                 className="text-[#1A73E8] hover:underline text-[11px] font-sans font-semibold cursor-pointer"
               >
-                Edit
+                {t('common.edit')}
               </button>
             </div>
           </div>
@@ -294,7 +300,7 @@ export const VerifyOtp: React.FC = () => {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-1.5 text-xs font-bold">
                   <Sparkles className="w-4 h-4 text-amber-600 shrink-0" />
-                  <span>Development Mode: Mock SMS</span>
+                  <span>{t('auth.devModeNotice')}</span>
                 </div>
                 <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-200/60 text-amber-800">
                   Local Dev
@@ -302,7 +308,7 @@ export const VerifyOtp: React.FC = () => {
               </div>
               <div className="flex items-center justify-between pt-0.5">
                 <div className="text-xs text-amber-800">
-                  Default OTP code is:{' '}
+                  {t('auth.defaultOtpNotice')}{' '}
                   <span className="font-mono font-black text-amber-950 text-sm tracking-wider px-1.5 py-0.5 bg-amber-100/90 rounded-md border border-amber-300">
                     {mockOtpCode}
                   </span>
@@ -312,7 +318,7 @@ export const VerifyOtp: React.FC = () => {
                   onClick={fillMockOtp}
                   className="px-2.5 py-1 rounded-lg bg-amber-600 hover:bg-amber-700 text-white text-[11px] font-bold shadow-xs transition-colors cursor-pointer"
                 >
-                  Fill Mock OTP
+                  {t('auth.fillMockOtp')}
                 </button>
               </div>
             </div>
@@ -338,7 +344,7 @@ export const VerifyOtp: React.FC = () => {
           <form onSubmit={handleVerify} className="space-y-6">
             <div className="space-y-2">
               <label className="block text-center text-xs font-bold text-slate-700 uppercase tracking-wider">
-                Enter 6-Digit Code
+                {t('auth.enter6Digit')}
               </label>
 
               {/* 6 Individual Input Boxes */}
@@ -369,7 +375,7 @@ export const VerifyOtp: React.FC = () => {
 
             {/* Resend OTP & Cooldown Timer Section */}
             <div className="flex items-center justify-between text-xs px-1">
-              <span className="text-slate-500">Didn't receive code?</span>
+              <span className="text-slate-500">{t('auth.didntReceive')}</span>
               {canResend ? (
                 <button
                   type="button"
@@ -378,11 +384,11 @@ export const VerifyOtp: React.FC = () => {
                   className="inline-flex items-center gap-1.5 font-bold text-[#1A73E8] hover:text-[#1557B0] hover:underline cursor-pointer disabled:opacity-50"
                 >
                   <RefreshCw className={`w-3.5 h-3.5 ${isResending ? 'animate-spin' : ''}`} />
-                  <span>{isResending ? 'Sending...' : 'Resend OTP'}</span>
+                  <span>{isResending ? t('common.loading') : t('auth.resendOtp')}</span>
                 </button>
               ) : (
                 <span className="text-slate-400 font-mono font-medium flex items-center gap-1">
-                  Resend in <span className="font-bold text-slate-600">{timer}s</span>
+                  {t('auth.resendIn', { seconds: timer })}
                 </span>
               )}
             </div>
@@ -398,7 +404,7 @@ export const VerifyOtp: React.FC = () => {
               ) : (
                 <>
                   <ShieldCheck className="w-4 h-4" />
-                  <span>Verify &amp; Continue</span>
+                  <span>{t('auth.verifyAndContinue')}</span>
                   <ArrowRight className="w-4 h-4 ml-0.5" />
                 </>
               )}
@@ -408,7 +414,7 @@ export const VerifyOtp: React.FC = () => {
           {/* Security Assurance Footer */}
           <div className="pt-2 border-t border-slate-100 flex items-center justify-center gap-2 text-[11px] text-slate-400">
             <Lock className="w-3.5 h-3.5" />
-            <span>End-to-End Encrypted Verification • ProjectSetu</span>
+            <span>{t('auth.encryptionAssurance')}</span>
           </div>
 
         </div>

@@ -1,0 +1,113 @@
+{
+  "dashboard": {
+    "loading": "Aggregating multi-department telemetries & budgets...",
+    "language": "Language",
+    "selectLanguage": "Select Dashboard Language",
+    "roles": {
+      "superAdminTitle": "Super Admin Command Center: Full System Governance",
+      "deptAdminTitle": "Department Command Center: {{dept}}",
+      "pmTitle": "Project Manager Workspace: Track & Execute Assigned Infrastructure",
+      "citizenTitle": "Citizen Portal: Stay Informed, Inspect Infrastructure & Raise Concerns",
+      "welcomeBack": "Welcome back",
+      "authPermissions": "Authenticated with verified role permissions."
+    },
+    "navLinks": {
+      "userGovernance": "User Governance",
+      "approvals": "Approvals",
+      "auditLogs": "Audit Logs",
+      "reviewApprovals": "Review Approvals",
+      "assignPms": "Assign PMs",
+      "delayAlerts": "Delay Alerts",
+      "milestonesGantt": "Milestones & Gantt",
+      "budgetSpend": "Budget & Spend",
+      "raiseAlert": "Raise Alert",
+      "openCitizenPortal": "Open Citizen Portal"
+    },
+    "quickActions": {
+      "title": "Quick Actions",
+      "sanctionProject": "Sanction Project",
+      "trackProjects": "Track Projects",
+      "generateReport": "Generate Report",
+      "viewMap": "View Map",
+      "aiAssistant": "AI Assistant",
+      "fileGrievance": "File Project Grievance / Complain"
+    },
+    "kpi": {
+      "totalProjects": "Total Projects",
+      "acrossMinistries": "Across 5 Ministries",
+      "activeProjects": "Active Projects",
+      "underExecution": "Under execution",
+      "completed": "Completed",
+      "commissioned": "Commissioned",
+      "delayed": "Delayed",
+      "criticalPath": "Critical path",
+      "highRisk": "High Risk",
+      "scoreThreshold": "Score ≥ 61",
+      "sanctionedOutlay": "Sanctioned Outlay",
+      "totalOutlay": "Total outlay",
+      "utilized": "Utilized",
+      "burnRate": "66.2% burn rate",
+      "healthIndex": "Health Index",
+      "compositeRating": "Composite rating"
+    },
+    "charts": {
+      "statusDistribution": "Project Status Distribution",
+      "totalLabel": "Total: 21",
+      "projectsUnit": "Projects",
+      "budgetOutlayTitle": "Sanctioned vs Utilized Outlay",
+      "amountsInCrore": "Amounts shown in ₹ Crore",
+      "spentBadge": "66.2% Spent",
+      "healthOverview": "Project Health Overview",
+      "riskTiers": "Risk Severity Tiers"
+    },
+    "status": {
+      "inProgress": "In Progress",
+      "completed": "Completed",
+      "delayed": "Delayed",
+      "notStarted": "Not Started",
+      "onTrack": "On Track",
+      "atRisk": "At Risk",
+      "critical": "Critical"
+    },
+    "budget": {
+      "sanctioned": "Sanctioned",
+      "utilized": "Utilized",
+      "remaining": "Remaining"
+    },
+    "riskLevels": {
+      "healthy": "Healthy (0-30)",
+      "moderate": "Moderate (31-60)",
+      "highRisk": "High Risk (61-80)",
+      "critical": "Critical (81-100)",
+      "low": "Low",
+      "mod": "Moderate",
+      "high": "High",
+      "crit": "Critical"
+    },
+    "panels": {
+      "deptPerformance": "Department Performance Index",
+      "deptSubtitle": "Average physical progress vs completion rate (%)",
+      "viewRankings": "View Rankings",
+      "priorityProjects": "Priority Projects Progress vs Risk",
+      "prioritySubtitle": "Top monitored projects with real-time status",
+      "viewAll": "View All",
+      "projectName": "Project Name",
+      "progress": "Progress",
+      "risk": "Risk",
+      "status": "Status",
+      "activityFeed": "Live Activity Feed"
+    },
+    "activity": {
+      "newSanctioned": "New project sanctioned",
+      "progressUpdate": "Progress update submitted",
+      "riskAlert": "Risk alert triggered",
+      "deptMeeting": "Department meeting scheduled",
+      "milestoneAchieved": "Project milestone achieved",
+      "time10m": "10 min ago",
+      "time32m": "32 min ago",
+      "time1h": "1 hour ago",
+      "time2h": "2 hours ago",
+      "time3h": "3 hours ago"
+    }
+  }
+}

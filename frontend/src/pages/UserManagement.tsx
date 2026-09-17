@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Users,
   UserPlus,
@@ -23,6 +24,7 @@ import { LoadingSpinner } from '../components/common/LoadingSpinner';
 import { Modal } from '../components/common/Modal';
 
 export const UserManagement: React.FC = () => {
+  const { t } = useTranslation();
   const { user: currentUser, isSuperAdmin, isDeptAdmin } = useAuth();
 
   const [users, setUsers] = useState<User[]>([]);
@@ -206,12 +208,10 @@ export const UserManagement: React.FC = () => {
           </div>
           <div>
             <h1 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">
-              {isDeptAdmin ? 'Department User Governance' : 'User Management & Role Governance'}
+              {t('users.title', isDeptAdmin ? 'Department User Governance' : 'User Management & Role Governance')}
             </h1>
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-              {isDeptAdmin
-                ? `Manage project managers for ${currentUser?.department?.name || 'your department'}.`
-                : 'Create, edit, assign organizational roles, and manage access credentials across all ministries.'}
+              {t('users.subtitle', 'Create, edit, assign organizational roles, and manage access credentials across all ministries.')}
             </p>
           </div>
         </div>
@@ -221,7 +221,7 @@ export const UserManagement: React.FC = () => {
           className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#1A73E8] hover:bg-blue-700 text-white text-xs font-bold shadow-md transition-all cursor-pointer shrink-0"
         >
           <UserPlus className="w-4 h-4" />
-          Create New User
+          {t('users.addUser', 'Create New User')}
         </button>
       </div>
 
@@ -238,7 +238,7 @@ export const UserManagement: React.FC = () => {
           <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
           <input
             type="text"
-            placeholder="Search by name, email..."
+            placeholder={t('users.searchPlaceholder', 'Search by name, email...')}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -254,11 +254,11 @@ export const UserManagement: React.FC = () => {
               onChange={(e) => setRoleFilter(e.target.value)}
               className="px-2.5 py-1.5 rounded-lg text-xs font-semibold border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-200 focus:outline-none"
             >
-              <option value="ALL">All Roles</option>
-              {isSuperAdmin && <option value="SUPER_ADMIN">Super Admin</option>}
-              {isSuperAdmin && <option value="DEPARTMENT_ADMIN">Dept Admin</option>}
-              <option value="PROJECT_MANAGER">Project Manager</option>
-              <option value="CITIZEN">Citizen</option>
+              <option value="ALL">{t('users.allRoles', 'All Roles')}</option>
+              {isSuperAdmin && <option value="SUPER_ADMIN">{t('users.roleSuperAdmin', 'Super Admin')}</option>}
+              {isSuperAdmin && <option value="DEPARTMENT_ADMIN">{t('users.roleDeptAdmin', 'Dept Admin')}</option>}
+              <option value="PROJECT_MANAGER">{t('users.roleProjectManager', 'Project Manager')}</option>
+              <option value="CITIZEN">{t('users.roleCitizen', 'Citizen')}</option>
             </select>
           </div>
 
@@ -269,7 +269,7 @@ export const UserManagement: React.FC = () => {
               onChange={(e) => setDeptFilter(e.target.value)}
               className="px-2.5 py-1.5 rounded-lg text-xs font-semibold border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-200 focus:outline-none max-w-[200px] truncate"
             >
-              <option value="ALL">All Departments</option>
+              <option value="ALL">{t('users.allDepartments', 'All Departments')}</option>
               {departments.map((d) => (
                 <option key={d.id} value={d.id}>
                   {d.code} - {d.name}
@@ -290,12 +290,12 @@ export const UserManagement: React.FC = () => {
 
       {/* Users Table */}
       {loading ? (
-        <LoadingSpinner message="Loading user directory & roles..." />
+        <LoadingSpinner message={t('common.loading', 'Loading user directory & roles...')} />
       ) : users.length === 0 ? (
         <div className="p-12 text-center bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800">
           <Users className="w-12 h-12 text-slate-300 dark:text-slate-600 mx-auto mb-3" />
-          <h3 className="text-sm font-bold text-slate-700 dark:text-slate-300">No users found</h3>
-          <p className="text-xs text-slate-500 mt-1">Try adjusting your search criteria or role filters.</p>
+          <h3 className="text-sm font-bold text-slate-700 dark:text-slate-300">{t('common.noData', 'No users found')}</h3>
+          <p className="text-xs text-slate-500 mt-1">{t('projects.noProjects', 'Try adjusting your search criteria or role filters.')}</p>
         </div>
       ) : (
         <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xs overflow-hidden">
@@ -303,12 +303,12 @@ export const UserManagement: React.FC = () => {
             <table className="w-full text-left text-xs">
               <thead className="bg-slate-50 dark:bg-slate-800/80 text-slate-600 dark:text-slate-400 uppercase font-extrabold text-[10px] tracking-wider border-b border-slate-200 dark:border-slate-800">
                 <tr>
-                  <th className="px-4 py-3.5">User Identity</th>
-                  <th className="px-4 py-3.5">Role</th>
-                  <th className="px-4 py-3.5">Department</th>
-                  <th className="px-4 py-3.5">Assigned Projects</th>
-                  <th className="px-4 py-3.5">Status</th>
-                  <th className="px-4 py-3.5 text-right">Actions</th>
+                  <th className="px-4 py-3.5">{t('users.userName', 'User Identity')}</th>
+                  <th className="px-4 py-3.5">{t('users.userRole', 'Role')}</th>
+                  <th className="px-4 py-3.5">{t('users.userDepartment', 'Department')}</th>
+                  <th className="px-4 py-3.5">{t('nav.myProjects', 'Assigned Projects')}</th>
+                  <th className="px-4 py-3.5">{t('users.accountStatus', 'Status')}</th>
+                  <th className="px-4 py-3.5 text-right">{t('common.action', 'Actions')}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 dark:divide-slate-800 font-medium text-slate-700 dark:text-slate-300">
@@ -344,22 +344,22 @@ export const UserManagement: React.FC = () => {
                             </span>
                           </span>
                         ) : (
-                          <span className="text-slate-400 italic">Universal / Public</span>
+                          <span className="text-slate-400 italic">{t('common.anonymous', 'Universal / Public')}</span>
                         )}
                       </td>
 
                       <td className="px-4 py-3.5 font-semibold text-slate-600 dark:text-slate-400">
-                        {u._count?.managedProjects ? `${u._count.managedProjects} active` : '—'}
+                        {u._count?.managedProjects ? `${u._count.managedProjects} ${t('common.active', 'active')}` : '—'}
                       </td>
 
                       <td className="px-4 py-3.5">
                         {isActive ? (
                           <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-300">
-                            <CheckCircle2 className="w-3 h-3 text-emerald-600" /> Active
+                            <CheckCircle2 className="w-3 h-3 text-emerald-600" /> {t('common.active', 'Active')}
                           </span>
                         ) : (
                           <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-100 text-rose-800 dark:bg-rose-950/80 dark:text-rose-300">
-                            <XCircle className="w-3 h-3 text-rose-600" /> Deactivated
+                            <XCircle className="w-3 h-3 text-rose-600" /> {t('users.deactivated', 'Deactivated')}
                           </span>
                         )}
                       </td>
@@ -369,12 +369,12 @@ export const UserManagement: React.FC = () => {
                           {/* Deactivate / Activate Button */}
                           <button
                             onClick={() => handleToggleStatus(u)}
-                            className={`p-1.5 rounded-lg text-xs font-semibold transition-colors ${
+                            className={`p-1.5 rounded-lg text-xs font-semibold transition-colors cursor-pointer ${
                               isActive
                                 ? 'text-amber-600 hover:bg-amber-50 dark:hover:bg-amber-950/50'
                                 : 'text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-950/50'
                             }`}
-                            title={isActive ? 'Deactivate user' : 'Activate user'}
+                            title={isActive ? t('users.deactivateUser', 'Deactivate user') : t('users.activateUser', 'Activate user')}
                           >
                             <Power className="w-3.5 h-3.5" />
                           </button>
@@ -382,8 +382,8 @@ export const UserManagement: React.FC = () => {
                           {/* Edit Button */}
                           <button
                             onClick={() => handleOpenEdit(u)}
-                            className="p-1.5 rounded-lg text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-950/50 transition-colors"
-                            title="Edit user details"
+                            className="p-1.5 rounded-lg text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-950/50 transition-colors cursor-pointer"
+                            title={t('common.edit', 'Edit user details')}
                           >
                             <Edit2 className="w-3.5 h-3.5" />
                           </button>
@@ -392,8 +392,8 @@ export const UserManagement: React.FC = () => {
                           {isSuperAdmin && u.id !== currentUser?.id && (
                             <button
                               onClick={() => handleDeleteUser(u)}
-                              className="p-1.5 rounded-lg text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/50 transition-colors"
-                              title="Delete user"
+                              className="p-1.5 rounded-lg text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/50 transition-colors cursor-pointer"
+                              title={t('common.delete', 'Delete user')}
                             >
                               <Trash2 className="w-3.5 h-3.5" />
                             </button>
@@ -413,7 +413,7 @@ export const UserManagement: React.FC = () => {
       <Modal
         isOpen={createModalOpen}
         onClose={() => setCreateModalOpen(false)}
-        title="Create New User Account"
+        title={t('users.createModalTitle', 'Create New User Account')}
       >
         <form onSubmit={handleCreateUser} className="space-y-4">
           {formError && (
@@ -424,12 +424,12 @@ export const UserManagement: React.FC = () => {
 
           <div>
             <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-              Full Name *
+              {t('users.userName', 'Full Name')} *
             </label>
             <input
               type="text"
               required
-              placeholder="e.g. Dr. Ramesh Chander, Chief Engineer"
+              placeholder={t('auth.fullNamePlaceholder', 'e.g. Dr. Ramesh Chander, Chief Engineer')}
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               className="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 focus:outline-none"
@@ -438,7 +438,7 @@ export const UserManagement: React.FC = () => {
 
           <div>
             <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-              Official Email Address *
+              {t('users.userEmail', 'Official Email Address')} *
             </label>
             <input
               type="email"
@@ -452,7 +452,7 @@ export const UserManagement: React.FC = () => {
 
           <div>
             <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-              Initial Password *
+              {t('users.userPassword', 'Initial Password')} *
             </label>
             <input
               type="password"
@@ -467,23 +467,23 @@ export const UserManagement: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                Assigned Role *
+                {t('users.userRole', 'Assigned Role')} *
               </label>
               <select
                 value={formData.role}
                 onChange={(e) => setFormData({ ...formData, role: e.target.value as UserRole })}
                 className="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 focus:outline-none"
               >
-                {isSuperAdmin && <option value="SUPER_ADMIN">Super Admin (Universal Control)</option>}
-                {isSuperAdmin && <option value="DEPARTMENT_ADMIN">Admin (Department Level)</option>}
-                <option value="PROJECT_MANAGER">Project Manager (Execution)</option>
-                <option value="CITIZEN">Citizen / Civil Watch</option>
+                {isSuperAdmin && <option value="SUPER_ADMIN">{t('users.roleSuperAdmin', 'Super Admin')}</option>}
+                {isSuperAdmin && <option value="DEPARTMENT_ADMIN">{t('users.roleDeptAdmin', 'Dept Admin')}</option>}
+                <option value="PROJECT_MANAGER">{t('users.roleProjectManager', 'Project Manager')}</option>
+                <option value="CITIZEN">{t('users.roleCitizen', 'Citizen')}</option>
               </select>
             </div>
 
             <div>
               <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                Department
+                {t('users.userDepartment', 'Department')}
               </label>
               {isDeptAdmin ? (
                 <input
@@ -498,7 +498,7 @@ export const UserManagement: React.FC = () => {
                   onChange={(e) => setFormData({ ...formData, departmentId: e.target.value })}
                   className="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 focus:outline-none"
                 >
-                  <option value="">No Department (Universal)</option>
+                  <option value="">{t('common.all', 'No Department (Universal)')}</option>
                   {departments.map((d) => (
                     <option key={d.id} value={d.id}>
                       {d.code} - {d.name}
@@ -513,16 +513,16 @@ export const UserManagement: React.FC = () => {
             <button
               type="button"
               onClick={() => setCreateModalOpen(false)}
-              className="px-4 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+              className="px-4 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
             >
-              Cancel
+              {t('common.cancel', 'Cancel')}
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="px-4 py-2 rounded-xl bg-[#1A73E8] hover:bg-blue-700 text-white text-xs font-bold shadow-md transition-all disabled:opacity-50"
+              className="px-4 py-2 rounded-xl bg-[#1A73E8] hover:bg-blue-700 text-white text-xs font-bold shadow-md transition-all disabled:opacity-50 cursor-pointer"
             >
-              {isSubmitting ? 'Creating...' : 'Create Account'}
+              {isSubmitting ? t('common.loading', 'Creating...') : t('users.addUser', 'Create Account')}
             </button>
           </div>
         </form>
@@ -532,7 +532,7 @@ export const UserManagement: React.FC = () => {
       <Modal
         isOpen={editModalOpen}
         onClose={() => setEditModalOpen(false)}
-        title={`Edit User: ${selectedUser?.name}`}
+        title={`${t('users.editModalTitle', 'Edit User')}: ${selectedUser?.name}`}
       >
         <form onSubmit={handleUpdateUser} className="space-y-4">
           {formError && (
@@ -543,7 +543,7 @@ export const UserManagement: React.FC = () => {
 
           <div>
             <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-              Full Name *
+              {t('users.userName', 'Full Name')} *
             </label>
             <input
               type="text"
@@ -556,7 +556,7 @@ export const UserManagement: React.FC = () => {
 
           <div>
             <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-              Official Email Address *
+              {t('users.userEmail', 'Official Email Address')} *
             </label>
             <input
               type="email"
@@ -569,7 +569,7 @@ export const UserManagement: React.FC = () => {
 
           <div>
             <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-              Change Password (Leave blank to keep unchanged)
+              {t('users.userPassword', 'Change Password')}
             </label>
             <input
               type="password"
@@ -583,23 +583,23 @@ export const UserManagement: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                Assigned Role *
+                {t('users.userRole', 'Assigned Role')} *
               </label>
               <select
                 value={formData.role}
                 onChange={(e) => setFormData({ ...formData, role: e.target.value as UserRole })}
                 className="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 focus:outline-none"
               >
-                {isSuperAdmin && <option value="SUPER_ADMIN">Super Admin</option>}
-                {isSuperAdmin && <option value="DEPARTMENT_ADMIN">Dept Admin</option>}
-                <option value="PROJECT_MANAGER">Project Manager</option>
-                <option value="CITIZEN">Citizen</option>
+                {isSuperAdmin && <option value="SUPER_ADMIN">{t('users.roleSuperAdmin', 'Super Admin')}</option>}
+                {isSuperAdmin && <option value="DEPARTMENT_ADMIN">{t('users.roleDeptAdmin', 'Dept Admin')}</option>}
+                <option value="PROJECT_MANAGER">{t('users.roleProjectManager', 'Project Manager')}</option>
+                <option value="CITIZEN">{t('users.roleCitizen', 'Citizen')}</option>
               </select>
             </div>
 
             <div>
               <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                Department
+                {t('users.userDepartment', 'Department')}
               </label>
               {isDeptAdmin ? (
                 <input
@@ -614,7 +614,7 @@ export const UserManagement: React.FC = () => {
                   onChange={(e) => setFormData({ ...formData, departmentId: e.target.value })}
                   className="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 focus:outline-none"
                 >
-                  <option value="">No Department (Universal)</option>
+                  <option value="">{t('common.all', 'No Department (Universal)')}</option>
                   {departments.map((d) => (
                     <option key={d.id} value={d.id}>
                       {d.code} - {d.name}
@@ -634,7 +634,7 @@ export const UserManagement: React.FC = () => {
               className="w-4 h-4 rounded text-blue-600 focus:ring-blue-500 border-slate-300"
             />
             <label htmlFor="isActive" className="text-xs font-semibold text-slate-700 dark:text-slate-300">
-              Account Active and Authorized to Log In
+              {t('users.accountStatus', 'Account Active and Authorized to Log In')}
             </label>
           </div>
 
@@ -642,16 +642,16 @@ export const UserManagement: React.FC = () => {
             <button
               type="button"
               onClick={() => setEditModalOpen(false)}
-              className="px-4 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+              className="px-4 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
             >
-              Cancel
+              {t('common.cancel', 'Cancel')}
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="px-4 py-2 rounded-xl bg-[#1A73E8] hover:bg-blue-700 text-white text-xs font-bold shadow-md transition-all disabled:opacity-50"
+              className="px-4 py-2 rounded-xl bg-[#1A73E8] hover:bg-blue-700 text-white text-xs font-bold shadow-md transition-all disabled:opacity-50 cursor-pointer"
             >
-              {isSubmitting ? 'Saving...' : 'Save Changes'}
+              {isSubmitting ? t('common.loading', 'Saving...') : t('users.saveChanges', 'Save Changes')}
             </button>
           </div>
         </form>

@@ -50,6 +50,7 @@ import { UpdateProgressModal } from '../components/projects/UpdateProgressModal'
 import { GanttTimeline } from '../components/projects/GanttTimeline';
 import { ProjectDiscussions } from '../components/projects/ProjectDiscussions';
 import { useAuth } from '../context/AuthContext';
+import { useTranslation } from 'react-i18next';
 import {
   formatCurrencyINR,
   formatDate,
@@ -59,6 +60,7 @@ import {
 } from '../utils/formatters';
 
 export const ProjectDetails: React.FC = () => {
+  const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
@@ -261,14 +263,14 @@ export const ProjectDetails: React.FC = () => {
   const remainingBudget = Math.max(0, project.allocatedBudget - project.utilizedBudget);
 
   const tabs = [
-    { id: 'overview', label: 'Overview', icon: Layers },
-    { id: 'milestones', label: `Milestones (${project.milestones?.length || 0})`, icon: CheckCircle2 },
-    { id: 'timeline', label: 'Gantt Schedule', icon: Clock },
-    { id: 'budget', label: 'Budget & Spend', icon: Coins },
-    { id: 'risks', label: `Risks & Alerts (${(project.risks?.length || 0) + (project.anomalies?.length || 0)})`, icon: ShieldAlert },
+    { id: 'overview', label: t('nav.overview', 'Overview'), icon: Layers },
+    { id: 'milestones', label: `${t('nav.milestones', 'Milestones')} (${project.milestones?.length || 0})`, icon: CheckCircle2 },
+    { id: 'timeline', label: t('milestones.timeline', 'Gantt Schedule'), icon: Clock },
+    { id: 'budget', label: t('nav.budget', 'Budget & Spend'), icon: Coins },
+    { id: 'risks', label: `${t('nav.risks', 'Risks & Alerts')} (${(project.risks?.length || 0) + (project.anomalies?.length || 0)})`, icon: ShieldAlert },
     { id: 'discussions', label: 'Team Coordination', icon: MessageSquare },
-    { id: 'ai', label: 'AI Predictive Insights', icon: Sparkles, highlight: true },
-    { id: 'documents', label: `Documents (${project.documents?.length || 0})`, icon: FileText },
+    { id: 'ai', label: t('nav.aiInsights', 'AI Predictive Insights'), icon: Sparkles, highlight: true },
+    { id: 'documents', label: `${t('nav.documents', 'Documents')} (${project.documents?.length || 0})`, icon: FileText },
   ];
 
   return (
@@ -343,7 +345,7 @@ export const ProjectDetails: React.FC = () => {
             className="px-4 py-2.5 rounded-xl bg-[#1A73E8] hover:bg-blue-600 text-white text-xs font-bold shadow-xs transition-all flex items-center gap-1.5 cursor-pointer"
           >
             <Activity className="w-4 h-4" />
-            <span>Update Progress</span>
+            <span>{t('projects.updateProgress', 'Update Progress')}</span>
           </button>
         </div>
       </div>
@@ -379,7 +381,7 @@ export const ProjectDetails: React.FC = () => {
           {/* Top Metric Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="p-5 rounded-2xl bg-white border border-slate-200/80 shadow-2xs">
-              <p className="text-[11px] font-bold uppercase tracking-wider text-slate-500">Physical Progress</p>
+              <p className="text-[11px] font-bold uppercase tracking-wider text-slate-500">{t('departments.physicalProgress')}</p>
               <div className="flex items-baseline justify-between mt-2">
                 <span className="text-3xl font-black text-[#0F223D] font-heading">{project.progressPercentage}%</span>
                 <span className="text-xs text-[#1A73E8] font-bold">{project.status}</span>
@@ -390,7 +392,7 @@ export const ProjectDetails: React.FC = () => {
             </div>
 
             <div className="p-5 rounded-2xl bg-white border border-slate-200/80 shadow-2xs">
-              <p className="text-[11px] font-bold uppercase tracking-wider text-slate-500">Sanctioned Outlay</p>
+              <p className="text-[11px] font-bold uppercase tracking-wider text-slate-500">{t('departments.sanctionedOutlay')}</p>
               <div className="flex items-baseline justify-between mt-2">
                 <span className="text-2xl font-black text-[#0F223D] font-heading">{formatCurrencyINR(project.allocatedBudget)}</span>
               </div>
@@ -405,7 +407,7 @@ export const ProjectDetails: React.FC = () => {
             </div>
 
             <div className="p-5 rounded-2xl bg-white border border-slate-200/80 shadow-2xs">
-              <p className="text-[11px] font-bold uppercase tracking-wider text-slate-500">Risk Score</p>
+              <p className="text-[11px] font-bold uppercase tracking-wider text-slate-500">{t('departments.riskRating')}</p>
               <div className="flex items-center justify-between mt-2">
                 <span className="text-3xl font-black text-[#0F223D] font-heading">{project.riskScore}/100</span>
                 <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold ${getRiskBadgeClasses(project.riskScore)}`}>

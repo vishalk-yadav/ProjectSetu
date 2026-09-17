@@ -1,5 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { LanguageSelector } from '../components/common/LanguageSelector';
 import {
   User,
   Phone,
@@ -20,6 +22,7 @@ import {
 import { authApi } from '../api/authApi';
 
 export const CitizenSignup: React.FC = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const [fullName, setFullName] = useState('');
@@ -121,14 +124,15 @@ export const CitizenSignup: React.FC = () => {
           </span>
         </div>
 
-        <div className="ml-auto">
+        <div className="ml-auto flex items-center gap-3">
+          <LanguageSelector variant="nav" />
           <Link
             to="/login"
             className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-slate-600 hover:text-[#1A73E8] transition-colors group py-1.5 px-3 rounded-xl hover:bg-white/60"
           >
-            <span>Already have an account?</span>
+            <span>{t('auth.alreadyHaveAccount').split('?')[0]}?</span>
             <span className="text-[#1A73E8] font-bold group-hover:underline flex items-center gap-1">
-              Login <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+              {t('common.login')} <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
             </span>
           </Link>
         </div>
@@ -192,11 +196,10 @@ export const CitizenSignup: React.FC = () => {
             {/* 2. Main Hero Typography */}
             <div className="space-y-2">
               <h1 className="text-3xl sm:text-4xl xl:text-5xl font-black text-[#0F223D] font-heading tracking-tight leading-[1.15]">
-                Be a Part of a<br />
-                <span className="text-[#0F223D]">Better Tomorrow</span>
+                {t('auth.benefitsTitle')}
               </h1>
               <p className="text-xs sm:text-sm text-slate-500 max-w-lg leading-relaxed pt-1">
-                Register to report issues, track grievances, and stay informed about government projects.
+                {t('auth.createAccountSubtitle')}
               </p>
             </div>
 
@@ -209,9 +212,9 @@ export const CitizenSignup: React.FC = () => {
                   <ShieldAlert className="w-5 h-5" />
                 </div>
                 <div className="space-y-0.5">
-                  <h2 className="text-sm font-bold text-[#0F223D]">Report Issues</h2>
+                  <h2 className="text-sm font-bold text-[#0F223D]">{t('auth.benefitReport')}</h2>
                   <p className="text-[11.5px] sm:text-xs text-slate-500 leading-snug">
-                    Share problems related to government projects in your area.
+                    {t('auth.benefitReportDesc')}
                   </p>
                 </div>
               </div>
@@ -222,9 +225,9 @@ export const CitizenSignup: React.FC = () => {
                   <MapPin className="w-5 h-5" />
                 </div>
                 <div className="space-y-0.5">
-                  <h2 className="text-sm font-bold text-[#0F223D]">Track Progress</h2>
+                  <h2 className="text-sm font-bold text-[#0F223D]">{t('auth.benefitTrack')}</h2>
                   <p className="text-[11.5px] sm:text-xs text-slate-500 leading-snug">
-                    Follow the status of your grievances in real-time.
+                    {t('auth.benefitTrackDesc')}
                   </p>
                 </div>
               </div>
@@ -235,9 +238,9 @@ export const CitizenSignup: React.FC = () => {
                   <Bell className="w-5 h-5" />
                 </div>
                 <div className="space-y-0.5">
-                  <h2 className="text-sm font-bold text-[#0F223D]">Stay Informed</h2>
+                  <h2 className="text-sm font-bold text-[#0F223D]">{t('auth.benefitStayInformed')}</h2>
                   <p className="text-[11.5px] sm:text-xs text-slate-500 leading-snug">
-                    Get updates on project progress, milestones and deadlines.
+                    {t('auth.benefitStayInformedDesc')}
                   </p>
                 </div>
               </div>
@@ -248,9 +251,9 @@ export const CitizenSignup: React.FC = () => {
                   <Users className="w-5 h-5" />
                 </div>
                 <div className="space-y-0.5">
-                  <h2 className="text-sm font-bold text-[#0F223D]">Build a Stronger India</h2>
+                  <h2 className="text-sm font-bold text-[#0F223D]">{t('auth.benefitStrongerIndia')}</h2>
                   <p className="text-[11.5px] sm:text-xs text-slate-500 leading-snug">
-                    Your voice helps improve public projects and services.
+                    {t('auth.benefitStrongerIndiaDesc')}
                   </p>
                 </div>
               </div>
@@ -314,10 +317,10 @@ export const CitizenSignup: React.FC = () => {
                 </div>
                 <div className="space-y-1">
                   <h2 className="text-xl sm:text-2xl font-black text-[#0F223D] font-heading tracking-tight">
-                    Create Your Citizen Account
+                    {t('auth.createAccountTitle')}
                   </h2>
                   <p className="text-xs text-slate-500 leading-normal">
-                    Register to report issues, track grievances, and stay informed about government projects.
+                    {t('auth.createAccountSubtitle')}
                   </p>
                 </div>
               </div>
@@ -336,7 +339,7 @@ export const CitizenSignup: React.FC = () => {
                 {/* 1. Full Name Input */}
                 <div className="space-y-1.5">
                   <label className="block text-xs font-bold text-slate-700">
-                    Full Name <span className="text-rose-500">*</span>
+                    {t('auth.fullName')} <span className="text-rose-500">*</span>
                   </label>
                   <div className="relative flex items-center">
                     <div className="absolute left-3.5 text-slate-400 pointer-events-none">
@@ -347,7 +350,7 @@ export const CitizenSignup: React.FC = () => {
                       required
                       value={fullName}
                       onChange={(e) => setFullName(e.target.value)}
-                      placeholder="Enter your full name"
+                      placeholder={t('auth.fullNamePlaceholder')}
                       className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:border-[#1A73E8] focus:ring-2 focus:ring-blue-100 transition-all"
                     />
                   </div>
@@ -356,7 +359,7 @@ export const CitizenSignup: React.FC = () => {
                 {/* 2. Mobile Number Input with +91 country code */}
                 <div className="space-y-1.5">
                   <label className="block text-xs font-bold text-slate-700">
-                    Mobile Number <span className="text-rose-500">*</span>
+                    {t('auth.mobileNumber')} <span className="text-rose-500">*</span>
                   </label>
                   <div className="flex items-center rounded-xl border border-slate-200 focus-within:border-[#1A73E8] focus-within:ring-2 focus-within:ring-blue-100 transition-all overflow-hidden">
                     {/* Country Code Prefix */}
@@ -370,7 +373,7 @@ export const CitizenSignup: React.FC = () => {
                       required
                       value={mobileNumber}
                       onChange={handleMobileChange}
-                      placeholder="Enter 10 digit mobile number"
+                      placeholder={t('auth.mobilePlaceholder')}
                       maxLength={10}
                       className="w-full px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none"
                     />
@@ -385,7 +388,7 @@ export const CitizenSignup: React.FC = () => {
                 {/* 3. Password Input with dynamic requirement checklist */}
                 <div className="space-y-1.5">
                   <label className="block text-xs font-bold text-slate-700">
-                    Password <span className="text-rose-500">*</span>
+                    {t('auth.password')} <span className="text-rose-500">*</span>
                   </label>
                   <div className="relative flex items-center">
                     <div className="absolute left-3.5 text-slate-400 pointer-events-none">
@@ -396,7 +399,7 @@ export const CitizenSignup: React.FC = () => {
                       required
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      placeholder="Create a strong password"
+                      placeholder={t('auth.password')}
                       className="w-full pl-10 pr-10 py-2.5 rounded-xl border border-slate-200 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:border-[#1A73E8] focus:ring-2 focus:ring-blue-100 transition-all"
                     />
                     <button
@@ -412,7 +415,7 @@ export const CitizenSignup: React.FC = () => {
                   {/* Password Requirements Box matching the reference design */}
                   <div className="mt-2 p-3 rounded-xl bg-slate-50/90 border border-slate-100 text-[11px] text-slate-500 space-y-1.5">
                     <p className="font-medium text-slate-600">
-                      Password must be at least 8 characters long and include:
+                      {t('auth.passwordReqTitle')}
                     </p>
                     <div className="grid grid-cols-2 gap-y-1 gap-x-2 pt-0.5">
                       <div
@@ -425,7 +428,7 @@ export const CitizenSignup: React.FC = () => {
                             passwordChecks.hasUpper ? 'text-emerald-600' : 'text-slate-300'
                           }`}
                         />
-                        <span>One uppercase letter</span>
+                        <span>{t('auth.reqUpper')}</span>
                       </div>
                       <div
                         className={`flex items-center gap-1.5 transition-colors ${
@@ -437,7 +440,7 @@ export const CitizenSignup: React.FC = () => {
                             passwordChecks.hasNumber ? 'text-emerald-600' : 'text-slate-300'
                           }`}
                         />
-                        <span>One number</span>
+                        <span>{t('auth.reqNumber')}</span>
                       </div>
                       <div
                         className={`flex items-center gap-1.5 transition-colors ${
@@ -449,7 +452,7 @@ export const CitizenSignup: React.FC = () => {
                             passwordChecks.hasLower ? 'text-emerald-600' : 'text-slate-300'
                           }`}
                         />
-                        <span>One lowercase letter</span>
+                        <span>{t('auth.reqLower')}</span>
                       </div>
                       <div
                         className={`flex items-center gap-1.5 transition-colors ${
@@ -461,7 +464,7 @@ export const CitizenSignup: React.FC = () => {
                             passwordChecks.hasSpecial ? 'text-emerald-600' : 'text-slate-300'
                           }`}
                         />
-                        <span>One special character</span>
+                        <span>{t('auth.reqSpecial')}</span>
                       </div>
                     </div>
                   </div>
@@ -470,7 +473,7 @@ export const CitizenSignup: React.FC = () => {
                 {/* 4. Confirm Password Input */}
                 <div className="space-y-1.5">
                   <label className="block text-xs font-bold text-slate-700">
-                    Confirm Password <span className="text-rose-500">*</span>
+                    {t('auth.confirmPassword')} <span className="text-rose-500">*</span>
                   </label>
                   <div className="relative flex items-center">
                     <div className="absolute left-3.5 text-slate-400 pointer-events-none">
@@ -481,7 +484,7 @@ export const CitizenSignup: React.FC = () => {
                       required
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
-                      placeholder="Confirm your password"
+                      placeholder={t('auth.confirmPassword')}
                       className="w-full pl-10 pr-10 py-2.5 rounded-xl border border-slate-200 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:border-[#1A73E8] focus:ring-2 focus:ring-blue-100 transition-all"
                     />
                     <button
@@ -509,7 +512,7 @@ export const CitizenSignup: React.FC = () => {
                   ) : (
                     <>
                       <UserPlus className="w-4 h-4" />
-                      <span>Create Account</span>
+                      <span>{t('auth.createCitizenAccount')}</span>
                     </>
                   )}
                 </button>
@@ -525,9 +528,7 @@ export const CitizenSignup: React.FC = () => {
                   />
                   <label htmlFor="terms-check" className="cursor-pointer leading-tight">
                     <Shield className="w-3.5 h-3.5 inline mr-1 text-[#1A73E8]" />
-                    By creating an account, you agree to our{' '}
-                    <span className="text-[#1A73E8] font-semibold underline">Terms of Service</span> and{' '}
-                    <span className="text-[#1A73E8] font-semibold underline">Privacy Policy</span>.
+                    {t('auth.termsAgree')}
                   </label>
                 </div>
 
@@ -550,7 +551,7 @@ export const CitizenSignup: React.FC = () => {
                   className="inline-flex items-center gap-1.5 text-xs font-bold text-[#1A73E8] hover:text-[#1557B0] transition-colors"
                 >
                   <ArrowLeft className="w-3.5 h-3.5" />
-                  <span>Back to Login</span>
+                  <span>{t('auth.backToLogin')}</span>
                 </Link>
               </div>
 

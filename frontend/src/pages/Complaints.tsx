@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
   AlertOctagon,
   Search,
@@ -58,6 +59,7 @@ const STATUS_CONFIG: Record<ComplaintStatus, { label: string; bg: string; icon: 
 };
 
 export const Complaints: React.FC = () => {
+  const { t } = useTranslation();
   const [searchParams] = useSearchParams();
   const { user } = useAuth();
 
@@ -202,11 +204,11 @@ export const Complaints: React.FC = () => {
               <AlertOctagon className="w-5 h-5" />
             </div>
             <h1 className="text-2xl font-black text-[#0F223D] dark:text-white font-heading tracking-tight">
-              Project Grievance & Vigilance Portal
+              {t('complaints.title')}
             </h1>
           </div>
           <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 max-w-2xl">
-            Centralized authority & citizen redressal channel for logging quality defects, schedule delays, safety hazards, and financial discrepancies across all national projects.
+            {t('complaints.subtitle')}
           </p>
         </div>
 
@@ -214,7 +216,7 @@ export const Complaints: React.FC = () => {
           <button
             onClick={() => fetchInitialData()}
             className="p-2.5 rounded-xl border border-slate-200/80 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white shadow-2xs transition-colors cursor-pointer"
-            title="Refresh Complaints"
+            title={t('common.refresh')}
           >
             <RefreshCw className="w-4 h-4" />
           </button>
@@ -223,7 +225,7 @@ export const Complaints: React.FC = () => {
             className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#E11D48] hover:bg-rose-700 text-white text-xs font-bold shadow-xs transition-all cursor-pointer"
           >
             <Plus className="w-4 h-4" />
-            <span>File Project Grievance</span>
+            <span>{t('citizen.reportGrievance', 'File Project Grievance')}</span>
           </button>
         </div>
       </div>
@@ -231,27 +233,27 @@ export const Complaints: React.FC = () => {
       {/* Metric Cards Ribbon */}
       <div className="grid grid-cols-2 sm:grid-cols-5 gap-3.5">
         <div className="bg-white dark:bg-[#0A1220] border border-slate-200/80 dark:border-slate-800 rounded-2xl p-4 shadow-2xs">
-          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Total Grievances</span>
+          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{t('common.total')} Grievances</span>
           <p className="text-2xl font-black text-[#0F223D] dark:text-white mt-1">{stats.total || 0}</p>
           <span className="text-[10px] text-slate-500 mt-0.5 block">Recorded platform-wide</span>
         </div>
         <div className="bg-white dark:bg-[#0A1220] border border-slate-200/80 dark:border-slate-800 rounded-2xl p-4 shadow-2xs">
-          <span className="text-[10px] font-bold text-amber-500 uppercase tracking-wider">Pending Inquiry</span>
+          <span className="text-[10px] font-bold text-amber-500 uppercase tracking-wider">{t('common.pending')}</span>
           <p className="text-2xl font-black text-amber-600 dark:text-amber-400 mt-1">{stats.pending || 0}</p>
           <span className="text-[10px] text-amber-600/80 mt-0.5 block">Awaiting preliminary review</span>
         </div>
         <div className="bg-white dark:bg-[#0A1220] border border-slate-200/80 dark:border-slate-800 rounded-2xl p-4 shadow-2xs">
-          <span className="text-[10px] font-bold text-blue-500 uppercase tracking-wider">Under Investigation</span>
+          <span className="text-[10px] font-bold text-blue-500 uppercase tracking-wider">{t('common.inProgress')}</span>
           <p className="text-2xl font-black text-[#1A73E8] dark:text-blue-400 mt-1">{stats.inReview || 0}</p>
           <span className="text-[10px] text-blue-600/80 mt-0.5 block">Field inspection underway</span>
         </div>
         <div className="bg-white dark:bg-[#0A1220] border border-slate-200/80 dark:border-slate-800 rounded-2xl p-4 shadow-2xs">
-          <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-wider">Resolved / Closed</span>
+          <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-wider">{t('common.completed')}</span>
           <p className="text-2xl font-black text-emerald-600 dark:text-emerald-400 mt-1">{stats.resolved || 0}</p>
           <span className="text-[10px] text-emerald-600/80 mt-0.5 block">Corrective action taken</span>
         </div>
         <div className="bg-white dark:bg-[#0A1220] border border-slate-200/80 dark:border-slate-800 rounded-2xl p-4 shadow-2xs">
-          <span className="text-[10px] font-bold text-red-500 uppercase tracking-wider">High / Critical</span>
+          <span className="text-[10px] font-bold text-red-500 uppercase tracking-wider">{t('common.critical')}</span>
           <p className="text-2xl font-black text-red-600 dark:text-red-400 mt-1">{stats.critical || 0}</p>
           <span className="text-[10px] text-red-600/80 mt-0.5 block">Immediate audit priority</span>
         </div>
@@ -265,7 +267,7 @@ export const Complaints: React.FC = () => {
             <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
             <input
               type="text"
-              placeholder="Search grievance subject, description, complainant..."
+              placeholder={t('complaints.searchGrievances')}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && fetchInitialData()}
@@ -280,7 +282,7 @@ export const Complaints: React.FC = () => {
               onChange={(e) => setSelectedProject(e.target.value)}
               className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200/80 dark:border-slate-700 bg-slate-50/70 dark:bg-slate-800/80 text-slate-800 dark:text-slate-100 focus:outline-none focus:border-[#E11D48] transition-colors appearance-none cursor-pointer"
             >
-              <option value="ALL">All Projects ({projects.length})</option>
+              <option value="ALL">{t('projects.allStatus', 'All Projects')} ({projects.length})</option>
               {projects.map((p) => (
                 <option key={p.id} value={p.id}>
                   {p.name}
@@ -297,7 +299,7 @@ export const Complaints: React.FC = () => {
               onChange={(e) => setSelectedCategory(e.target.value)}
               className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200/80 dark:border-slate-700 bg-slate-50/70 dark:bg-slate-800/80 text-slate-800 dark:text-slate-100 focus:outline-none focus:border-[#E11D48] transition-colors appearance-none cursor-pointer"
             >
-              <option value="ALL">All Grievance Categories</option>
+              <option value="ALL">{t('complaints.allCategories')}</option>
               {Object.entries(CATEGORY_MAP).map(([key, val]) => (
                 <option key={key} value={key}>
                   {val.label}
@@ -314,11 +316,11 @@ export const Complaints: React.FC = () => {
               onChange={(e) => setSelectedSeverity(e.target.value)}
               className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200/80 dark:border-slate-700 bg-slate-50/70 dark:bg-slate-800/80 text-slate-800 dark:text-slate-100 focus:outline-none focus:border-[#E11D48] transition-colors appearance-none cursor-pointer"
             >
-              <option value="ALL">All Severities</option>
-              <option value="CRITICAL">Critical</option>
-              <option value="HIGH">High</option>
-              <option value="MEDIUM">Medium</option>
-              <option value="LOW">Low</option>
+              <option value="ALL">{t('common.all')} Severities</option>
+              <option value="CRITICAL">{t('common.critical')}</option>
+              <option value="HIGH">{t('common.high')}</option>
+              <option value="MEDIUM">{t('common.medium')}</option>
+              <option value="LOW">{t('common.low')}</option>
             </select>
             <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
           </div>
@@ -330,11 +332,11 @@ export const Complaints: React.FC = () => {
               onChange={(e) => setSelectedStatus(e.target.value)}
               className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200/80 dark:border-slate-700 bg-slate-50/70 dark:bg-slate-800/80 text-slate-800 dark:text-slate-100 focus:outline-none focus:border-[#E11D48] transition-colors appearance-none cursor-pointer"
             >
-              <option value="ALL">All Statuses</option>
-              <option value="PENDING">Pending Review</option>
-              <option value="IN_REVIEW">Under Investigation</option>
-              <option value="RESOLVED">Resolved / Closed</option>
-              <option value="REJECTED">Dismissed</option>
+              <option value="ALL">{t('complaints.allStatus')}</option>
+              <option value="PENDING">{t('common.pending')}</option>
+              <option value="IN_REVIEW">{t('common.inProgress')}</option>
+              <option value="RESOLVED">{t('common.completed')}</option>
+              <option value="REJECTED">{t('common.rejected')}</option>
             </select>
             <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
           </div>
@@ -348,9 +350,9 @@ export const Complaints: React.FC = () => {
         </div>
       ) : complaints.length === 0 ? (
         <EmptyState
-          title="No Project Grievances Found"
+          title={t('complaints.noGrievances')}
           description="There are currently no recorded grievances matching your selected filters. Authorities and citizens can file a report anytime."
-          actionLabel="File New Grievance"
+          actionLabel={t('citizen.reportGrievance', 'File New Grievance')}
           onAction={() => setIsCreateOpen(true)}
         />
       ) : (
@@ -444,7 +446,7 @@ export const Complaints: React.FC = () => {
                       className="px-3 py-1.5 rounded-xl border border-slate-200/80 dark:border-slate-700 hover:border-blue-400 bg-white dark:bg-slate-800 hover:bg-blue-50/40 text-slate-700 dark:text-slate-200 text-xs font-bold transition-all shadow-2xs cursor-pointer flex items-center gap-1.5"
                     >
                       <ShieldAlert className="w-3.5 h-3.5 text-[#1A73E8]" />
-                      <span>Update Status</span>
+                      <span>{t('complaints.updateStatus')}</span>
                     </button>
                   </div>
                 </div>
@@ -619,7 +621,7 @@ export const Complaints: React.FC = () => {
               <div className="flex items-center gap-2">
                 <ShieldCheck className="w-5 h-5 text-[#1A73E8]" />
                 <h3 className="text-base font-black text-[#0F223D] dark:text-white font-heading">
-                  Update Grievance Status
+                  {t('complaints.updateStatus')}
                 </h3>
               </div>
               <button
@@ -650,16 +652,16 @@ export const Complaints: React.FC = () => {
                   onChange={(e) => setNewStatus(e.target.value as ComplaintStatus)}
                   className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200/80 dark:border-slate-700 bg-slate-50/70 dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-medium focus:outline-none focus:border-[#1A73E8]"
                 >
-                  <option value="PENDING">Pending Review</option>
-                  <option value="IN_REVIEW">Under Investigation</option>
-                  <option value="RESOLVED">Resolved / Corrective Action Completed</option>
-                  <option value="REJECTED">Dismissed / Inapplicable</option>
+                  <option value="PENDING">{t('common.pending')}</option>
+                  <option value="IN_REVIEW">{t('common.inProgress')}</option>
+                  <option value="RESOLVED">{t('common.completed')}</option>
+                  <option value="REJECTED">{t('common.rejected')}</option>
                 </select>
               </div>
 
               <div>
                 <label className="block font-bold text-slate-700 dark:text-slate-200 mb-1">
-                  Official Audit Notes & Corrective Directives
+                  {t('complaints.resolutionNotes')}
                 </label>
                 <textarea
                   rows={3}
@@ -676,14 +678,14 @@ export const Complaints: React.FC = () => {
                   onClick={() => setIsStatusModalOpen(false)}
                   className="px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors cursor-pointer"
                 >
-                  Cancel
+                  {t('common.cancel')}
                 </button>
                 <button
                   type="submit"
                   disabled={updatingStatus}
                   className="px-5 py-2.5 rounded-xl bg-[#1A73E8] hover:bg-blue-600 text-white font-bold shadow-xs transition-colors cursor-pointer flex items-center gap-2 disabled:opacity-50"
                 >
-                  {updatingStatus ? 'Saving Status...' : 'Save & Notify Officers'}
+                  {updatingStatus ? 'Saving Status...' : t('common.save')}
                 </button>
               </div>
             </form>

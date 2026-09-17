@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
   Sparkles,
   Send,
@@ -30,12 +31,13 @@ interface ChatMessage {
 }
 
 export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({ isOpen, onClose }) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: 'welcome',
       sender: 'assistant',
-      text: 'Namaste! I am the ProjectSetu AI Assistant. You can query cross-departmental project status, risk analysis, budget burn rates, or schedule predictions in plain language.',
+      text: t('ai.subtitle', 'Namaste! I am the ProjectSetu AI Assistant. You can query cross-departmental project status, risk analysis, budget burn rates, or schedule predictions in plain language.'),
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     },
   ]);
@@ -103,15 +105,15 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({ isOpen, onClose }) =
           </div>
           <div>
             <h3 className="text-sm font-bold text-[#0F223D] font-heading flex items-center gap-1.5">
-              ProjectSetu AI Assistant
+              {t('ai.title', 'ProjectSetu AI Assistant')}
               <span className="text-[10px] px-1.5 py-0.2 rounded font-bold bg-blue-50 text-[#1A73E8] border border-blue-200">NLP</span>
             </h3>
-            <p className="text-[11px] text-slate-500">Intelligent Governance Query Engine</p>
+            <p className="text-[11px] text-slate-500">{t('ai.subtitle', 'Intelligent Governance Query Engine')}</p>
           </div>
         </div>
         <button
           onClick={onClose}
-          className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+          className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
         >
           <X className="w-5 h-5" />
         </button>
@@ -135,7 +137,7 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({ isOpen, onClose }) =
                 </>
               ) : (
                 <>
-                  <span className="font-semibold text-slate-600">You</span>
+                  <span className="font-semibold text-slate-600">{t('common.anonymous', 'You')}</span>
                   <User className="w-3 h-3 text-slate-400" />
                 </>
               )}
@@ -172,7 +174,7 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({ isOpen, onClose }) =
               {/* Matching Projects List */}
               {m.data?.projects && m.data.projects.length > 0 && (
                 <div className="mt-3 space-y-2">
-                  <p className="text-[10px] font-bold uppercase text-slate-500">Relevant Project Telemetry:</p>
+                  <p className="text-[10px] font-bold uppercase text-slate-500">{t('dashboard.kpi.totalProjects', 'Relevant Project Telemetry:')}</p>
                   {m.data.projects.slice(0, 3).map((p) => (
                     <div
                       key={p.id}
@@ -189,7 +191,7 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({ isOpen, onClose }) =
                       <div className="flex items-center justify-between text-[10px] text-slate-500 mt-1">
                         <span>{p.departmentName}</span>
                         <span className={cn('font-bold', p.riskScore >= 61 ? 'text-rose-600' : 'text-emerald-600')}>
-                          Risk: {p.riskScore}/100
+                          {t('dashboard.panels.risk', 'Risk')}: {p.riskScore}/100
                         </span>
                       </div>
                       <div className="mt-1.5 w-full bg-slate-200 rounded-full h-1.5 overflow-hidden">
@@ -209,7 +211,7 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({ isOpen, onClose }) =
         {loading && (
           <div className="flex items-center gap-2 text-xs text-[#1A73E8] p-2 font-medium">
             <Loader2 className="w-4 h-4 animate-spin" />
-            <span>Analyzing multi-department databases...</span>
+            <span>{t('ai.thinking', 'Analyzing multi-department databases...')}</span>
           </div>
         )}
       </div>
@@ -217,14 +219,14 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({ isOpen, onClose }) =
       {/* Sample Quick Prompt Chips */}
       <div className="p-3 border-t border-slate-100 bg-white">
         <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1 mb-2">
-          <Lightbulb className="w-3 h-3 text-amber-500" /> Suggested Inquiries:
+          <Lightbulb className="w-3 h-3 text-amber-500" /> {t('ai.suggestedQueries', 'Suggested Inquiries:')}
         </p>
         <div className="flex flex-wrap gap-1.5">
           {samplePrompts.map((prompt, i) => (
             <button
               key={i}
               onClick={() => handleSend(prompt)}
-              className="text-[11px] text-left px-2.5 py-1 rounded-lg bg-slate-50 hover:bg-blue-50 text-slate-700 hover:text-blue-700 border border-slate-200 transition-colors font-medium"
+              className="text-[11px] text-left px-2.5 py-1 rounded-lg bg-slate-50 hover:bg-blue-50 text-slate-700 hover:text-blue-700 border border-slate-200 transition-colors font-medium cursor-pointer"
             >
               {prompt}
             </button>
@@ -236,7 +238,7 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({ isOpen, onClose }) =
       <div className="p-3 border-t border-slate-100 bg-white flex items-center gap-2">
         <input
           type="text"
-          placeholder="Ask anything about projects, risk, delays..."
+          placeholder={t('ai.askAi', 'Ask anything about projects, risk, delays...')}
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
           onKeyDown={(e) => {
@@ -247,7 +249,7 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({ isOpen, onClose }) =
         <button
           onClick={() => handleSend()}
           disabled={!inputText.trim() || loading}
-          className="p-2.5 rounded-xl bg-[#1A73E8] hover:bg-blue-600 text-white disabled:opacity-50 transition-colors shadow-xs"
+          className="p-2.5 rounded-xl bg-[#1A73E8] hover:bg-blue-600 text-white disabled:opacity-50 transition-colors shadow-xs cursor-pointer"
         >
           <Send className="w-4 h-4" />
         </button>
