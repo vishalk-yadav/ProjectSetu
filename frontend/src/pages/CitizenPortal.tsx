@@ -183,7 +183,7 @@ export const CitizenPortal: React.FC = () => {
           </div>
 
           <h1 className="text-2xl sm:text-3xl font-black tracking-tight leading-tight">
-            {t('citizen.title')}
+            {t('citizen Portal')}
           </h1>
           <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
             {t('citizen.subtitle')}
